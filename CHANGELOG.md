@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0 — 2026-11-23
+
+- Training planner: current training skills now appear preselected in the skill center, the panel scrolls into view, the manual field has suggestions, and a “quick add from current skills” row makes existing skills visible before opening the center.
+- Skill research dialog (from advice cards and the training planner): searches the skill center catalog and public GitHub repositories, with actions to add a result to the training plan or the employee’s skill profile at Lv.1. Includes a direct GitHub search fallback link.
+- Project team module after matching: shows the recommended team, goal, coverage and availability; lets you create/track the project, record outcome / issues / adjustment feedback, and keeps a local feedback history.
+- Local persistence now also stores project teams and their feedback.
+
 ## 1.3.0 — 2026-11-23
 
 - Employee import now accepts CSV, TSV, JSON, Markdown tables and XLSX (first worksheet), by file picker or drag-and-drop; text files get a CSV preview before merging.

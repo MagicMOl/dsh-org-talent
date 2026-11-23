@@ -169,6 +169,59 @@ window.__ModuleLoader__.load({
         'train.noBase': '该员工还没有技能，无法做垂直深耕。',
         'train.remove': '移除',
         'train.otherGroup': '其他',
+        'train.suggest': '从已有技能快速添加',
+        'train.currentGroup': '当前培养',
+        'train.currentHint': '当前培养计划中的技能',
+        'search.openShort': '检索资料',
+        'search.title': '技能资料检索',
+        'search.hint': '从技能中心目录和 GitHub 公开仓库检索；可加入培养计划，或补充到员工技能档案。',
+        'search.target': '目标员工：{name}',
+        'search.placeholder': '输入技能或关键词，例如 React、用户研究',
+        'search.run': '检索',
+        'search.loading': '正在检索技能中心与 GitHub…',
+        'search.error': '检索失败：{error}',
+        'search.empty': '没有找到相关技能或仓库，换个关键词试试。',
+        'search.centerSource': '技能中心',
+        'search.centerBadge': '技能中心',
+        'search.githubSource': 'GitHub 公开仓库',
+        'search.githubHint': 'GitHub 结果按 Star 排序；未认证 API 有速率限制。',
+        'search.addTraining': '加入培养',
+        'search.inTraining': '已在培养',
+        'search.addProfile': '补到技能',
+        'search.inProfile': '已有该技能',
+        'search.openGithub': '打开仓库',
+        'search.githubSearch': '在 GitHub 中搜索',
+        'search.alreadyTraining': '“{skill}”已在 {name} 的培养计划中。',
+        'search.trainingAdded': '已把“{skill}”加入 {name} 的培养计划。',
+        'search.alreadySkill': '“{skill}”已在员工技能中。',
+        'search.skillAdded': '已把“{skill}”补充到 {name} 的技能档案（Lv.1）。',
+        'project.title': '项目团队',
+        'project.hint': '组建后在这里立项、记录成果与调整；反馈只保存在本机。',
+        'project.status.pending': '待立项',
+        'project.status.active': '进行中',
+        'project.status.reviewed': '已复盘',
+        'project.name': '项目名称',
+        'project.goal': '项目目标',
+        'project.noGoal': '未填写目标',
+        'project.untitled': '未命名项目',
+        'project.defaultName': '{goal} 项目组',
+        'project.create': '立项并跟踪',
+        'project.save': '保存名称',
+        'project.feedback': '记录反馈',
+        'project.adjust': '调整需求',
+        'project.feedbackTitle': '项目反馈',
+        'project.outcome': '成果',
+        'project.outcomePlaceholder': '已完成什么、结果如何',
+        'project.issues': '问题 / 风险',
+        'project.issuesPlaceholder': '协作、人员、技能或进度上的问题',
+        'project.adjustment': '调整建议',
+        'project.adjustmentPlaceholder': '下一次组队或培养要调整什么',
+        'project.saveFeedback': '保存反馈',
+        'project.cancel': '取消',
+        'project.emptyFeedback': '至少填写一项反馈再保存。',
+        'project.feedbackSaved': '项目反馈已保存。',
+        'project.created': '项目团队已立项，可以开始记录反馈。',
+        'project.history': '反馈记录（{n}）',
         'match.members': '成员与分工',
         'match.showMembers': '展开成员、分工与培养建议',
         'match.hideMembers': '收起成员、分工与培养建议',
@@ -368,6 +421,59 @@ window.__ModuleLoader__.load({
         'train.noBase': 'This employee has no skills to deepen yet.',
         'train.remove': 'Remove',
         'train.otherGroup': 'Other',
+        'train.suggest': 'Quick add from current skills',
+        'train.currentGroup': 'Current plan',
+        'train.currentHint': 'Already in the current training plan',
+        'search.openShort': 'Find resources',
+        'search.title': 'Skill research',
+        'search.hint': 'Search the skill center catalog and public GitHub repositories; add a result to the training plan or the employee profile.',
+        'search.target': 'Target employee: {name}',
+        'search.placeholder': 'Skill or keyword, e.g. React, user research',
+        'search.run': 'Search',
+        'search.loading': 'Searching the skill center and GitHub…',
+        'search.error': 'Search failed: {error}',
+        'search.empty': 'No matching skills or repositories; try another keyword.',
+        'search.centerSource': 'Skill center',
+        'search.centerBadge': 'Skill center',
+        'search.githubSource': 'Public GitHub repositories',
+        'search.githubHint': 'GitHub results are sorted by stars; the unauthenticated API is rate-limited.',
+        'search.addTraining': 'Add to plan',
+        'search.inTraining': 'In plan',
+        'search.addProfile': 'Add skill',
+        'search.inProfile': 'Already has it',
+        'search.openGithub': 'Open repo',
+        'search.githubSearch': 'Search GitHub',
+        'search.alreadyTraining': '“{skill}” is already in {name}’s training plan.',
+        'search.trainingAdded': 'Added “{skill}” to {name}’s training plan.',
+        'search.alreadySkill': '“{skill}” is already in the employee profile.',
+        'search.skillAdded': 'Added “{skill}” to {name}’s profile at Lv.1.',
+        'project.title': 'Project team',
+        'project.hint': 'After forming the team, create a project here and record outcomes and adjustments; feedback stays in this browser.',
+        'project.status.pending': 'Not created',
+        'project.status.active': 'In progress',
+        'project.status.reviewed': 'Reviewed',
+        'project.name': 'Project name',
+        'project.goal': 'Project goal',
+        'project.noGoal': 'No goal set',
+        'project.untitled': 'Untitled project',
+        'project.defaultName': '{goal} project team',
+        'project.create': 'Create & track',
+        'project.save': 'Save name',
+        'project.feedback': 'Record feedback',
+        'project.adjust': 'Adjust requirements',
+        'project.feedbackTitle': 'Project feedback',
+        'project.outcome': 'Outcome',
+        'project.outcomePlaceholder': 'What was delivered, and how did it go?',
+        'project.issues': 'Issues / risks',
+        'project.issuesPlaceholder': 'Collaboration, staffing, skills or schedule issues',
+        'project.adjustment': 'Adjustment',
+        'project.adjustmentPlaceholder': 'What to adjust in the next team or training plan',
+        'project.saveFeedback': 'Save feedback',
+        'project.cancel': 'Cancel',
+        'project.emptyFeedback': 'Fill in at least one feedback field before saving.',
+        'project.feedbackSaved': 'Project feedback saved.',
+        'project.created': 'Project team created; you can start recording feedback.',
+        'project.history': 'Feedback history ({n})',
         'match.members': 'Members and coverage',
         'match.showMembers': 'Show members, coverage and plan',
         'match.hideMembers': 'Hide members, coverage and plan',
@@ -649,7 +755,29 @@ window.__ModuleLoader__.load({
     }
 
     function defaultState() {
-      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {} }
+      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [] }
+    }
+
+    function normalizeProject(raw) {
+      if (!raw || typeof raw !== 'object') return null
+      const feedback = Array.isArray(raw.feedback)
+        ? raw.feedback.filter(item => item && typeof item === 'object').slice(0, 30).map(item => ({
+          id: String(item.id || ''),
+          at: String(item.at || ''),
+          outcome: String(item.outcome || '').slice(0, 4000),
+          issues: String(item.issues || '').slice(0, 4000),
+          adjustment: String(item.adjustment || '').slice(0, 4000),
+        }))
+        : []
+      return {
+        id: String(raw.id || ''),
+        name: String(raw.name || '').slice(0, 100),
+        goal: String(raw.goal || '').slice(0, 2000),
+        memberIds: Array.isArray(raw.memberIds) ? raw.memberIds.map(String).filter(Boolean) : [],
+        createdAt: String(raw.createdAt || ''),
+        updatedAt: String(raw.updatedAt || ''),
+        feedback,
+      }
     }
 
     function normalizePlan(raw) {
@@ -682,11 +810,13 @@ window.__ModuleLoader__.load({
             .filter(([, value]) => Array.isArray(value))
             .map(([key, value]) => [key, value.map(name => String(name)).filter(Boolean)]))
           : {}
+        const projects = Array.isArray(raw.projects) ? raw.projects.map(normalizeProject).filter(Boolean).slice(0, 20) : []
         return {
           employees,
           plan: normalizePlan(raw.plan),
           history: Array.isArray(raw.history) ? raw.history.slice(0, 5) : [],
           training,
+          projects,
         }
       } catch (error) {
         return defaultState()
@@ -950,6 +1080,46 @@ window.__ModuleLoader__.load({
         }
       }
       return entries.sort((a, b) => a.name.localeCompare(b.name, 'zh'))
+    }
+
+    async function searchGitHubRepositories(query) {
+      const text = String(query || '').trim()
+      if (!text) return []
+      const url = 'https://api.github.com/search/repositories?q=' + encodeURIComponent(text + ' in:name,description,topics') + '&sort=stars&order=desc&per_page=6'
+      let response
+      try {
+        response = await fetch(url, { headers: { accept: 'application/vnd.github+json' } })
+      } catch (error) {
+        throw new Error('GitHub is unreachable')
+      }
+      let payload = null
+      try {
+        payload = await response.json()
+      } catch (error) {
+        payload = null
+      }
+      if (!response.ok) {
+        const message = payload && typeof payload.message === 'string' ? payload.message : 'HTTP ' + response.status
+        throw new Error(message)
+      }
+      return (Array.isArray(payload && payload.items) ? payload.items : []).slice(0, 6).map(item => ({
+        name: String((item && item.name) || '').trim(),
+        fullName: String((item && item.full_name) || '').trim(),
+        description: String((item && item.description) || '').trim(),
+        stars: Number(item && item.stargazers_count) || 0,
+        language: String((item && item.language) || '').trim(),
+        url: String((item && item.html_url) || '').trim(),
+      })).filter(item => item.name && item.url)
+    }
+
+    function projectKeyFor(plan, team) {
+      const text = String((plan && (plan.goal || plan.name)) || '') + '|' + (team || []).map(member => member.id).sort().join('|')
+      let hash = 2166136261
+      for (let index = 0; index < text.length; index += 1) {
+        hash ^= text.charCodeAt(index)
+        hash = Math.imul(hash, 16777619)
+      }
+      return 'prj-' + ((hash >>> 0).toString(36))
     }
 
     function pickLearner(team, skill, excludeId) {
@@ -1636,7 +1806,7 @@ window.__ModuleLoader__.load({
         h('span', { className: 'ot-avail-num' }, value + '%'))
     }
 
-    function AdviceCard({ advice, t, onPlan }) {
+    function AdviceCard({ advice, t, onPlan, onSearch }) {
       const from = advice.learner ? employeeLevel(advice.learner, advice.skill) : null
       const mentorLevel = advice.mentor ? employeeLevel(advice.mentor, advice.skill) : null
       const diagnosis = advice.kind === 'gap'
@@ -1666,11 +1836,17 @@ window.__ModuleLoader__.load({
         h('div', { className: 'ot-advice-topics' },
           h('span', { className: 'ot-advice-label' }, t('advice.topics')),
           advice.topics.map(topic => h('span', { key: topic, className: 'ot-topic' }, topic))),
-        advice.learner ? h('button', {
-          type: 'button',
-          className: 'ot-link-btn ot-advice-open',
-          onClick: () => { if (onPlan) onPlan(advice.learner, advice.skill) },
-        }, t('train.openPlan')) : null,
+        advice.learner ? h('div', { className: 'ot-advice-actions' },
+          h('button', {
+            type: 'button',
+            className: 'ot-link-btn ot-advice-open',
+            onClick: () => { if (onPlan) onPlan(advice.learner, advice.skill) },
+          }, t('train.openPlan')),
+          h('button', {
+            type: 'button',
+            className: 'ot-link-btn ot-advice-search',
+            onClick: () => { if (onSearch) onSearch(advice.learner, advice.skill) },
+          }, t('search.openShort'))) : null,
       )
     }
 
@@ -1716,6 +1892,23 @@ window.__ModuleLoader__.load({
       const [manualSkill, setManualSkill] = useState('')
       const [trainingNote, setTrainingNote] = useState(null)
       const [statDetail, setStatDetail] = useState(null)
+      const skillCenterRef = useRef(null)
+      const skillSearchInputRef = useRef(null)
+      const skillSearchSeq = useRef(0)
+      const [skillSearchOpen, setSkillSearchOpen] = useState(false)
+      const [skillSearchTargetId, setSkillSearchTargetId] = useState(null)
+      const [skillSearchQuery, setSkillSearchQuery] = useState('')
+      const [skillSearchStatus, setSkillSearchStatus] = useState('idle')
+      const [skillSearchCenter, setSkillSearchCenter] = useState([])
+      const [skillSearchGithub, setSkillSearchGithub] = useState([])
+      const [skillSearchError, setSkillSearchError] = useState('')
+      const [skillSearchNote, setSkillSearchNote] = useState(null)
+      const [projectFormOpen, setProjectFormOpen] = useState(false)
+      const [projectName, setProjectName] = useState('')
+      const [projectOutcome, setProjectOutcome] = useState('')
+      const [projectIssues, setProjectIssues] = useState('')
+      const [projectAdjustment, setProjectAdjustment] = useState('')
+      const [projectNote, setProjectNote] = useState(null)
 
       const employees = data.employees
       const history = data.history
@@ -1725,8 +1918,8 @@ window.__ModuleLoader__.load({
       const teams = useMemo(() => org.flatMap(dept => dept.teams), [org])
 
       useEffect(() => {
-        saveStored({ employees, plan, history, training })
-      }, [employees, plan, history, training])
+        saveStored({ employees, plan, history, training, projects: data.projects || [] })
+      }, [employees, plan, history, training, data.projects])
 
       useEffect(() => {
         if (!note) return undefined
@@ -1829,6 +2022,7 @@ window.__ModuleLoader__.load({
       }, [employees, deptFilter, onlyAvailable, query, sortBy])
 
       const selected = selectedId === null ? null : employees.find(employee => employee.id === selectedId) || null
+      const projects = Array.isArray(data.projects) ? data.projects : []
 
       const activeTeam = useMemo(() => {
         if (!teams.length) return null
@@ -1970,7 +2164,7 @@ window.__ModuleLoader__.load({
       }
 
       const doReset = () => {
-        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {} }))
+        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [] }))
         setResetAsk(false)
         setImportNote(null)
         setImportFileName('')
@@ -1987,10 +2181,15 @@ window.__ModuleLoader__.load({
         setExpanded(0)
       }
 
+      const trainingFor = employee => {
+        if (!employee) return []
+        const defaultSkill = defaultTrainingSkill(employee)
+        return Array.isArray(training[employee.id])
+          ? training[employee.id]
+          : (defaultSkill ? [defaultSkill] : [])
+      }
       const defaultTraining = selected ? defaultTrainingSkill(selected) : ''
-      const trainingSkills = selected
-        ? (Array.isArray(training[selected.id]) ? training[selected.id] : (defaultTraining ? [defaultTraining] : []))
-        : []
+      const trainingSkills = trainingFor(selected)
 
       const setTrainingSkills = next => {
         if (!selected) return
@@ -2055,7 +2254,13 @@ window.__ModuleLoader__.load({
 
       const openSkillCenter = () => {
         setSkillCenterOpen(true)
+        setSkillPicked(trainingSkills.slice())
         if (!skillCatalog) void loadSkillCatalog()
+        window.setTimeout(() => {
+          if (skillCenterRef.current && typeof skillCenterRef.current.scrollIntoView === 'function') {
+            skillCenterRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+          }
+        }, 40)
       }
 
       const toggleSkillPick = name => {
@@ -2097,6 +2302,128 @@ window.__ModuleLoader__.load({
         setTrainingNote(t('train.randomDone', { n: count }))
       }
 
+      const runSkillSearch = async rawQuery => {
+        const needle = String(rawQuery || '').trim()
+        if (!needle) {
+          setSkillSearchStatus('idle')
+          setSkillSearchCenter([])
+          setSkillSearchGithub([])
+          setSkillSearchError('')
+          return
+        }
+        const seq = ++skillSearchSeq.current
+        setSkillSearchStatus('loading')
+        setSkillSearchError('')
+        setSkillSearchNote(null)
+        setSkillSearchCenter([])
+        setSkillSearchGithub([])
+        const lower = needle.toLowerCase()
+        let center = []
+        try {
+          let entries = skillCatalog
+          if (!entries || !entries.length) entries = await loadSkillCatalog()
+          center = entries.filter(entry => [entry.name, entry.description, entry.group].join(' ').toLowerCase().includes(lower))
+        } catch (error) {
+          center = []
+        }
+        if (seq !== skillSearchSeq.current) return
+        setSkillSearchCenter(center)
+        let github = []
+        let githubError = ''
+        try {
+          github = await searchGitHubRepositories(needle)
+        } catch (error) {
+          githubError = error && error.message ? error.message : 'GitHub'
+        }
+        if (seq !== skillSearchSeq.current) return
+        setSkillSearchGithub(github)
+        setSkillSearchError(githubError)
+        setSkillSearchStatus('ready')
+      }
+
+      const openSkillSearch = (employee, skill) => {
+        const target = typeof employee === 'string'
+          ? employees.find(item => item.id === employee)
+          : employee
+        if (!target) return
+        const query = String(skill || '').trim()
+        setSkillSearchTargetId(target.id)
+        setSkillSearchOpen(true)
+        setSkillSearchQuery(query)
+        setSkillSearchNote(null)
+        setSkillSearchError('')
+        if (query) void runSkillSearch(query)
+        else {
+          setSkillSearchStatus('idle')
+          setSkillSearchCenter([])
+          setSkillSearchGithub([])
+        }
+      }
+
+      const closeSkillSearch = () => {
+        skillSearchSeq.current += 1
+        setSkillSearchOpen(false)
+        setSkillSearchStatus('idle')
+        setSkillSearchCenter([])
+        setSkillSearchGithub([])
+        setSkillSearchError('')
+        setSkillSearchNote(null)
+      }
+
+      useEffect(() => {
+        if (!skillSearchOpen) return undefined
+        const timer = window.setTimeout(() => {
+          if (skillSearchInputRef.current) skillSearchInputRef.current.focus()
+        }, 30)
+        const onKeyDown = event => {
+          if (event.key === 'Escape') setSkillSearchOpen(false)
+        }
+        window.addEventListener('keydown', onKeyDown)
+        return () => {
+          window.clearTimeout(timer)
+          window.removeEventListener('keydown', onKeyDown)
+        }
+      }, [skillSearchOpen])
+
+      const addSearchToTraining = name => {
+        const target = employees.find(employee => employee.id === skillSearchTargetId)
+        if (!target) return
+        const clean = String(name || '').trim()
+        if (!clean) return
+        const current = trainingFor(target)
+        if (current.includes(clean)) {
+          setSkillSearchNote(t('search.alreadyTraining', { skill: clean }))
+          return
+        }
+        setData(previous => ({
+          ...previous,
+          training: { ...(previous.training || {}), [target.id]: [...current, clean] },
+        }))
+        setSkillSearchNote(t('search.trainingAdded', { skill: clean, name: target.name }))
+      }
+
+      const addSearchToEmployee = name => {
+        const target = employees.find(employee => employee.id === skillSearchTargetId)
+        if (!target) return
+        const clean = String(name || '').trim().slice(0, 80)
+        if (!clean) return
+        if (employeeLevel(target, clean) > 0) {
+          setSkillSearchNote(t('search.alreadySkill', { skill: clean }))
+          return
+        }
+        setData(previous => ({
+          ...previous,
+          employees: previous.employees.map(employee => employee.id === target.id
+            ? {
+              ...employee,
+              updated: new Date().toISOString().slice(0, 7),
+              skills: [...employee.skills, { name: clean, level: 1 }],
+            }
+            : employee),
+        }))
+        setSkillSearchNote(t('search.skillAdded', { skill: clean, name: target.name }))
+      }
+
       const trainingStatus = (() => {
         if (!selected) return null
         const strongest = selected.skills.find(skill => skill.name === defaultTrainingSkill(selected)) || strongestSkill(selected)
@@ -2135,7 +2462,99 @@ window.__ModuleLoader__.load({
         }
       })()
 
-      const filteredCatalog = (skillCatalog || []).filter(entry => {
+      const skillSearchTarget = skillSearchTargetId
+        ? employees.find(employee => employee.id === skillSearchTargetId) || null
+        : null
+      const skillSearchTargetTraining = skillSearchTarget ? trainingFor(skillSearchTarget) : []
+      const topResult = result && result.results && result.results.length ? result.results[0] : null
+      const activeProjectPlan = result && result.plan ? result.plan : plan
+      const projectKey = topResult ? projectKeyFor(activeProjectPlan, topResult.team) : ''
+      const savedProject = projectKey ? projects.find(project => project.id === projectKey) || null : null
+      const defaultProjectName = t('project.defaultName', {
+        goal: (activeProjectPlan.goal || activeProjectPlan.name || t('project.untitled')).slice(0, 32),
+      })
+      const projectNameValue = projectName.trim() || (savedProject && savedProject.name) || defaultProjectName
+      const projectMembers = topResult
+        ? topResult.team.map(member => {
+          const covers = requirementList(activeProjectPlan)
+            .filter(requirement => employeeLevel(member, requirement.name) >= requirement.min)
+            .map(requirement => requirement.name)
+          return { member, covers }
+        })
+        : []
+      const projectStatus = savedProject
+        ? (savedProject.feedback.length ? 'reviewed' : 'active')
+        : 'pending'
+
+      const saveProject = withFeedback => {
+        if (!topResult) return
+        const name = projectName.trim() || (savedProject && savedProject.name) || defaultProjectName
+        let feedback = null
+        if (withFeedback) {
+          const outcome = projectOutcome.trim()
+          const issues = projectIssues.trim()
+          const adjustment = projectAdjustment.trim()
+          if (!outcome && !issues && !adjustment) {
+            setProjectNote(t('project.emptyFeedback'))
+            return
+          }
+          feedback = {
+            id: 'fb-' + Date.now().toString(36),
+            at: new Date().toISOString(),
+            outcome: outcome.slice(0, 4000),
+            issues: issues.slice(0, 4000),
+            adjustment: adjustment.slice(0, 4000),
+          }
+        }
+        const now = new Date().toISOString()
+        setData(previous => {
+          const currentProjects = Array.isArray(previous.projects) ? previous.projects : []
+          const existing = currentProjects.find(project => project.id === projectKey)
+          const next = existing
+            ? {
+              ...existing,
+              name,
+              goal: activeProjectPlan.goal || activeProjectPlan.name || existing.goal,
+              memberIds: topResult.team.map(member => member.id),
+              updatedAt: now,
+              feedback: feedback ? [...existing.feedback, feedback] : existing.feedback,
+            }
+            : {
+              id: projectKey,
+              name,
+              goal: activeProjectPlan.goal || activeProjectPlan.name || '',
+              memberIds: topResult.team.map(member => member.id),
+              createdAt: now,
+              updatedAt: now,
+              feedback: feedback ? [feedback] : [],
+            }
+          return { ...previous, projects: [next, ...currentProjects.filter(project => project.id !== projectKey)].slice(0, 20) }
+        })
+        setProjectNote(withFeedback ? t('project.feedbackSaved') : t('project.created'))
+        if (withFeedback) {
+          setProjectOutcome('')
+          setProjectIssues('')
+          setProjectAdjustment('')
+          setProjectFormOpen(false)
+        }
+      }
+
+      useEffect(() => {
+        setProjectFormOpen(false)
+        setProjectName('')
+        setProjectOutcome('')
+        setProjectIssues('')
+        setProjectAdjustment('')
+        setProjectNote(null)
+      }, [projectKey])
+
+      const catalogEntries = (skillCatalog || []).slice()
+      for (const name of trainingSkills) {
+        if (!catalogEntries.some(entry => entry.name === name)) {
+          catalogEntries.push({ name, description: t('train.currentHint'), group: t('train.currentGroup') })
+        }
+      }
+      const filteredCatalog = catalogEntries.filter(entry => {
         const needle = skillQuery.trim().toLowerCase()
         if (!needle) return true
         return [entry.name, entry.description, entry.group].join(' ').toLowerCase().includes(needle)
@@ -2182,7 +2601,7 @@ window.__ModuleLoader__.load({
         employee.focus ? h('div', { className: 'ot-focus' }, h('span', null, t('employee.focus') + ' · '), employee.focus) : null,
       )
 
-      const skillCenterPanel = skillCenterOpen ? h('div', { className: 'ot-skill-center' },
+      const skillCenterPanel = skillCenterOpen ? h('div', { className: 'ot-skill-center', ref: skillCenterRef },
         h('div', { className: 'ot-skill-center-head' },
           h('input', {
             className: 'ot-input',
@@ -2216,6 +2635,7 @@ window.__ModuleLoader__.load({
           h('input', {
             className: 'ot-input',
             value: manualSkill,
+            list: 'ot-manual-skill-options',
             placeholder: t('train.manualPlaceholder'),
             onChange: event => setManualSkill(event.target.value),
             onKeyDown: event => {
@@ -2225,7 +2645,13 @@ window.__ModuleLoader__.load({
               }
             },
           }),
-          h(Btn, { small: true, onClick: addManualSkill }, t('train.addManual'))),
+          h(Btn, { small: true, onClick: addManualSkill }, t('train.addManual')),
+          h('datalist', { id: 'ot-manual-skill-options' },
+            [...new Set([
+              ...(selected ? selected.skills.map(skill => skill.name) : []),
+              ...(skillCatalog || []).map(entry => entry.name),
+              ...skillNames,
+            ])].slice(0, 80).map(name => h('option', { key: name, value: name })))),
       ) : null
 
       const trainingPanel = selected && trainingStatus ? h('section', { className: 'ot-train' },
@@ -2235,6 +2661,7 @@ window.__ModuleLoader__.load({
             h('p', { className: 'ot-hint' }, t('train.hint'))),
           h('div', { className: 'ot-train-actions' },
             h(Btn, { small: true, icon: 'upload', onClick: openSkillCenter }, t('train.importShort')),
+            h(Btn, { small: true, icon: 'search', onClick: () => openSkillSearch(selected, trainingSkills[0] || '') }, t('search.openShort')),
             h(Btn, { small: true, icon: 'sparkle', onClick: randomTraining }, t('train.random')))),
         h('div', { className: 'ot-train-pool' },
           trainingSkills.length
@@ -2248,6 +2675,20 @@ window.__ModuleLoader__.load({
               }, h(Icon, { name: 'close', size: 11 }))))
             : h('span', { className: 'ot-train-empty' }, t('train.empty')),
           trainingSkills.length ? h('button', { type: 'button', className: 'ot-link-btn', onClick: () => setTrainingSkills([]) }, t('train.clear')) : null),
+        selected && selected.skills.filter(skill => !trainingSkills.includes(skill.name)).length
+          ? h('div', { className: 'ot-train-suggest' },
+            h('span', { className: 'ot-train-label' }, t('train.suggest')),
+            h('div', { className: 'ot-chip-wrap' },
+              selected.skills
+                .filter(skill => !trainingSkills.includes(skill.name))
+                .slice(0, 8)
+                .map(skill => h('button', {
+                  key: skill.name,
+                  type: 'button',
+                  className: 'ot-suggest-chip',
+                  onClick: () => addTrainingSkills([skill.name]),
+                }, skill.name, h('small', null, 'Lv.' + skill.level)))))
+          : null,
         h('div', { className: 'ot-train-status', 'data-tone': trainingStatus.tone },
           h('div', { className: 'ot-train-status-title' },
             h(Icon, { name: trainingStatus.tone === 'ok' ? 'check' : 'alert', size: 13 }),
@@ -2449,6 +2890,93 @@ window.__ModuleLoader__.load({
             closeButton),
           h('div', { className: 'ot-stat-panel-body' }, body))
       })()
+
+      const skillSearchDialog = skillSearchOpen ? h(React.Fragment, null,
+        h('div', { className: 'ot-scrim ot-scrim-top', onClick: closeSkillSearch, 'aria-hidden': true }),
+        h('section', {
+          className: 'ot-skill-search',
+          role: 'dialog',
+          'aria-modal': 'true',
+          'aria-labelledby': 'ot-skill-search-title',
+        },
+          h('div', { className: 'ot-skill-search-head' },
+            h('div', null,
+              h('div', { className: 'ot-h3', id: 'ot-skill-search-title' }, t('search.title')),
+              h('p', { className: 'ot-hint' }, t('search.hint'))),
+            h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: closeSkillSearch },
+              h(Icon, { name: 'close' }))),
+          h('p', { className: 'ot-search-target' }, t('search.target', { name: skillSearchTarget ? skillSearchTarget.name : '—' })),
+          h('div', { className: 'ot-search-bar' },
+            h('input', {
+              ref: skillSearchInputRef,
+              className: 'ot-input',
+              type: 'search',
+              value: skillSearchQuery,
+              placeholder: t('search.placeholder'),
+              'aria-label': t('search.placeholder'),
+              onChange: event => setSkillSearchQuery(event.target.value),
+              onKeyDown: event => {
+                if (event.key === 'Enter') {
+                  event.preventDefault()
+                  void runSkillSearch(skillSearchQuery)
+                }
+              },
+            }),
+            h(Btn, { small: true, icon: 'search', tone: 'primary', onClick: () => void runSkillSearch(skillSearchQuery) }, t('search.run'))),
+          skillSearchQuery.trim()
+            ? h('a', {
+              className: 'ot-link-btn ot-search-open-github',
+              href: 'https://github.com/search?q=' + encodeURIComponent(skillSearchQuery.trim()) + '&type=repositories',
+              target: '_blank',
+              rel: 'noreferrer',
+            }, t('search.githubSearch'))
+            : null,
+          skillSearchStatus === 'loading' ? h('p', { className: 'ot-hint', role: 'status' }, t('search.loading')) : null,
+          skillSearchError ? h('p', { className: 'ot-hint ot-warn', role: 'status' }, t('search.error', { error: skillSearchError })) : null,
+          skillSearchStatus === 'ready' && !skillSearchCenter.length && !skillSearchGithub.length
+            ? h('p', { className: 'ot-hint' }, t('search.empty'))
+            : null,
+          skillSearchCenter.length ? h('div', { className: 'ot-search-section' },
+            h('div', { className: 'ot-search-source' },
+              h(Icon, { name: 'sparkle', size: 12 }), t('search.centerSource')),
+            skillSearchCenter.slice(0, 10).map(entry => {
+              const clean = entry.name
+              const inTraining = skillSearchTargetTraining.includes(clean)
+              const inProfile = skillSearchTarget ? employeeLevel(skillSearchTarget, clean) > 0 : false
+              return h('article', { key: 'center-' + clean, className: 'ot-search-result' },
+                h('div', { className: 'ot-search-result-head' },
+                  h('b', null, clean),
+                  h('span', { className: 'ot-search-badge' }, t('search.centerBadge'))),
+                entry.description ? h('p', { className: 'ot-search-desc' }, entry.description) : null,
+                h('div', { className: 'ot-search-actions' },
+                  h(Btn, { small: true, disabled: inTraining, onClick: () => addSearchToTraining(clean) },
+                    inTraining ? t('search.inTraining') : t('search.addTraining')),
+                  h(Btn, { small: true, disabled: inProfile, onClick: () => addSearchToEmployee(clean) },
+                    inProfile ? t('search.inProfile') : t('search.addProfile'))))
+            })) : null,
+          skillSearchGithub.length ? h('div', { className: 'ot-search-section' },
+            h('div', { className: 'ot-search-source' },
+              h(Icon, { name: 'link', size: 12 }), t('search.githubSource')),
+            skillSearchGithub.map(item => {
+              const clean = item.name
+              const inTraining = skillSearchTargetTraining.includes(clean)
+              const inProfile = skillSearchTarget ? employeeLevel(skillSearchTarget, clean) > 0 : false
+              return h('article', { key: 'github-' + item.fullName, className: 'ot-search-result' },
+                h('div', { className: 'ot-search-result-head' },
+                  h('b', null, item.name),
+                  h('span', { className: 'ot-search-badge ot-search-badge-github' }, 'GitHub'),
+                  h('span', { className: 'ot-search-meta' }, '★ ' + item.stars + (item.language ? ' · ' + item.language : ''))),
+                item.description ? h('p', { className: 'ot-search-desc' }, item.description) : null,
+                h('div', { className: 'ot-search-actions' },
+                  h(Btn, { small: true, disabled: inTraining, onClick: () => addSearchToTraining(clean) },
+                    inTraining ? t('search.inTraining') : t('search.addTraining')),
+                  h(Btn, { small: true, disabled: inProfile, onClick: () => addSearchToEmployee(clean) },
+                    inProfile ? t('search.inProfile') : t('search.addProfile')),
+                  h('a', { className: 'ot-link-btn ot-search-link', href: item.url, target: '_blank', rel: 'noreferrer' }, t('search.openGithub'))))
+            })) : null,
+          h('p', { className: 'ot-hint' }, t('search.githubHint')),
+          skillSearchNote ? h('p', { className: 'ot-hint ot-good', role: 'status' }, skillSearchNote) : null,
+        )) : null
 
       const workbench = h('div', { className: 'ot-pane ot-wb' },
         h('div', { className: 'ot-toolbar' },
@@ -2674,7 +3202,7 @@ window.__ModuleLoader__.load({
           h('div', { className: 'ot-h3' }, t('advice.section')),
           h('p', { className: 'ot-hint' }, t('advice.orgHint')),
           h('div', { className: 'ot-advice-list' },
-            riskAdvices.map(advice => h(AdviceCard, { key: advice.skill, advice, t, onPlan: openPlan }))),
+            riskAdvices.map(advice => h(AdviceCard, { key: advice.skill, advice, t, onPlan: openPlan, onSearch: openSkillSearch }))),
           risks.length > 3 ? h('p', { className: 'ot-hint' }, t('advice.more', { n: risks.length - 3 })) : null) : null
 
         const matrixTable = h('table', { className: 'ot-matrix' },          h('thead', null, h('tr', null,
@@ -2713,6 +3241,7 @@ window.__ModuleLoader__.load({
         h('label', { className: 'ot-field' },
           h('span', { className: 'ot-field-label' }, t('match.name')),
           h('input', {
+            id: 'ot-plan-name',
             className: 'ot-input', value: plan.name, placeholder: t('match.namePlaceholder'),
             onChange: event => updatePlan({ name: event.target.value }),
           })),
@@ -2868,7 +3397,7 @@ window.__ModuleLoader__.load({
               h('div', { className: 'ot-h3' }, t('advice.section')),
               h('p', { className: 'ot-hint' }, t('advice.matchHint')),
               h('div', { className: 'ot-advice-list' },
-                advices.slice(0, 4).map(advice => h(AdviceCard, { key: advice.skill, advice, t, onPlan: openPlan }))),
+                advices.slice(0, 4).map(advice => h(AdviceCard, { key: advice.skill, advice, t, onPlan: openPlan, onSearch: openSkillSearch }))),
               advices.length > 4 ? h('p', { className: 'ot-hint' }, t('advice.more', { n: advices.length - 4 })) : null) : h('p', { className: 'ot-good' }, t('advice.none')),
             h('div', { className: 'ot-impact' },
               h('div', { className: 'ot-h3' }, t('match.impact')),
@@ -2889,6 +3418,96 @@ window.__ModuleLoader__.load({
         )
       }
 
+      const projectPanel = topResult ? h('section', { className: 'ot-project' },
+        h('div', { className: 'ot-project-head' },
+          h('div', null,
+            h('div', { className: 'ot-h3' }, t('project.title')),
+            h('p', { className: 'ot-hint' }, t('project.hint'))),
+          h('span', { className: 'ot-project-status', 'data-status': projectStatus }, t('project.status.' + projectStatus))),
+        h('div', { className: 'ot-project-meta' },
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('project.name')),
+            h('input', {
+              className: 'ot-input',
+              value: projectNameValue,
+              placeholder: defaultProjectName,
+              onChange: event => setProjectName(event.target.value),
+            })),
+          h('div', { className: 'ot-project-field' },
+            h('span', null, t('project.goal')),
+            h('p', null, activeProjectPlan.goal || activeProjectPlan.name || t('project.noGoal')))),
+        h('div', { className: 'ot-project-members' },
+          projectMembers.map(row => h('div', { key: row.member.id, className: 'ot-project-member' },
+            h(Avatar, { employee: row.member, size: 26 }),
+            h('div', { className: 'ot-project-member-id' },
+              h('b', null, row.member.name),
+              h('small', null, row.member.role)),
+            h('div', { className: 'ot-project-covers' },
+              row.covers.length
+                ? row.covers.slice(0, 3).map(name => h('span', { key: name, className: 'ot-mini-chip' }, name))
+                : h('span', { className: 'ot-muted' }, '—')),
+            h('span', { className: 'ot-project-avail' }, row.member.available + '%')))),
+        h('div', { className: 'ot-project-actions' },
+          h(Btn, { small: true, tone: savedProject ? undefined : 'primary', icon: 'check', onClick: () => saveProject(false) },
+            savedProject ? t('project.save') : t('project.create')),
+          h(Btn, { small: true, icon: 'alert', onClick: () => setProjectFormOpen(previous => !previous) }, t('project.feedback')),
+          h(Btn, {
+            small: true,
+            onClick: () => {
+              const node = document.getElementById('ot-plan-name')
+              if (node) {
+                if (typeof node.scrollIntoView === 'function') node.scrollIntoView({ block: 'center' })
+                node.focus()
+              }
+            },
+          }, t('project.adjust'))),
+        projectFormOpen ? h('div', { className: 'ot-project-form' },
+          h('div', { className: 'ot-project-form-head' },
+            h('div', { className: 'ot-h3' }, t('project.feedbackTitle')),
+            h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setProjectFormOpen(false) },
+              h(Icon, { name: 'close', size: 13 }))),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('project.outcome')),
+            h('textarea', {
+              className: 'ot-textarea',
+              rows: 2,
+              value: projectOutcome,
+              placeholder: t('project.outcomePlaceholder'),
+              onChange: event => setProjectOutcome(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('project.issues')),
+            h('textarea', {
+              className: 'ot-textarea',
+              rows: 2,
+              value: projectIssues,
+              placeholder: t('project.issuesPlaceholder'),
+              onChange: event => setProjectIssues(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('project.adjustment')),
+            h('textarea', {
+              className: 'ot-textarea',
+              rows: 2,
+              value: projectAdjustment,
+              placeholder: t('project.adjustmentPlaceholder'),
+              onChange: event => setProjectAdjustment(event.target.value),
+            })),
+          h('div', { className: 'ot-project-form-actions' },
+            h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: () => saveProject(true) }, t('project.saveFeedback')),
+            h(Btn, { small: true, onClick: () => setProjectFormOpen(false) }, t('project.cancel')))) : null,
+        projectNote ? h('p', { className: 'ot-hint ot-note', role: 'status' }, projectNote) : null,
+        savedProject && savedProject.feedback.length ? h('div', { className: 'ot-project-history' },
+          h('div', { className: 'ot-h3' }, t('project.history', { n: savedProject.feedback.length })),
+          savedProject.feedback.slice().reverse().map(entry => h('article', { key: entry.id, className: 'ot-project-feedback' },
+            h('div', { className: 'ot-project-feedback-head' },
+              h('b', null, projectStatus === 'reviewed' ? t('project.feedbackTitle') : t('project.feedbackTitle')),
+              h('span', null, new Date(entry.at).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }))),
+            entry.outcome ? h('p', null, h('span', null, t('project.outcome') + '：'), entry.outcome) : null,
+            entry.issues ? h('p', null, h('span', null, t('project.issues') + '：'), entry.issues) : null,
+            entry.adjustment ? h('p', null, h('span', null, t('project.adjustment') + '：'), entry.adjustment) : null))) : null,
+      ) : null
+
       const resultsPane = h('div', { className: 'ot-results' },
         result
           ? h('div', { className: 'ot-results-inner' },
@@ -2898,6 +3517,7 @@ window.__ModuleLoader__.load({
                 people: employees.length, pool: result.poolSize, teams: result.evaluated, ms: result.elapsed,
               }))),
             dirty ? h('p', { className: 'ot-hint ot-warn' }, t('match.dirty')) : null,
+            projectPanel,
             result.results.map(renderResult),
           )
           : h('div', { className: 'ot-empty' },
@@ -2958,6 +3578,7 @@ window.__ModuleLoader__.load({
         },
           tab === 'workbench' ? workbench : tab === 'org' ? orgView : matchView),
         note && tab !== 'workbench' ? h('div', { className: 'ot-toast', role: 'status' }, note) : null,
+        skillSearchDialog,
       )
     }
 
@@ -3205,6 +3826,13 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-manual{display:flex;gap:6px}
 .ot-manual .ot-input{flex:1;height:28px;font-size:12px}
 .ot-advice-open{align-self:flex-start;margin-top:1px}
+.ot-advice-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:1px}
+.ot-advice-actions .ot-advice-open{margin-top:0}
+.ot-train-suggest{display:flex;flex-direction:column;gap:5px;padding:8px 9px;border:1px dashed var(--ot-line);border-radius:9px;background:color-mix(in srgb,var(--ot-brand) 3%,transparent)}
+.ot-train-suggest .ot-train-label{width:auto;color:var(--ot-muted)}
+.ot-suggest-chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:3px 8px;border-radius:7px;border:1px solid var(--ot-line);background:var(--ot-card);color:var(--dsw-alias-label-primary)}
+.ot-suggest-chip small{font-size:10.5px;color:var(--ot-faint)}
+.ot-suggest-chip:hover{border-color:var(--ot-brand);color:var(--ot-brand)}
 .ot-matrix-wrap{overflow:auto;margin-top:9px;border:1px solid var(--ot-line);border-radius:10px}
 .ot-matrix{border-collapse:separate;border-spacing:0;width:100%;min-width:640px;font-size:12px}
 .ot-matrix th,.ot-matrix td{padding:7px 8px;text-align:center;border-bottom:1px solid color-mix(in srgb,var(--ot-line) 60%,transparent);font-weight:400;white-space:nowrap;height:36px}
@@ -3288,11 +3916,59 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-impact .ot-muted{font-size:11px;color:var(--ot-faint);white-space:nowrap}
 .ot-backup{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;padding:4px 8px;border-radius:7px;border:1px solid var(--ot-line);color:var(--ot-muted)}
 .ot-backup:hover{color:var(--dsw-alias-label-primary);border-color:var(--ot-line-2)}
+.ot-project{display:flex;flex-direction:column;gap:12px;padding:16px;border:1px solid var(--ot-line-2);border-radius:14px;background:var(--ot-card);box-shadow:0 1px 0 color-mix(in srgb,var(--dsw-alias-label-primary) 4%,transparent)}
+.ot-project-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.ot-project-status{font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--ot-line);color:var(--ot-muted);background:var(--ot-card-2);white-space:nowrap}
+.ot-project-status[data-status="active"]{color:var(--dsw-alias-state-success-primary);border-color:color-mix(in srgb,var(--dsw-alias-state-success-primary) 35%,var(--ot-line));background:color-mix(in srgb,var(--dsw-alias-state-success-primary) 9%,transparent)}
+.ot-project-status[data-status="reviewed"]{color:var(--ot-brand);border-color:color-mix(in srgb,var(--ot-brand) 35%,var(--ot-line));background:color-mix(in srgb,var(--ot-brand) 8%,transparent)}
+.ot-project-meta{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px}
+.ot-project-field{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--ot-muted);min-width:0}
+.ot-project-field .ot-input{height:30px;font-size:12px}
+.ot-project-field p{font-size:12px;line-height:1.55;color:var(--dsw-alias-label-primary)}
+.ot-project-members{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--ot-line);padding-top:8px}
+.ot-project-member{display:flex;align-items:center;gap:8px;padding:6px 4px;border-radius:8px;min-width:0}
+.ot-project-member:hover{background:var(--ot-card-2)}
+.ot-project-member-id{display:flex;flex-direction:column;gap:1px;min-width:88px;max-width:160px}
+.ot-project-member-id b{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-project-member-id small{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-project-covers{display:flex;align-items:center;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.ot-project-avail{font-size:11.5px;color:var(--ot-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ot-project-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--ot-line);padding-top:10px}
+.ot-project-form{display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid var(--ot-line);border-radius:10px;background:var(--dsw-alias-bg-base)}
+.ot-project-form-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ot-project-form .ot-textarea{font-size:12px;min-height:52px}
+.ot-project-form-actions{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.ot-project-history{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--ot-line);padding-top:10px}
+.ot-project-feedback{padding:8px 10px;border-radius:9px;background:var(--ot-card-2);font-size:12px;line-height:1.55}
+.ot-project-feedback-head{display:flex;justify-content:space-between;gap:8px;color:var(--ot-faint);font-size:11px;margin-bottom:3px}
+.ot-project-feedback-head b{font-size:11.5px;font-weight:500;color:var(--ot-muted)}
+.ot-project-feedback p{margin-top:2px;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ot-project-feedback p span{color:var(--ot-faint);font-size:11px}
+.ot-scrim-top{position:fixed;inset:0;z-index:30;display:block!important;background:rgba(10,14,24,.42)}
+.ot-skill-search{position:fixed;z-index:31;top:50%;left:50%;transform:translate(-50%,-50%);width:min(620px,calc(100vw - 32px));max-height:min(78vh,720px);display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid var(--ot-line-2);border-radius:16px;background:var(--ot-card);box-shadow:0 24px 80px rgba(0,0,0,.3);overflow:auto}
+.ot-skill-search-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.ot-search-target{font-size:11.5px;color:var(--ot-muted)}
+.ot-search-bar{display:flex;align-items:center;gap:8px}
+.ot-search-bar .ot-input{flex:1;height:34px;font-size:12.5px}
+.ot-search-section{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--ot-line);padding-top:8px}
+.ot-search-source{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ot-faint);margin-bottom:2px}
+.ot-search-result{padding:8px 9px;border-radius:9px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.ot-search-result:hover{background:var(--ot-card-2)}
+.ot-search-result-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.ot-search-result-head b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px}
+.ot-search-badge{font-size:10.5px;padding:1px 6px;border-radius:999px;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 9%,transparent);white-space:nowrap}
+.ot-search-badge-github{color:var(--dsw-alias-label-secondary);background:color-mix(in srgb,var(--dsw-alias-label-primary) 7%,transparent)}
+.ot-search-meta{font-size:11px;color:var(--ot-faint);margin-left:auto;white-space:nowrap}
+.ot-search-desc{font-size:11.5px;line-height:1.5;color:var(--ot-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.ot-search-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
+.ot-search-link{font-size:11.5px;margin-left:auto}
+.ot-skill-search .ot-hint{margin:0}
+.ot-skill-search .ot-good{color:var(--dsw-alias-state-success-primary)}
 .ot-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;padding:8px 15px;border-radius:10px;font-size:12.5px;background:var(--dsw-alias-bg-overlay);color:var(--dsw-alias-label-primary);border:1px solid var(--ot-line-2)}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:86vh;padding:14px}}
 `
 
     /* ------------------------------------------------------------------ apply */

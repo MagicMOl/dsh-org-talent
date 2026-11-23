@@ -67,11 +67,27 @@ Every single-point risk and missing requirement gets a concrete way forward:
 
 Each employee profile has a training planner:
 
-- **Import from the skill center**: reads the left-sidebar skill center catalog (`api/dsh-skill-explorer/list`) and lets you search and tick skills; a manual skill name field is available when the center is not installed.
+- **Import from the skill center**: reads the left-sidebar skill center catalog (`api/dsh-skill-explorer/list`) and lets you search and tick skills; current training skills stay visible and preselected, and a manual field suggests known skills when the center is not installed.
+- **Quick add**: existing employee skills are shown as one-click chips before the skill center is opened.
 - **Combine and remove**: random mix picks 1–3 skills; each skill can be removed or the pool cleared.
 - **Vertical depth first**: the planner starts from the employee's strongest deepenable skill (Lv.3–4). It warns when the selection is lateral (more than one skill), a brand-new skill, or has a foundation below Lv.2, and offers a one-click switch back to vertical depth.
 - A valid vertical plan shows target level, estimated weeks, an internal mentor (or none) and three knowledge topics; plans persist in this browser.
 - Advice cards under 组织架构 / 智能匹配 link directly into the employee's training plan.
+
+## Skill research · 技能资料检索
+
+“检索资料” (in a training plan or an advice card) opens a search dialog for the target employee:
+
+- searches the skill center catalog and public GitHub repositories at the same time;
+- shows source, description, stars and language for GitHub results;
+- **加入培养** adds a result to that employee's training plan; **补到技能** adds it to the profile at Lv.1;
+- a direct **在 GitHub 中搜索** link is available as a fallback if the API is unavailable.
+
+Only the search keyword is sent to GitHub; employee names, skills and feedback are not included.
+
+## Project team · 项目团队
+
+After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **记录反馈** captures outcome, issues/risks and the adjustment for the next round, with a dated feedback history. Feedback stays in this browser and is kept separately for each distinct goal + member combination.
 
 ## How matching works · 匹配方式
 
@@ -84,9 +100,9 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Data & privacy · 数据与隐私
 
-- Employee data is stored in this browser's `localStorage`, and nothing is uploaded.
-- CSV import/export moves data only through the clipboard/file the user chooses.
-- No model requests, no telemetry, no network calls.
+- Employee data, training plans, project feedback and match history are stored in this browser's `localStorage`, and nothing is uploaded.
+- CSV/TSV/JSON/Markdown/XLSX import and CSV export move data only through the file the user chooses.
+- **Skill research** sends only the typed keyword to `api.github.com`; no employee data is sent. All other calculations run locally, with no model calls or telemetry.
 - Clearing site data or using another browser loses locally stored employees; export CSV as a backup.
 
 ## Limitations · 限制
@@ -96,6 +112,8 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 - CSV import merges by name: an employee with the same name is overwritten.
 - The workbench is single-browser, not a shared HR database.
 - The organization chart uses the flattened department/team fields from the roster; it does not model a multi-level reporting line.
+- Skill research needs internet access; the public GitHub search API is rate-limited (10 requests/minute unauthenticated). A GitHub repository is not a validated competency — **补到技能** adds it at Lv.1 for a human to review.
+- Project feedback is local to this browser; it does not sync across devices.
 
 ## Development · 开发
 
@@ -106,7 +124,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready. For the DSH community market, follow [`PUBLISHING.md`](PUBLISHING.md): publish to npm, create a public GitHub repository with the `dsh-plugin` topic, then add the catalog entry in `awesome-dsh-plugin`.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.4.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.4.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

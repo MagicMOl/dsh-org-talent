@@ -16,7 +16,7 @@ This package is ready for the DSH community plugin market. The public repository
 
 ## 1. Repository settings
 
-1. Add the topic **`dsh-plugin`** in the repository settings (the community list requires it; it is not set by the push).
+1. The `dsh-plugin` topic is set on the repository.
 2. The community list requires the repository to be at least one day old.
 3. Keep the repository public and push future changes to `main`.
 

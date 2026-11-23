@@ -1,33 +1,24 @@
-﻿# Publishing Org Talent Match
+# Publishing Org Talent Match
 
-This package is ready for the DSH community plugin market. Two steps are still tied to your accounts and cannot be done from this workspace: creating the public GitHub repository and publishing to npm.
+This package is ready for the DSH community plugin market. The public repository already exists; publishing to npm and submitting to the community list remain.
 
 ## 0. What is already prepared
 
-- `package.json` declares `dsh.bundle` + `dsh.client`, `engines.dsh`, an MIT license, keywords, `files`, and public publish config.
+- Public repository: <https://github.com/MagicMOl/dsh-org-talent>, branch `main`, tag `v1.3.0`.
+- `package.json` declares `dsh.bundle` + `dsh.client`, `engines.dsh`, an MIT license, keywords, `files`, public publish config, and the matching `repository`/`homepage`.
 - `cordis.patch.yml` inserts the `org-talent` bundle row.
 - The package installs locally with `dsh plugin --profile desktop add <path>` and was verified in a DSH 0.2.2-rc.5 profile.
 - `locale/en.json` and `locale/zh.json` provide the plugin-page title, description and detail document.
 - `docs/DETAIL.md` / `docs/DETAIL.zh.md` + `docs/preview.svg` provide the detail-page feature illustration.
 - `icon.svg` is the plugin icon; `README.md`, `CHANGELOG.md` and `LICENSE` are included.
+- `.github/workflows/validate.yml` checks syntax, JSON resources, the manifest and `npm pack` on every push.
 - The npm name `dsh-org-talent` returned 404 on 2026-11-23, so it looked available. Re-check before publishing.
 
-## 1. Create the GitHub repository
+## 1. Repository settings
 
-1. Create a public repository named `dsh-org-talent` under your account.
-2. Add the topic **`dsh-plugin`**.
-3. Push this directory as the repository root.
-4. Add the repository field to `package.json` before publishing (the market links npm to the listed repo only when this matches):
-
-   ```json
-   "repository": {
-     "type": "git",
-     "url": "git+https://github.com/MagicMOl/dsh-org-talent.git"
-   },
-   "homepage": "https://github.com/MagicMOl/dsh-org-talent#readme"
-   ```
-
-5. The community list requires the repository to be at least one day old.
+1. Add the topic **`dsh-plugin`** in the repository settings (the community list requires it; it is not set by the push).
+2. The community list requires the repository to be at least one day old.
+3. Keep the repository public and push future changes to `main`.
 
 ## 2. Publish to npm
 

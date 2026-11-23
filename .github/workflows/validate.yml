@@ -1,0 +1,26 @@
+name: Validate plugin package
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax check
+        run: |
+          node --check index.js
+          node --check client.js
+      - name: Validate JSON resources
+        run: |
+          node -e "for (const file of ['package.json','locale/en.json','locale/zh.json']) JSON.parse(require('fs').readFileSync(file, 'utf8'))"
+      - name: Inspect npm package
+        run: npm pack --dry-run
+      - name: Check manifest
+        run: |
+          node -e "const pkg = require('./package.json'); if (!pkg.dsh || !pkg.dsh.bundle) throw new Error('missing dsh.bundle'); if (!pkg.dsh.client) throw new Error('missing dsh.client'); if (pkg.private) throw new Error('package is private');"

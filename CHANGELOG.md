@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1 — 2026-11-24
+
+- Redesigned the skill research dialog: full-width search field with its own submit form, target-employee card, source counts, and clear loading / warning / empty states.
+- GitHub failures no longer also show “no results”; the warning explains that skill-center results still work and the direct GitHub search link remains available.
+- Removed the ambiguous inline layout that could collapse the search input on narrow or themed displays.
+
 ## 1.4.0 — 2026-11-23
 
 - Training planner: current training skills now appear preselected in the skill center, the panel scrolls into view, the manual field has suggestions, and a “quick add from current skills” row makes existing skills visible before opening the center.

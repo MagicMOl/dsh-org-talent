@@ -1,4 +1,4 @@
-# Org Talent Match · 组织人才匹配
+﻿# Org Talent Match · 组织人才匹配
 
 A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: one workbench for every employee and their current skills, an org chart, team recommendations scored from organization-wide candidates, and a capability plan for gaps and single points.
 
@@ -124,7 +124,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.4.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.4.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.4.1](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.4.1), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

@@ -176,6 +176,12 @@ window.__ModuleLoader__.load({
         'search.title': '技能资料检索',
         'search.hint': '从技能中心目录和 GitHub 公开仓库检索；可加入培养计划，或补充到员工技能档案。',
         'search.target': '目标员工：{name}',
+        'search.targetLabel': '目标员工',
+        'search.targetMeta': '{role} · {team} · 可投入 {available}%',
+        'search.sourcesHint': '同时检索技能中心与 GitHub 公开仓库',
+        'search.errorTitle': '检索未完成',
+        'search.githubUnreachable': '无法连接 GitHub。你仍可以使用技能中心的结果，或点“在 GitHub 中搜索”直接打开网页。',
+        'search.emptyHint': '可以换一个更短的关键词，或直接使用 GitHub 搜索。',
         'search.placeholder': '输入技能或关键词，例如 React、用户研究',
         'search.run': '检索',
         'search.loading': '正在检索技能中心与 GitHub…',
@@ -428,6 +434,12 @@ window.__ModuleLoader__.load({
         'search.title': 'Skill research',
         'search.hint': 'Search the skill center catalog and public GitHub repositories; add a result to the training plan or the employee profile.',
         'search.target': 'Target employee: {name}',
+        'search.targetLabel': 'Target employee',
+        'search.targetMeta': '{role} · {team} · {available}% available',
+        'search.sourcesHint': 'Searches the skill center and public GitHub repositories together',
+        'search.errorTitle': 'Search incomplete',
+        'search.githubUnreachable': 'GitHub is unreachable. Skill-center results still work, or open “Search GitHub” directly.',
+        'search.emptyHint': 'Try a shorter keyword, or use the GitHub search link.',
         'search.placeholder': 'Skill or keyword, e.g. React, user research',
         'search.run': 'Search',
         'search.loading': 'Searching the skill center and GitHub…',
@@ -2891,6 +2903,10 @@ window.__ModuleLoader__.load({
           h('div', { className: 'ot-stat-panel-body' }, body))
       })()
 
+      const skillSearchErrorText = skillSearchError && skillSearchError.includes('GitHub is unreachable')
+        ? t('search.githubUnreachable')
+        : t('search.error', { error: skillSearchError })
+
       const skillSearchDialog = skillSearchOpen ? h(React.Fragment, null,
         h('div', { className: 'ot-scrim ot-scrim-top', onClick: closeSkillSearch, 'aria-hidden': true }),
         h('section', {
@@ -2900,45 +2916,78 @@ window.__ModuleLoader__.load({
           'aria-labelledby': 'ot-skill-search-title',
         },
           h('div', { className: 'ot-skill-search-head' },
-            h('div', null,
-              h('div', { className: 'ot-h3', id: 'ot-skill-search-title' }, t('search.title')),
-              h('p', { className: 'ot-hint' }, t('search.hint'))),
+            h('div', { className: 'ot-skill-search-title' },
+              h('span', { className: 'ot-skill-search-mark' }, h(Icon, { name: 'sparkle', size: 16 })),
+              h('div', null,
+                h('h2', { className: 'ot-skill-search-title-text', id: 'ot-skill-search-title' }, t('search.title')),
+                h('p', { className: 'ot-hint' }, t('search.hint')))),
             h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: closeSkillSearch },
               h(Icon, { name: 'close' }))),
-          h('p', { className: 'ot-search-target' }, t('search.target', { name: skillSearchTarget ? skillSearchTarget.name : '—' })),
-          h('div', { className: 'ot-search-bar' },
-            h('input', {
-              ref: skillSearchInputRef,
-              className: 'ot-input',
-              type: 'search',
-              value: skillSearchQuery,
-              placeholder: t('search.placeholder'),
-              'aria-label': t('search.placeholder'),
-              onChange: event => setSkillSearchQuery(event.target.value),
-              onKeyDown: event => {
-                if (event.key === 'Enter') {
-                  event.preventDefault()
-                  void runSkillSearch(skillSearchQuery)
-                }
-              },
-            }),
-            h(Btn, { small: true, icon: 'search', tone: 'primary', onClick: () => void runSkillSearch(skillSearchQuery) }, t('search.run'))),
-          skillSearchQuery.trim()
-            ? h('a', {
-              className: 'ot-link-btn ot-search-open-github',
-              href: 'https://github.com/search?q=' + encodeURIComponent(skillSearchQuery.trim()) + '&type=repositories',
-              target: '_blank',
-              rel: 'noreferrer',
-            }, t('search.githubSearch'))
+          h('div', { className: 'ot-skill-search-target' },
+            skillSearchTarget ? h(Avatar, { employee: skillSearchTarget, size: 30 }) : null,
+            h('div', { className: 'ot-skill-search-target-id' },
+              h('span', { className: 'ot-skill-search-target-label' }, t('search.targetLabel')),
+              h('b', null, skillSearchTarget ? skillSearchTarget.name : '—')),
+            skillSearchTarget ? h('span', { className: 'ot-skill-search-target-meta' },
+              t('search.targetMeta', {
+                role: skillSearchTarget.role,
+                team: skillSearchTarget.team,
+                available: skillSearchTarget.available,
+              })) : null),
+          h('form', {
+            className: 'ot-search-form',
+            onSubmit: event => {
+              event.preventDefault()
+              void runSkillSearch(skillSearchQuery)
+            },
+          },
+            h('label', { className: 'ot-search-field' },
+              h(Icon, { name: 'search', size: 16 }),
+              h('input', {
+                ref: skillSearchInputRef,
+                className: 'ot-search-input',
+                type: 'search',
+                value: skillSearchQuery,
+                placeholder: t('search.placeholder'),
+                'aria-label': t('search.placeholder'),
+                onChange: event => setSkillSearchQuery(event.target.value),
+              })),
+            h('div', { className: 'ot-search-submit' },
+              h(Btn, { type: 'submit', icon: 'search', tone: 'primary' }, t('search.run')))),
+          h('div', { className: 'ot-search-footline' },
+            h('span', { className: 'ot-hint' }, t('search.sourcesHint')),
+            skillSearchQuery.trim()
+              ? h('a', {
+                className: 'ot-search-open-github',
+                href: 'https://github.com/search?q=' + encodeURIComponent(skillSearchQuery.trim()) + '&type=repositories',
+                target: '_blank',
+                rel: 'noreferrer',
+              }, t('search.githubSearch'))
+              : null),
+          skillSearchStatus === 'loading'
+            ? h('div', { className: 'ot-search-state', 'data-tone': 'loading', role: 'status' },
+              h(Icon, { name: 'search', size: 16 }),
+              h('p', null, t('search.loading')))
             : null,
-          skillSearchStatus === 'loading' ? h('p', { className: 'ot-hint', role: 'status' }, t('search.loading')) : null,
-          skillSearchError ? h('p', { className: 'ot-hint ot-warn', role: 'status' }, t('search.error', { error: skillSearchError })) : null,
-          skillSearchStatus === 'ready' && !skillSearchCenter.length && !skillSearchGithub.length
-            ? h('p', { className: 'ot-hint' }, t('search.empty'))
+          skillSearchError
+            ? h('div', { className: 'ot-search-state', 'data-tone': 'warn', role: 'status' },
+              h(Icon, { name: 'alert', size: 16 }),
+              h('div', null,
+                h('b', null, t('search.errorTitle')),
+                h('p', null, skillSearchErrorText)))
+            : null,
+          skillSearchStatus === 'ready' && !skillSearchError && !skillSearchCenter.length && !skillSearchGithub.length
+            ? h('div', { className: 'ot-search-state', 'data-tone': 'empty' },
+              h(Icon, { name: 'search', size: 16 }),
+              h('div', null,
+                h('b', null, t('search.empty')),
+                h('p', null, t('search.emptyHint'))))
             : null,
           skillSearchCenter.length ? h('div', { className: 'ot-search-section' },
             h('div', { className: 'ot-search-source' },
-              h(Icon, { name: 'sparkle', size: 12 }), t('search.centerSource')),
+              h(Icon, { name: 'sparkle', size: 12 }),
+              h('span', null, t('search.centerSource')),
+              h('span', { className: 'ot-search-source-count' }, skillSearchCenter.length)),
             skillSearchCenter.slice(0, 10).map(entry => {
               const clean = entry.name
               const inTraining = skillSearchTargetTraining.includes(clean)
@@ -2956,7 +3005,9 @@ window.__ModuleLoader__.load({
             })) : null,
           skillSearchGithub.length ? h('div', { className: 'ot-search-section' },
             h('div', { className: 'ot-search-source' },
-              h(Icon, { name: 'link', size: 12 }), t('search.githubSource')),
+              h(Icon, { name: 'link', size: 12 }),
+              h('span', null, t('search.githubSource')),
+              h('span', { className: 'ot-search-source-count' }, skillSearchGithub.length)),
             skillSearchGithub.map(item => {
               const clean = item.name
               const inTraining = skillSearchTargetTraining.includes(clean)
@@ -2964,8 +3015,10 @@ window.__ModuleLoader__.load({
               return h('article', { key: 'github-' + item.fullName, className: 'ot-search-result' },
                 h('div', { className: 'ot-search-result-head' },
                   h('b', null, item.name),
-                  h('span', { className: 'ot-search-badge ot-search-badge-github' }, 'GitHub'),
-                  h('span', { className: 'ot-search-meta' }, '★ ' + item.stars + (item.language ? ' · ' + item.language : ''))),
+                  h('span', { className: 'ot-search-badge ot-search-badge-github' }, 'GitHub')),
+                h('div', { className: 'ot-search-result-meta' },
+                  h('span', null, '★ ' + item.stars),
+                  item.language ? h('span', null, item.language) : null),
                 item.description ? h('p', { className: 'ot-search-desc' }, item.description) : null,
                 h('div', { className: 'ot-search-actions' },
                   h(Btn, { small: true, disabled: inTraining, onClick: () => addSearchToTraining(clean) },
@@ -2974,7 +3027,7 @@ window.__ModuleLoader__.load({
                     inProfile ? t('search.inProfile') : t('search.addProfile')),
                   h('a', { className: 'ot-link-btn ot-search-link', href: item.url, target: '_blank', rel: 'noreferrer' }, t('search.openGithub'))))
             })) : null,
-          h('p', { className: 'ot-hint' }, t('search.githubHint')),
+          h('p', { className: 'ot-hint ot-search-footer-hint' }, t('search.githubHint')),
           skillSearchNote ? h('p', { className: 'ot-hint ot-good', role: 'status' }, skillSearchNote) : null,
         )) : null
 
@@ -3945,30 +3998,59 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-project-feedback p{margin-top:2px;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
 .ot-project-feedback p span{color:var(--ot-faint);font-size:11px}
 .ot-scrim-top{position:fixed;inset:0;z-index:30;display:block!important;background:rgba(10,14,24,.42)}
-.ot-skill-search{position:fixed;z-index:31;top:50%;left:50%;transform:translate(-50%,-50%);width:min(620px,calc(100vw - 32px));max-height:min(78vh,720px);display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid var(--ot-line-2);border-radius:16px;background:var(--ot-card);box-shadow:0 24px 80px rgba(0,0,0,.3);overflow:auto}
+.ot-skill-search{position:fixed;z-index:31;top:50%;left:50%;transform:translate(-50%,-50%);width:min(680px,calc(100vw - 32px));max-height:min(82vh,760px);display:flex;flex-direction:column;gap:12px;padding:20px;border:1px solid var(--ot-line-2);border-radius:16px;background:var(--ot-card);box-shadow:0 24px 80px rgba(0,0,0,.3);overflow:auto}
 .ot-skill-search-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.ot-search-target{font-size:11.5px;color:var(--ot-muted)}
-.ot-search-bar{display:flex;align-items:center;gap:8px}
-.ot-search-bar .ot-input{flex:1;height:34px;font-size:12.5px}
-.ot-search-section{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--ot-line);padding-top:8px}
-.ot-search-source{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ot-faint);margin-bottom:2px}
-.ot-search-result{padding:8px 9px;border-radius:9px;display:flex;flex-direction:column;gap:3px;min-width:0}
-.ot-search-result:hover{background:var(--ot-card-2)}
+.ot-skill-search-title{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.ot-skill-search-mark{display:flex;align-items:center;justify-content:center;width:32px;height:32px;flex:none;border-radius:9px;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 10%,transparent);border:1px solid color-mix(in srgb,var(--ot-brand) 22%,transparent)}
+.ot-skill-search-title-text{font-size:16px;line-height:22px;font-weight:600}
+.ot-skill-search-target{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid var(--ot-line);border-radius:10px;background:var(--dsw-alias-bg-base);min-width:0}
+.ot-skill-search-target .ot-avatar{flex:none}
+.ot-skill-search-target-id{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ot-skill-search-target-label{font-size:11px;color:var(--ot-faint)}
+.ot-skill-search-target-id b{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-skill-search-target-meta{margin-left:auto;font-size:11px;color:var(--ot-muted);text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-search-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch}
+.ot-search-field{display:flex;align-items:center;gap:8px;min-width:0;height:38px;padding:0 12px;border:1px solid var(--ot-line-2);border-radius:10px;background:var(--dsw-alias-bg-base);color:var(--ot-muted);transition:border-color .15s,box-shadow .15s}
+.ot-search-field:focus-within{border-color:color-mix(in srgb,var(--ot-brand) 55%,var(--ot-line));box-shadow:0 0 0 2px color-mix(in srgb,var(--ot-brand) 12%,transparent)}
+.ot-search-field svg{flex:none;color:var(--ot-faint)}
+.ot-search-input{display:block;width:100%;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--dsw-alias-label-primary);font:inherit;font-size:12.5px;appearance:none}
+.ot-search-input::placeholder{color:var(--ot-faint)}
+.ot-search-submit{display:flex}
+.ot-search-submit .ot-btn{height:38px;min-width:88px;padding:0 16px}
+.ot-search-footline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ot-search-open-github{font-size:11.5px;color:var(--ot-brand);text-decoration:none;white-space:nowrap}
+.ot-search-open-github:hover{text-decoration:underline}
+.ot-search-state{display:flex;align-items:flex-start;gap:9px;padding:10px 11px;border-radius:10px;border:1px solid var(--ot-line);background:var(--dsw-alias-bg-base);color:var(--ot-muted);font-size:12px;line-height:1.55}
+.ot-search-state svg{flex:none;margin-top:1px;color:var(--ot-faint)}
+.ot-search-state b{display:block;font-size:12px;font-weight:600;color:var(--dsw-alias-label-primary)}
+.ot-search-state p{margin-top:2px;font-size:11.5px;color:var(--ot-muted)}
+.ot-search-state[data-tone="warn"]{border-color:color-mix(in srgb,var(--dsw-alias-state-warn-primary) 30%,var(--ot-line));background:color-mix(in srgb,var(--dsw-alias-state-warn-primary) 6%,var(--dsw-alias-bg-base))}
+.ot-search-state[data-tone="warn"] svg{color:var(--dsw-alias-state-warn-primary)}
+.ot-search-state[data-tone="loading"]{color:var(--ot-muted)}
+.ot-search-state[data-tone="empty"]{border-style:dashed}
+.ot-search-section{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--ot-line);padding-top:10px;margin-top:2px}
+.ot-search-source{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ot-muted);margin-bottom:2px}
+.ot-search-source svg{color:var(--ot-faint)}
+.ot-search-source-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 6px;margin-left:2px;border-radius:9px;background:var(--ot-card-2);color:var(--ot-faint);font-size:11px;font-variant-numeric:tabular-nums}
+.ot-search-result{padding:9px 10px;border:1px solid var(--ot-line);border-radius:10px;display:flex;flex-direction:column;gap:4px;min-width:0;background:var(--dsw-alias-bg-base);margin-top:3px}
+.ot-search-result:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
 .ot-search-result-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
-.ot-search-result-head b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px}
-.ot-search-badge{font-size:10.5px;padding:1px 6px;border-radius:999px;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 9%,transparent);white-space:nowrap}
+.ot-search-result-head b{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:360px}
+.ot-search-result-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--ot-faint)}
+.ot-search-badge{font-size:11px;padding:1px 7px;border-radius:999px;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 9%,transparent);white-space:nowrap}
 .ot-search-badge-github{color:var(--dsw-alias-label-secondary);background:color-mix(in srgb,var(--dsw-alias-label-primary) 7%,transparent)}
-.ot-search-meta{font-size:11px;color:var(--ot-faint);margin-left:auto;white-space:nowrap}
 .ot-search-desc{font-size:11.5px;line-height:1.5;color:var(--ot-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
-.ot-search-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
-.ot-search-link{font-size:11.5px;margin-left:auto}
+.ot-search-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:3px}
+.ot-search-link{font-size:11.5px;margin-left:auto;color:var(--ot-brand);text-decoration:none}
+.ot-search-link:hover{text-decoration:underline}
+.ot-search-footer-hint{color:var(--ot-faint)!important}
 .ot-skill-search .ot-hint{margin:0}
 .ot-skill-search .ot-good{color:var(--dsw-alias-state-success-primary)}
 .ot-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;padding:8px 15px;border-radius:10px;font-size:12.5px;background:var(--dsw-alias-bg-overlay);color:var(--dsw-alias-label-primary);border:1px solid var(--ot-line-2)}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:86vh;padding:14px}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}}
 `
 
     /* ------------------------------------------------------------------ apply */

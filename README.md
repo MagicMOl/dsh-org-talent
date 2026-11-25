@@ -1,4 +1,4 @@
-﻿# Org Talent Match · 组织人才匹配
+# Org Talent Match · 组织人才匹配
 
 A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a reusable requirement pool, a workspace with assigned project tasks connected to DSH conversations, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates.
 
@@ -34,6 +34,7 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - **项目成果**: stage outcomes from feedback, each with summary, blockers, difficulties and changes; a searchable project dropdown filters the list. It also appears in the match result area.
 - **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
 - Progress, outcomes and recent projects are stacked as full-width rows rather than squeezed into three columns; each carries lists, filters and detail text.
+- **Typography hierarchy**: card/section titles are 14px/600, in-card subheads 12.5px/600, primary body 12px, secondary hints 11.5px, and meta labels 11px, so titles no longer read at the same size as their content.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
 - **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and **saved stage feedback**. A project search dropdown filters alerts; click an alert to jump to its project.
 

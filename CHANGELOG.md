@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.9.1 — 2026-11-25
+
+- Added a clear typographic hierarchy across information cards:
+  - card/section titles: 14px / 600;
+  - subheads inside cards: 12.5px / 600;
+  - primary body: 12px / 400;
+  - hints and secondary text: 11.5px;
+  - labels/meta: 11px.
+- Increased distinction between outcome/warning task titles and their body text; project names, outcomes, blockers/difficulties/changes and progress facts no longer share the same visual weight.
+- De-emphasized card hints so they no longer compete with the card title.
+
 ## 1.9.0 — 2026-11-25
 
 - Stage feedback now captures **成果 / 卡点 / 难点 / 变更点** and synchronizes the three warning categories into the project alert bar.

@@ -4872,7 +4872,7 @@ window.__ModuleLoader__.load({
     /* -------------------------------------------------------------------- css */
 
     const CSS = `
-.ot-root{--ot-line:var(--dsw-alias-border-l1);--ot-line-2:var(--dsw-alias-border-l2);--ot-card:var(--dsw-alias-bg-layer-1);--ot-card-2:var(--dsw-alias-bg-layer-2);--ot-muted:var(--dsw-alias-label-secondary);--ot-faint:color-mix(in srgb,var(--dsw-alias-label-secondary) 88%,var(--dsw-alias-bg-base));--ot-brand:var(--dsw-alias-brand-primary);--ot-dept:var(--dsw-alias-brand-primary);height:100%;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font-size:13px;line-height:1.55}
+.ot-root{--ot-line:var(--dsw-alias-border-l1);--ot-line-2:var(--dsw-alias-border-l2);--ot-card:var(--dsw-alias-bg-layer-1);--ot-card-2:var(--dsw-alias-bg-layer-2);--ot-muted:var(--dsw-alias-label-secondary);--ot-faint:color-mix(in srgb,var(--dsw-alias-label-secondary) 88%,var(--dsw-alias-bg-base));--ot-brand:var(--dsw-alias-brand-primary);--ot-dept:var(--dsw-alias-brand-primary);--ot-fs-title:14px;--ot-fs-sub:12.5px;--ot-fs-body:12px;--ot-fs-meta:11.5px;--ot-fs-label:11px;height:100%;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font-size:13px;line-height:1.55}
 .ot-root *,.ot-root *:before,.ot-root *:after{box-sizing:border-box}
 .ot-root button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 .ot-root h1,.ot-root h2,.ot-root h3,.ot-root p{margin:0}
@@ -5003,8 +5003,8 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-block-label{font-size:11px;color:var(--ot-faint)}
 .ot-focus-box p{font-size:13px;line-height:20px}
 .ot-detail-section{display:flex;flex-direction:column;gap:9px}
-.ot-h3{font-size:13px;font-weight:600;line-height:19px}
-.ot-hint{font-size:12px;color:var(--ot-muted);line-height:18px}
+.ot-h3{font-size:var(--ot-fs-title);font-weight:600;line-height:20px;letter-spacing:.005em}
+.ot-hint{font-size:11.5px;color:var(--ot-muted);line-height:17px}
 .ot-skill-list{display:flex;flex-direction:column;gap:8px}
 .ot-skill-row{display:flex;align-items:center;gap:10px;min-height:26px}
 .ot-skill-name{font-size:12.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -5337,9 +5337,9 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-outcome-item{display:flex;flex-direction:column;gap:4px;width:100%;padding:9px 10px;border:1px solid var(--ot-line);border-radius:9px;background:var(--dsw-alias-bg-base);text-align:left;min-width:0}
 .ot-outcome-item:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
 .ot-outcome-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.ot-outcome-head b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-outcome-head b{font-size:13.5px;font-weight:600;line-height:19px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-outcome-head span{font-size:11px;color:var(--ot-faint);white-space:nowrap}
-.ot-outcome-summary{font-size:11.5px;line-height:1.5;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ot-outcome-summary{font-size:var(--ot-fs-body);line-height:1.55;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
 .ot-outcome-tags{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .ot-outcome-tag{font-size:11px;padding:1px 6px;border-radius:5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--ot-card-2);color:var(--ot-muted)}
 .ot-outcome-tag[data-tone="rose"]{color:#e05a7d;background:color-mix(in srgb,#e05a7d 8%,transparent)}
@@ -5349,7 +5349,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-recent-project{display:flex;align-items:center;gap:8px;width:100%;padding:8px 9px;border:1px solid var(--ot-line);border-radius:8px;background:var(--dsw-alias-bg-base);text-align:left;min-width:0}
 .ot-recent-project:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
 .ot-recent-project-main{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
-.ot-recent-project-main b{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-recent-project-main b{font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-recent-project-main small{font-size:11px;color:var(--ot-faint)}
 .ot-recent-project-progress{width:40px;text-align:right;font-size:12px;font-weight:600;color:#4c7df0;font-variant-numeric:tabular-nums}
 .ot-recent-project-outcomes{font-size:11px;color:var(--ot-muted);white-space:nowrap}
@@ -5374,12 +5374,12 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-warning-col[data-tone="rose"]{--ot-warning:#e05a7d}
 .ot-warning-col[data-tone="amber"]{--ot-warning:#e0932f}
 .ot-warning-col[data-tone="blue"]{--ot-warning:#4c7df0}
-.ot-warning-col-head{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11.5px;font-weight:600;color:var(--ot-warning)}
+.ot-warning-col-head{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:var(--ot-fs-sub);font-weight:600;line-height:18px;color:var(--ot-warning)}
 .ot-warning-col-head b{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:color-mix(in srgb,var(--ot-warning) 12%,transparent);font-size:11px;font-weight:500}
 .ot-warning-item{display:flex;flex-direction:column;gap:1px;padding:6px 7px;border-radius:7px;text-align:left;background:color-mix(in srgb,var(--ot-warning) 5%,transparent);min-width:0}
 .ot-warning-item:hover{background:color-mix(in srgb,var(--ot-warning) 10%,transparent)}
 .ot-warning-item small{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ot-warning-item span{font-size:11.5px;line-height:1.45;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ot-warning-item span{font-size:var(--ot-fs-body);line-height:1.5;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
 .ot-warning-none{font-size:11px;color:var(--ot-faint);padding:4px 2px}
 .ot-progress-summary{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--ot-line);margin-bottom:2px}
 .ot-progress-kpi{display:flex;flex-direction:column;gap:1px;min-width:58px}
@@ -5403,22 +5403,22 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-progress-facts span{white-space:nowrap}
 .ot-progress-detail{border-top:1px solid var(--ot-line);padding:10px;display:flex;flex-direction:column;gap:9px;background:color-mix(in srgb,#4c7df0 2%,var(--dsw-alias-bg-base))}
 .ot-progress-detail-block{display:flex;flex-direction:column;gap:6px;min-width:0}
-.ot-progress-detail-title{font-size:11.5px;font-weight:600;color:var(--ot-muted)}
+.ot-progress-detail-title{font-size:var(--ot-fs-sub);font-weight:600;line-height:18px;color:var(--dsw-alias-label-primary)}
 .ot-progress-stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
 .ot-stage{display:flex;flex-direction:column;gap:2px;padding:8px 9px;border:1px solid var(--ot-line);border-radius:8px;background:var(--ot-card);min-width:0}
 .ot-stage-label{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ot-stage-value{font-size:12.5px;font-weight:600;color:var(--dsw-alias-label-primary)}
+.ot-stage-value{font-size:13px;font-weight:600;line-height:19px;color:var(--dsw-alias-label-primary)}
 .ot-stage small{font-size:11px;color:var(--ot-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ot-progress-outcome{font-size:11.5px;line-height:1.5;color:var(--ot-muted);padding:7px 9px;border-radius:8px;background:color-mix(in srgb,#4c7df0 5%,var(--ot-card));overflow-wrap:anywhere}
+.ot-progress-outcome{font-size:var(--ot-fs-body);line-height:1.55;color:var(--ot-muted);padding:7px 9px;border-radius:8px;background:color-mix(in srgb,#4c7df0 5%,var(--ot-card));overflow-wrap:anywhere}
 .ot-progress-outcome span{color:var(--ot-faint)}
 .ot-progress-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:12px}
-.ot-progress-member{display:grid;grid-template-columns:auto minmax(0,1fr) 64px auto;align-items:center;gap:6px;font-size:11.5px;min-width:0}
+.ot-progress-member{display:grid;grid-template-columns:auto minmax(0,1fr) 64px auto;align-items:center;gap:6px;font-size:var(--ot-fs-body);min-width:0}
 .ot-progress-member-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-progress-member-bar{height:4px;border-radius:2px;background:color-mix(in srgb,var(--dsw-alias-label-primary) 8%,transparent);overflow:hidden}
 .ot-progress-member-bar i{display:block;height:100%;border-radius:2px;background:#17a398}
 .ot-progress-member-num{font-size:11px;color:var(--ot-muted);text-align:right;font-variant-numeric:tabular-nums}
 .ot-progress-unassigned-dot{width:22px;height:22px;border-radius:50%;background:var(--ot-card-2);border:1px dashed var(--ot-line-2)}
-.ot-progress-feedback{padding:7px 8px;border-radius:8px;background:var(--ot-card-2);font-size:11.5px;line-height:1.5}
+.ot-progress-feedback{padding:7px 8px;border-radius:8px;background:var(--ot-card-2);font-size:var(--ot-fs-body);line-height:1.55}
 .ot-progress-feedback-date{display:block;font-size:11px;color:var(--ot-faint);margin-bottom:2px}
 .ot-progress-feedback p{color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
 .ot-progress-feedback b{font-size:11px;font-weight:500;color:var(--ot-faint)}
@@ -5446,7 +5446,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-task[data-status="doing"] .ot-task-dot{background:var(--dsw-alias-state-warn-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-state-warn-primary) 12%,transparent)}
 .ot-task[data-status="done"] .ot-task-dot{background:var(--dsw-alias-state-success-primary)}
 .ot-task-open{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0;width:100%;text-align:left}
-.ot-task-title{display:flex;align-items:center;gap:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ot-task-title{display:flex;align-items:center;gap:5px;font-size:12.5px;line-height:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .ot-task-title svg{color:var(--ot-faint);flex:none}
 .ot-task-open:hover .ot-task-title{color:var(--ot-brand)}
 .ot-task-open:hover .ot-task-title svg{color:var(--ot-brand)}
@@ -5473,10 +5473,10 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-pool-item:hover{border-color:var(--ot-line-2)}
 .ot-pool-item-main{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
 .ot-pool-item-title{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
-.ot-pool-item-title b{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-pool-item-title b{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-pool-badge{font-size:11px;padding:1px 7px;border-radius:999px;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 9%,transparent);white-space:nowrap}
 .ot-pool-item-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ot-muted)}
-.ot-pool-item-note{font-size:11.5px;line-height:1.5;color:var(--ot-muted);overflow-wrap:anywhere}
+.ot-pool-item-note{font-size:var(--ot-fs-body);line-height:1.55;color:var(--ot-muted);overflow-wrap:anywhere}
 .ot-pool-item-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:none;padding-top:1px}
 .ot-pool-empty{min-height:280px}
 .ot-pool-empty .ot-muted{font-size:12px}

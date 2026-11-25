@@ -25,7 +25,7 @@ window.__ModuleLoader__.load({
         'tab.workspace': '工作区',
         'tab.pool': '需求池',
         'tab.org': '组织架构',
-        'tab.match': '智能匹配',
+        'tab.match': '人才匹配',
         'pool.kicker': '需求资产',
         'pool.title': '需求池',
         'pool.hint': '维护可复用的需求；可引用到当前项目需求，或引用到某个项目。',
@@ -137,9 +137,9 @@ window.__ModuleLoader__.load({
         'guide.warn.feedbackAdjust': '反馈调整：{text}',
         'guide.topTeam': '当前推荐团队',
         'guide.topMeta': '{n} 人 · 覆盖 {coverage}%',
-        'guide.noTop': '还没有匹配结果，先到智能匹配生成团队。',
+        'guide.noTop': '还没有匹配结果，先到人才匹配生成团队。',
         'guide.openMatch': '查看匹配',
-        'guide.goMatch': '去智能匹配',
+        'guide.goMatch': '去人才匹配',
         'guide.goTalent': '人才库',
         'guide.projects': '项目团队',
         'guide.projectsHint': '已立项团队与反馈进度',
@@ -373,6 +373,19 @@ window.__ModuleLoader__.load({
         'project.feedbackSaved': '项目反馈已保存。',
         'project.created': '项目团队已立项，可以点「开始工作」分配任务。',
         'project.history': '反馈记录（{n}）',
+        'project.recordFeedback': '记录反馈',
+        'project.feedbackFor': '为「{name}」记录本阶段反馈',
+        'memo.title': '桌面备忘录',
+        'memo.open': '备忘录',
+        'memo.project': '关联项目',
+        'memo.noProject': '暂无项目',
+        'memo.placeholder': '随手记下进展、卡点、难点，或下次反馈要点…',
+        'memo.save': '保存',
+        'memo.saved': '已保存到本机',
+        'memo.toFeedback': '记入反馈',
+        'memo.hint': '自动关联当前项目，数据保存在本机。',
+        'memo.updated': '保存于 {date}',
+        'memo.selectProject': '先选择一个项目',
         'match.members': '成员与分工',
         'match.showMembers': '展开成员、分工与培养建议',
         'match.hideMembers': '收起成员、分工与培养建议',
@@ -428,7 +441,7 @@ window.__ModuleLoader__.load({
         'tab.workspace': 'Workspace',
         'tab.pool': 'Requirement pool',
         'tab.org': 'Organization',
-        'tab.match': 'Team match',
+        'tab.match': 'Talent match',
         'pool.kicker': 'Requirement assets',
         'pool.title': 'Requirement pool',
         'pool.hint': 'Maintain reusable requirements and reference them from the current project need or a specific project.',
@@ -540,9 +553,9 @@ window.__ModuleLoader__.load({
         'guide.warn.feedbackAdjust': 'Feedback adjustment: {text}',
         'guide.topTeam': 'Current recommended team',
         'guide.topMeta': '{n} people · {coverage}% coverage',
-        'guide.noTop': 'No match yet. Build a team in Team match first.',
+        'guide.noTop': 'No match yet. Go to Talent match to generate a team.',
         'guide.openMatch': 'View match',
-        'guide.goMatch': 'Go to Team match',
+        'guide.goMatch': 'Go to Talent match',
         'guide.goTalent': 'Talent pool',
         'guide.projects': 'Project teams',
         'guide.projectsHint': 'Created teams and feedback progress',
@@ -776,6 +789,19 @@ window.__ModuleLoader__.load({
         'project.feedbackSaved': 'Project feedback saved.',
         'project.created': 'Project team created. Click “Start work” to assign tasks.',
         'project.history': 'Feedback history ({n})',
+        'project.recordFeedback': 'Record feedback',
+        'project.feedbackFor': 'Record this stage’s feedback for “{name}”',
+        'memo.title': 'Desktop memo',
+        'memo.open': 'Memo',
+        'memo.project': 'Project',
+        'memo.noProject': 'No project',
+        'memo.placeholder': 'Jot down progress, blockers, difficulties or notes for the next feedback…',
+        'memo.save': 'Save',
+        'memo.saved': 'Saved locally',
+        'memo.toFeedback': 'Use in feedback',
+        'memo.hint': 'Linked to the current project; data stays local.',
+        'memo.updated': 'Saved {date}',
+        'memo.selectProject': 'Choose a project first',
         'match.members': 'Members and coverage',
         'match.showMembers': 'Show members, coverage and plan',
         'match.hideMembers': 'Hide members, coverage and plan',
@@ -1082,7 +1108,7 @@ window.__ModuleLoader__.load({
     }
 
     function defaultState() {
-      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [], requirementPool: seedRequirementPool() }
+      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [], requirementPool: seedRequirementPool(), memos: {} }
     }
 
     function normalizeProject(raw) {
@@ -1165,6 +1191,12 @@ window.__ModuleLoader__.load({
         const requirementPool = Array.isArray(raw.requirementPool)
           ? raw.requirementPool.map(normalizePoolItem).filter(Boolean).slice(0, 100)
           : seedRequirementPool()
+        const memos = raw.memos && typeof raw.memos === 'object' && !Array.isArray(raw.memos)
+          ? Object.fromEntries(Object.entries(raw.memos)
+            .filter(([, value]) => value && typeof value === 'object' && typeof value.text === 'string')
+            .slice(0, 50)
+            .map(([key, value]) => [key, { text: value.text.slice(0, 8000), updatedAt: String(value.updatedAt || '') }]))
+          : {}
         return {
           employees,
           plan: normalizePlan(raw.plan),
@@ -1172,6 +1204,7 @@ window.__ModuleLoader__.load({
           training,
           projects,
           requirementPool,
+          memos,
         }
       } catch (error) {
         return defaultState()
@@ -2072,6 +2105,7 @@ window.__ModuleLoader__.load({
       chart: [['path', { d: 'M4 20V11M10 20V4M16 20v-6M2 20h20' }]],
       grid: [['rect', { x: 4, y: 4, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 13, y: 4, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 4, y: 13, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 13, y: 13, width: 7, height: 7, rx: 1.4 }]],
       pin: [['path', { d: 'M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z' }], ['circle', { cx: 12, cy: 11, r: 2 }]],
+      note: [['path', { d: 'M5 4h14v13l-3 3H5z' }], ['path', { d: 'M16 20v-3h3' }], ['path', { d: 'M8 8h8M8 12h6' }]],
     }
 
     function Icon({ name, size }) {
@@ -2294,6 +2328,16 @@ window.__ModuleLoader__.load({
       const [projectIssues, setProjectIssues] = useState('')
       const [projectDifficulties, setProjectDifficulties] = useState('')
       const [projectAdjustment, setProjectAdjustment] = useState('')
+      const [memoOpen, setMemoOpen] = useState(false)
+      const [memoProjectId, setMemoProjectId] = useState('')
+      const [memoText, setMemoText] = useState('')
+      const [memoStatus, setMemoStatus] = useState(null)
+      const [feedbackTargetId, setFeedbackTargetId] = useState('')
+      const [feedbackModalOutcome, setFeedbackModalOutcome] = useState('')
+      const [feedbackModalBlockers, setFeedbackModalBlockers] = useState('')
+      const [feedbackModalDifficulties, setFeedbackModalDifficulties] = useState('')
+      const [feedbackModalChanges, setFeedbackModalChanges] = useState('')
+      const [feedbackModalError, setFeedbackModalError] = useState(null)
       const [projectNote, setProjectNote] = useState(null)
       const [showAllRequirements, setShowAllRequirements] = useState(false)
       const [projectProgressId, setProjectProgressId] = useState(null)
@@ -2317,8 +2361,8 @@ window.__ModuleLoader__.load({
       const teams = useMemo(() => org.flatMap(dept => dept.teams), [org])
 
       useEffect(() => {
-        saveStored({ employees, plan, history, training, projects: data.projects || [], requirementPool: data.requirementPool || [] })
-      }, [employees, plan, history, training, data.projects, data.requirementPool])
+        saveStored({ employees, plan, history, training, projects: data.projects || [], requirementPool: data.requirementPool || [], memos: data.memos || {} })
+      }, [employees, plan, history, training, data.projects, data.requirementPool, data.memos])
 
       useEffect(() => {
         if (!note) return undefined
@@ -2424,6 +2468,8 @@ window.__ModuleLoader__.load({
       const projects = Array.isArray(data.projects) ? data.projects : []
       const requirementPool = Array.isArray(data.requirementPool) ? data.requirementPool : []
       const selectedPoolProject = projects.find(project => project.id === poolProjectId) || projects[0] || null
+      const memoProject = projects.find(project => project.id === memoProjectId) || null
+      const feedbackTargetProject = projects.find(project => project.id === feedbackTargetId) || null
 
       const activeTeam = useMemo(() => {
         if (!teams.length) return null
@@ -2565,7 +2611,7 @@ window.__ModuleLoader__.load({
       }
 
       const doReset = () => {
-        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [], requirementPool: seedRequirementPool() }))
+        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [], requirementPool: seedRequirementPool(), memos: {} }))
         setResetAsk(false)
         setImportNote(null)
         setImportFileName('')
@@ -3033,6 +3079,102 @@ window.__ModuleLoader__.load({
         setTab('workspace')
         setNote(t('workspace.started', { name: project.name || t('project.untitled') }))
       }
+
+      const openMemo = projectId => {
+        const fallbackId = projectId || projectProgressId || (projects[0] && projects[0].id) || 'general'
+        const memo = data.memos && data.memos[fallbackId]
+        setMemoProjectId(fallbackId)
+        setMemoText(memo ? memo.text : '')
+        setMemoStatus(null)
+        setMemoOpen(true)
+      }
+
+      const selectMemoProject = id => {
+        const memo = data.memos && data.memos[id]
+        setMemoProjectId(id)
+        setMemoText(memo ? memo.text : '')
+        setMemoStatus(null)
+      }
+
+      const saveMemo = () => {
+        const key = memoProjectId || 'general'
+        setData(previous => ({
+          ...previous,
+          memos: {
+            ...(previous.memos || {}),
+            [key]: { text: memoText.slice(0, 8000), updatedAt: new Date().toISOString() },
+          },
+        }))
+        setMemoStatus(t('memo.saved'))
+      }
+
+      const openFeedbackForProject = (projectId, initialOutcome) => {
+        const project = projects.find(item => item.id === projectId)
+        if (!project) return
+        setFeedbackTargetId(project.id)
+        setFeedbackModalOutcome(String(initialOutcome || '').slice(0, 4000))
+        setFeedbackModalBlockers('')
+        setFeedbackModalDifficulties('')
+        setFeedbackModalChanges('')
+        setFeedbackModalError(null)
+        setMemoOpen(false)
+      }
+
+      const openFeedbackFromMemo = () => {
+        if (!memoProject) {
+          setMemoStatus(t('memo.selectProject'))
+          return
+        }
+        setData(previous => ({
+          ...previous,
+          memos: {
+            ...(previous.memos || {}),
+            [memoProject.id]: { text: memoText.slice(0, 8000), updatedAt: new Date().toISOString() },
+          },
+        }))
+        openFeedbackForProject(memoProject.id, memoText)
+      }
+
+      const saveDirectFeedback = () => {
+        const project = feedbackTargetProject
+        if (!project) return
+        const outcome = feedbackModalOutcome.trim()
+        const blockers = feedbackModalBlockers.trim()
+        const difficulties = feedbackModalDifficulties.trim()
+        const changes = feedbackModalChanges.trim()
+        if (!outcome && !blockers && !difficulties && !changes) {
+          setFeedbackModalError(t('project.emptyFeedback'))
+          return
+        }
+        const now = new Date().toISOString()
+        const entry = {
+          id: 'fb-' + Date.now().toString(36),
+          at: now,
+          outcome: outcome.slice(0, 4000),
+          blockers: blockers.slice(0, 4000),
+          difficulties: difficulties.slice(0, 4000),
+          changes: changes.slice(0, 4000),
+          issues: blockers.slice(0, 4000),
+          adjustment: changes.slice(0, 4000),
+        }
+        setData(previous => ({
+          ...previous,
+          projects: (previous.projects || []).map(item =>
+            item.id === project.id
+              ? { ...item, updatedAt: now, feedback: [...(item.feedback || []), entry] }
+              : item),
+        }))
+        setFeedbackTargetId('')
+        setFeedbackModalOutcome('')
+        setFeedbackModalBlockers('')
+        setFeedbackModalDifficulties('')
+        setFeedbackModalChanges('')
+        setFeedbackModalError(null)
+        setProjectProgressId(project.id)
+        setTab('project')
+        setNote(t('project.feedbackSaved'))
+      }
+
 
       const toggleTask = (projectId, taskId) => {
         const nextStatus = { todo: 'doing', doing: 'done', done: 'todo' }
@@ -4024,6 +4166,8 @@ window.__ModuleLoader__.load({
               progress.started
                 ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('project.enterWorkspace'))
                 : h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => startProject(project) }, t('project.start')),
+              h(Btn, { small: true, icon: 'note', onClick: () => openMemo(project.id) }, t('memo.open')),
+              h(Btn, { small: true, icon: 'sparkle', onClick: () => openFeedbackForProject(project.id, '') }, t('project.recordFeedback')),
               h('span', { className: 'ot-project-status', 'data-status': progress.status }, t('project.status.' + progress.status)))),
           h('div', { className: 'ot-progress-track', 'aria-hidden': true }, h('i', { style: { width: progress.percent + '%' } })),
           h('div', { className: 'ot-progress-facts' },
@@ -4105,6 +4249,7 @@ window.__ModuleLoader__.load({
               h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => setTab('match') },
                 guideTop ? t('guide.openMatch') : t('guide.goMatch')),
               h(Btn, { small: true, icon: 'users', onClick: () => setTab('talent') }, t('guide.goTalent')),
+              h(Btn, { small: true, icon: 'note', onClick: () => openMemo(projectProgressId || '') }, t('memo.open')),
               workspaceProjects.length
                 ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('workspace.title'))
                 : null)),
@@ -4817,6 +4962,96 @@ window.__ModuleLoader__.load({
         ['match', t('tab.match'), 'target'],
       ]
 
+      const memoUpdatedAt = data.memos && data.memos[memoProjectId] ? data.memos[memoProjectId].updatedAt : ''
+      const memoPanel = memoOpen ? h('aside', { className: 'ot-memo', role: 'dialog', 'aria-label': t('memo.title') },
+        h('div', { className: 'ot-memo-head' },
+          h('div', { className: 'ot-memo-title' }, h(Icon, { name: 'note', size: 15 }), t('memo.title')),
+          h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setMemoOpen(false) },
+            h(Icon, { name: 'close', size: 13 }))),
+        h('label', { className: 'ot-memo-project' },
+          h('span', null, t('memo.project')),
+          projects.length
+            ? h('select', {
+              className: 'ot-select',
+              value: memoProjectId,
+              onChange: event => selectMemoProject(event.target.value),
+              'aria-label': t('memo.project'),
+            }, projects.map(project => h('option', { key: project.id, value: project.id }, project.name || t('project.untitled'))))
+            : h('span', { className: 'ot-memo-project-empty' }, t('memo.noProject'))),
+        h('textarea', {
+          className: 'ot-memo-text',
+          rows: 7,
+          maxLength: 8000,
+          value: memoText,
+          placeholder: t('memo.placeholder'),
+          onChange: event => { setMemoText(event.target.value); setMemoStatus(null) },
+        }),
+        h('div', { className: 'ot-memo-foot' },
+          h('span', { className: 'ot-memo-status' },
+            memoStatus || (memoUpdatedAt
+              ? t('memo.updated', { date: new Date(memoUpdatedAt).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) })
+              : t('memo.hint'))),
+          h('div', { className: 'ot-memo-actions' },
+            h(Btn, { small: true, onClick: saveMemo }, t('memo.save')),
+            h(Btn, { small: true, tone: 'primary', icon: 'check', disabled: !memoProject, onClick: openFeedbackFromMemo }, t('memo.toFeedback'))))) : null
+
+      const feedbackDialog = feedbackTargetProject ? h('div', {
+        className: 'ot-modal-scrim',
+        onClick: () => setFeedbackTargetId(''),
+      }, h('div', {
+        className: 'ot-modal ot-feedback-modal',
+        role: 'dialog',
+        'aria-modal': 'true',
+        'aria-label': t('project.recordFeedback'),
+        onClick: event => event.stopPropagation(),
+      },
+        h('div', { className: 'ot-modal-head' },
+          h('div', null,
+            h('h3', { className: 'ot-modal-title' }, t('project.recordFeedback')),
+            h('p', { className: 'ot-hint' }, t('project.feedbackFor', { name: feedbackTargetProject.name || t('project.untitled') }))),
+          h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setFeedbackTargetId('') },
+            h(Icon, { name: 'close', size: 13 }))),
+        h('label', { className: 'ot-project-field' },
+          h('span', null, t('project.outcome')),
+          h('textarea', {
+            className: 'ot-textarea',
+            rows: 3,
+            value: feedbackModalOutcome,
+            placeholder: t('project.outcomePlaceholder'),
+            onChange: event => setFeedbackModalOutcome(event.target.value),
+          })),
+        h('label', { className: 'ot-project-field' },
+          h('span', null, t('project.issues')),
+          h('textarea', {
+            className: 'ot-textarea',
+            rows: 2,
+            value: feedbackModalBlockers,
+            placeholder: t('project.issuesPlaceholder'),
+            onChange: event => setFeedbackModalBlockers(event.target.value),
+          })),
+        h('label', { className: 'ot-project-field' },
+          h('span', null, t('project.difficulties')),
+          h('textarea', {
+            className: 'ot-textarea',
+            rows: 2,
+            value: feedbackModalDifficulties,
+            placeholder: t('project.difficultiesPlaceholder'),
+            onChange: event => setFeedbackModalDifficulties(event.target.value),
+          })),
+        h('label', { className: 'ot-project-field' },
+          h('span', null, t('project.adjustment')),
+          h('textarea', {
+            className: 'ot-textarea',
+            rows: 2,
+            value: feedbackModalChanges,
+            placeholder: t('project.adjustmentPlaceholder'),
+            onChange: event => setFeedbackModalChanges(event.target.value),
+          })),
+        feedbackModalError ? h('p', { className: 'ot-hint ot-bad', role: 'status' }, feedbackModalError) : null,
+        h('div', { className: 'ot-modal-actions' },
+          h(Btn, { small: true, onClick: () => setFeedbackTargetId('') }, t('project.cancel')),
+          h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: saveDirectFeedback }, t('project.saveFeedback'))))) : null
+
       return h('div', { className: 'ot-root' },
         h('style', null, CSS),
         h('header', { className: 'ot-head' },
@@ -4866,6 +5101,8 @@ window.__ModuleLoader__.load({
           tab === 'project' ? projectView : tab === 'pool' ? poolView : tab === 'workspace' ? workspaceView : tab === 'talent' ? talentView : tab === 'org' ? orgView : matchView),
         note && tab !== 'talent' ? h('div', { className: 'ot-toast', role: 'status' }, note) : null,
         skillSearchDialog,
+        memoPanel,
+        feedbackDialog,
       )
     }
 
@@ -5394,7 +5631,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-progress-title b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-progress-title small{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-progress-percent{font-size:13px;font-weight:600;color:#4c7df0;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ot-progress-actions{display:flex;align-items:center;gap:6px;flex:none}
+.ot-progress-actions{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:none;flex-wrap:wrap}
 .ot-progress-actions .ot-btn{padding:0 9px}
 .ot-progress-actions .ot-project-status{font-size:11px;padding:2px 7px}
 .ot-progress-track{height:4px;border-radius:2px;margin:0 9px 5px;background:color-mix(in srgb,var(--dsw-alias-label-primary) 8%,transparent);overflow:hidden}
@@ -5482,10 +5719,30 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-pool-empty .ot-muted{font-size:12px}
 .ot-project-status[data-status="notStarted"]{color:var(--ot-muted);border-style:dashed}
 .ot-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;padding:8px 15px;border-radius:10px;font-size:12.5px;background:var(--dsw-alias-bg-overlay);color:var(--dsw-alias-label-primary);border:1px solid var(--ot-line-2)}
+.ot-memo{position:fixed;right:22px;bottom:22px;z-index:36;width:min(340px,calc(100vw - 32px));display:flex;flex-direction:column;gap:10px;padding:14px;border:1px solid var(--ot-line-2);border-left:3px solid #e0932f;border-radius:14px;background:var(--ot-card);box-shadow:0 18px 60px rgba(0,0,0,.26)}
+.ot-memo-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ot-memo-title{display:flex;align-items:center;gap:7px;font-size:var(--ot-fs-title);font-weight:600;line-height:20px}
+.ot-memo-title svg{color:#b8751f}
+.ot-memo-project{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ot-muted);min-width:0}
+.ot-memo-project .ot-select{height:28px;font-size:11.5px;flex:1;min-width:0}
+.ot-memo-project-empty{font-size:11px;color:var(--ot-faint)}
+.ot-memo-text{width:100%;min-height:150px;resize:vertical;padding:9px 10px;border:1px solid var(--ot-line);border-radius:9px;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font:inherit;font-size:var(--ot-fs-body);line-height:1.6;outline:0}
+.ot-memo-text:focus{border-color:color-mix(in srgb,#e0932f 55%,var(--ot-line));box-shadow:0 0 0 2px color-mix(in srgb,#e0932f 11%,transparent)}
+.ot-memo-text::placeholder{color:var(--ot-faint)}
+.ot-memo-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ot-memo-status{max-width:190px;font-size:11px;line-height:16px;color:var(--ot-faint)}
+.ot-memo-actions{display:flex;align-items:center;gap:6px;margin-left:auto}
+.ot-modal-scrim{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,14,24,.45)}
+.ot-modal{width:min(540px,100%);max-height:min(86vh,780px);overflow:auto;display:flex;flex-direction:column;gap:10px;padding:18px;border:1px solid var(--ot-line-2);border-radius:16px;background:var(--ot-card);box-shadow:0 24px 80px rgba(0,0,0,.32)}
+.ot-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ot-modal-title{font-size:16px;line-height:22px;font-weight:600}
+.ot-modal-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;border-top:1px solid var(--ot-line);padding-top:10px;margin-top:2px}
+.ot-feedback-modal .ot-project-field textarea{min-height:62px}
+.ot-feedback-modal .ot-project-field span{font-size:11px;color:var(--ot-muted)}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:space-between}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}}
 `
 
     /* ------------------------------------------------------------------ apply */

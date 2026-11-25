@@ -1,8 +1,8 @@
-# Org Talent Match · 组织人才匹配
+﻿# Org Talent Match · 组织人才匹配
 
-A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a reusable requirement pool, a workspace with assigned project tasks connected to DSH conversations, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates.
+A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide with searchable progress, outcomes, alerts and recent projects, a reusable requirement pool, a lightweight desktop memo that feeds project feedback, a workspace with assigned project tasks connected to DSH conversations, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates.
 
-左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求与反馈，用需求池复用需求，把员工收进人才库，在工作区把项目拆成成员任务并连接 DSH 对话，以组织架构为整体为项目组队。
+左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求、进度、成果与反馈，用需求池复用需求，用桌面备忘录随手记录并带入反馈，在工作区把项目拆成成员任务并连接 DSH 对话，以组织架构为整体为项目组队。
 
 ## Install · 安装
 
@@ -36,7 +36,15 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - Progress, outcomes and recent projects are stacked as full-width rows rather than squeezed into three columns; each carries lists, filters and detail text.
 - **Typography hierarchy**: card/section titles are 14px/600, in-card subheads 12.5px/600, primary body 12px, secondary hints 11.5px, and meta labels 11px, so titles no longer read at the same size as their content.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
+- Each progress row also offers **备忘录** and **记录反馈** directly, so feedback no longer requires returning to the match result.
 - **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and **saved stage feedback**. A project search dropdown filters alerts; click an alert to jump to its project.
+
+### 桌面备忘录 · Desktop memo
+
+- Open **备忘录** from the project hero or any progress row; the memo auto-links to that project.
+- One lightweight note per project with local persistence and last-saved time.
+- **记入反馈** saves the memo and opens the feedback form with the memo text prefilled as the outcome.
+- Memos are intentionally plain text — no rich text or formatting overhead.
 
 ### 需求池 · Requirement pool
 
@@ -129,7 +137,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Data & privacy · 数据与隐私
 
-- Employee data, training plans, project teams, tasks, requirement pool, feedback and match history are stored in this browser's `localStorage`.
+- Employee data, training plans, project teams, tasks, requirement pool, desktop memos, feedback and match history are stored in this browser's `localStorage`.
 - CSV/TSV/JSON/Markdown/XLSX import and CSV export move data only through the file the user chooses.
 - **Skill research** sends only the typed keyword to `api.github.com`; no employee data is sent.
 - **Workspace task conversations** are explicit user actions: clicking a task sends its task/project/team details to a DSH conversation, which follows the workspace's agent and model settings. Other calculations run locally, with no telemetry.
@@ -156,7 +164,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.9.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.9.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.10.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.10.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

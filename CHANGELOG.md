@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.10.0 — 2026-11-25
+
+- Added a **桌面备忘录 / Desktop memo**:
+  - one lightweight sticky note per project, opened from the project hero or a project progress row;
+  - auto-links to the current project, saves locally, and remembers the last update time;
+  - **记入反馈 / Use in feedback** saves the memo and opens the feedback form with the memo text prefilled as the outcome.
+- Project progress now has a direct **记录反馈 / Record feedback** action, so feedback can be recorded without returning to the match result.
+- Renamed the in-page **智能匹配** tab to **人才匹配**, matching the left-sidebar entry and the requested flow; all related guidance now says 人才匹配.
+- Memo data is stored alongside projects and survives reloads; direct feedback immediately updates project outcomes and the alert bar.
+
 ## 1.9.1 — 2026-11-25
 
 - Added a clear typographic hierarchy across information cards:

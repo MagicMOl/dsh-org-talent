@@ -1,4 +1,4 @@
-# Org Talent Match · 组织人才匹配
+﻿# Org Talent Match · 组织人才匹配
 
 A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a workspace with assigned project tasks, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates, with capability advice for gaps and single points.
 
@@ -27,9 +27,12 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 ### 项目导览 · Project guide
 
 - Current project need: requirement name, target team size and required skills.
-- The current recommended team (score, coverage, members) or a direct CTA to build one.
-- The four summary tiles (people, teams, skills, capacity) open detail panels; team, skill and low-availability rows jump to the relevant team, talent filter or profile.
-- Created project teams with status and feedback count; **开始工作** creates the workspace project and task assignments, while **进入工作区** opens it again.
+- The requirement area defaults to the **highest-priority requirement**; **展开全部** reveals the full list without changing the underlying requirements.
+- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress, amber project alerts and teal recent matches.
+- **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date.
+- Click a progress row to expand **阶段成果预览**, **成员完成情况** and **反馈信息** (latest two feedback entries).
+- Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
+- **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and latest feedback adjustments. Click an alert to jump to its project.
 - Recent matches can be clicked to restore their requirements and results.
 
 ### 工作区 · Workspace
@@ -138,7 +141,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.6.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.6.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.7.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.7.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.7.0 — 2026-11-25
+
+- Project guide uses multi-color layer accents: violet project hero, four-color stat tiles, blue project progress, amber project alerts, teal recent matches.
+- Project requirements now default to one **highest-priority requirement**, with an explicit “show all” toggle that preserves the full requirement list.
+- New **项目进度 / Project progress** section: total projects, active projects, average progress, and a per-project progress row with cycle, start date and end date.
+- Clicking a project progress row expands:
+  - stage outcome preview (kickoff / delivery / acceptance),
+  - per-member task completion,
+  - feedback information points.
+- New **项目预警 / Project alerts** bar with **卡点 / 难点 / 变更点**:
+  - overdue or unassigned work,
+  - skill gaps / low-capacity members / missing team,
+  - requirement changes and latest feedback adjustments.
+  Click an alert to jump to the project's progress detail.
+- Projects now persist a planned end date (`dueAt`) when work starts, estimated from the requirement count.
+
 ## 1.6.0 — 2026-11-25
 
 - **Project guide homepage redesign** with a clearer hierarchy: page kicker/title, a single primary project hero, compact requirement chips (4 + overflow), one primary CTA per state, a summary stats strip, and secondary project/history cards. Duplicate CTAs and competing actions were removed.

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.5.0 — 2026-11-25
+
+- Split the old workbench into two pages:
+  - **项目导览 / Project guide**: current need, recommended team, org summary tiles, created project teams and recent matches.
+  - **人才库 / Talent pool**: the full roster, search/filter/sort, employee profiles, import/export and training plans.
+- The tab bar now has four entries: 项目导览 / 人才库 / 组织架构 / 智能匹配.
+- Stat tiles live on the project guide; skill, team and low-availability actions jump to the talent, organization or profile view.
+- Import, reset, advice links and backup candidates now open the talent pool instead of a separate workbench.
+
 ## 1.4.1 — 2026-11-24
 
 - Redesigned the skill research dialog: full-width search field with its own submit form, target-employee card, source counts, and clear loading / warning / empty states.

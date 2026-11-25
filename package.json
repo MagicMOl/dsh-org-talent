@@ -1,7 +1,7 @@
 {
   "name": "dsh-org-talent",
-  "version": "1.4.1",
-  "description": "Organization-wide employee matching in the DSH left sidebar: one workbench for every employee and their current skills, an org chart, team recommendations scored from organization-wide candidates, a capability plan for gaps and single points, a skill-center training planner with GitHub skill research, and a project-team feedback module. Import CSV, TSV, JSON, Markdown or XLSX. · 左侧栏的组织人才匹配：员工技能工作台、组织架构、全组织团队匹配、缺口培养建议、技能中心培养计划与 GitHub 技能检索，以及项目团队反馈模块；支持多种文件导入。",
+  "version": "1.5.0",
+  "description": "Organization-wide employee matching in the DSH left sidebar: a project guide for the current need, teams and feedback; a searchable talent pool; an org chart; team recommendations scored from organization-wide candidates; a capability plan for gaps and single points; a skill-center training planner with GitHub skill research; and a project-team feedback module. Import CSV, TSV, JSON, Markdown or XLSX. · 左侧栏的组织人才匹配：项目导览、人才库、组织架构、全组织团队匹配、缺口培养建议、技能中心培养计划与 GitHub 技能检索，以及项目团队反馈模块；支持多种文件导入。",
   "type": "module",
   "main": "index.js",
   "license": "MIT",

@@ -1,8 +1,8 @@
 ﻿# Org Talent Match · 组织人才匹配
 
-A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: one workbench for every employee and their current skills, an org chart, team recommendations scored from organization-wide candidates, and a capability plan for gaps and single points.
+A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates, with capability advice for gaps and single points.
 
-左侧栏的 DSH 组织人才匹配插件：把员工整合进一张工作台，看到他们现在具备什么技能，并以组织架构为整体为项目组队。
+左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求与反馈，把员工收进人才库，并以组织架构为整体为项目组队。
 
 ## Install · 安装
 
@@ -24,14 +24,20 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 
 ## What you get · 功能
 
-### 我的工作台 · My workbench
+### 项目导览 · Project guide
+
+- Current project need: requirement name, target team size and required skills.
+- The current recommended team (score, coverage, members) or a direct CTA to build one.
+- The four summary tiles (people, teams, skills, capacity) open detail panels; team, skill and low-availability rows jump to the relevant team, talent filter or profile.
+- Created project teams with status and feedback count; recent matches can be clicked to restore their requirements and results.
+
+### 人才库 · Talent pool
 
 - Every employee in one roster with role, department/team, level, availability, current skills and skill level.
 - Search by name, role, team or skill; filter by department; show only people with at least 50% availability; sort by name, availability or skill count.
 - Open a profile for all skills, strengths, growth areas and current focus.
 - Import employees from CSV, TSV, JSON, Markdown tables or XLSX (first worksheet) — choose a file or drop it in; text files show a CSV preview before merging. Export the current roster, or restore the sample organization.
 - People are color-coded by department; availability uses success/warning/error states.
-- The four summary tiles (people, teams, skills, capacity) open detail panels; team, skill and low-availability rows jump to the team, filter the roster, or open a profile.
 
 ### 组织架构 · Organization
 
@@ -110,7 +116,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 - The built-in 26-person organization is fictional demo data.
 - Matching is a deterministic local heuristic, not an AI judgement; it supports decisions rather than making them.
 - CSV import merges by name: an employee with the same name is overwritten.
-- The workbench is single-browser, not a shared HR database.
+- The talent pool is single-browser, not a shared HR database.
 - The organization chart uses the flattened department/team fields from the roster; it does not model a multi-level reporting line.
 - Skill research needs internet access; the public GitHub search API is rate-limited (10 requests/minute unauthenticated). A GitHub repository is not a validated competency — **补到技能** adds it at Lv.1 for a human to review.
 - Project feedback is local to this browser; it does not sync across devices.
@@ -124,7 +130,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.4.1](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.4.1), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.5.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.5.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

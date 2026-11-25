@@ -19,10 +19,33 @@ window.__ModuleLoader__.load({
       zh: {
         'panel.label': '人才匹配',
         'page.title': '组织人才匹配',
-        'page.subtitle': '把员工整合进一张工作台，按组织整体为项目组队',
-        'tab.workbench': '我的工作台',
+        'page.subtitle': '从项目需求出发，连接人才库与全组织匹配',
+        'tab.project': '项目导览',
+        'tab.talent': '人才库',
         'tab.org': '组织架构',
         'tab.match': '智能匹配',
+        'talent.title': '人才库',
+        'talent.hint': '搜索、筛选并查看员工档案；培养计划与技能补充也在这里。',
+        'talent.count': '{n} 名员工',
+        'guide.title': '项目导览',
+        'guide.hint': '从项目需求出发，查看当前团队、项目反馈与最近匹配。',
+        'guide.current': '当前项目需求',
+        'guide.requirements': '{n} 项技能需求 · 目标 {size} 人',
+        'guide.topTeam': '当前推荐团队',
+        'guide.topMeta': '{n} 人 · 覆盖 {coverage}%',
+        'guide.noTop': '还没有匹配结果，先到智能匹配生成团队。',
+        'guide.openMatch': '查看匹配',
+        'guide.goMatch': '去智能匹配',
+        'guide.goTalent': '人才库',
+        'guide.projects': '项目团队',
+        'guide.projectsHint': '已立项团队与反馈进度',
+        'guide.feedbackCount': '{n} 条反馈',
+        'guide.recent': '最近匹配',
+        'guide.recentHint': '点击记录恢复当时需求',
+        'guide.historyMeta': '{n} 人 · {score} 分',
+        'guide.noProjects': '还没有立项的项目团队。',
+        'guide.noProjectsHint': '完成匹配后，在结果页点「立项并跟踪」。',
+        'guide.noHistory': '还没有匹配记录。',
         'workbench.status': '已整合 {n} 名员工 · 数据只保存在本机浏览器',
         'workbench.import': '导入员工',
         'workbench.export': '导出 CSV',
@@ -277,10 +300,33 @@ window.__ModuleLoader__.load({
       en: {
         'panel.label': 'Talent match',
         'page.title': 'Organization talent match',
-        'page.subtitle': 'Bring every employee into one workbench and staff projects as a whole organization',
-        'tab.workbench': 'My workbench',
+        'page.subtitle': 'Start from a project need and connect the talent pool with organization-wide matching',
+        'tab.project': 'Project guide',
+        'tab.talent': 'Talent pool',
         'tab.org': 'Organization',
         'tab.match': 'Team match',
+        'talent.title': 'Talent pool',
+        'talent.hint': 'Search, filter and open employee profiles; training plans and skill research live here too.',
+        'talent.count': '{n} employees',
+        'guide.title': 'Project guide',
+        'guide.hint': 'Start from the project need and review the current team, project feedback and recent matches.',
+        'guide.current': 'Current project need',
+        'guide.requirements': '{n} skill requirements · target {size} people',
+        'guide.topTeam': 'Current recommended team',
+        'guide.topMeta': '{n} people · {coverage}% coverage',
+        'guide.noTop': 'No match yet. Build a team in Team match first.',
+        'guide.openMatch': 'View match',
+        'guide.goMatch': 'Go to Team match',
+        'guide.goTalent': 'Talent pool',
+        'guide.projects': 'Project teams',
+        'guide.projectsHint': 'Created teams and feedback progress',
+        'guide.feedbackCount': '{n} feedback entries',
+        'guide.recent': 'Recent matches',
+        'guide.recentHint': 'Click a record to restore its requirements',
+        'guide.historyMeta': '{n} people · {score} pts',
+        'guide.noProjects': 'No project team has been created yet.',
+        'guide.noProjectsHint': 'After matching, click “Create & track” in the result.',
+        'guide.noHistory': 'No match history yet.',
         'workbench.status': '{n} employees integrated · data stays in this browser',
         'workbench.import': 'Import',
         'workbench.export': 'Export CSV',
@@ -1874,7 +1920,7 @@ window.__ModuleLoader__.load({
       const t = makeT(locale)
 
       const [data, setData] = useState(loadStored)
-      const [tab, setTab] = useState('workbench')
+      const [tab, setTab] = useState('project')
       const [query, setQuery] = useState('')
       const [deptFilter, setDeptFilter] = useState('all')
       const [onlyAvailable, setOnlyAvailable] = useState(false)
@@ -2099,7 +2145,7 @@ window.__ModuleLoader__.load({
         setImportOpen(true)
         setImportNote(null)
         setImportFileName('')
-        setTab('workbench')
+        setTab('talent')
       }
 
       const loadImportFile = async file => {
@@ -2245,7 +2291,7 @@ window.__ModuleLoader__.load({
           }))
         }
         setSelectedId(member.id)
-        setTab('workbench')
+        setTab('talent')
       }
 
       const loadSkillCatalog = async () => {
@@ -2856,7 +2902,7 @@ window.__ModuleLoader__.load({
             'aria-label': t('stat.detail.skillFilter') + ' ' + row.name,
             onClick: () => {
               setQuery(row.name)
-              setTab('workbench')
+              setTab('talent')
               setStatDetail(null)
             },
           },
@@ -2885,6 +2931,7 @@ window.__ModuleLoader__.load({
                 className: 'ot-stat-line',
                 onClick: () => {
                   setSelectedId(employee.id)
+                  setTab('talent')
                   setStatDetail(null)
                 },
               },
@@ -3031,7 +3078,34 @@ window.__ModuleLoader__.load({
           skillSearchNote ? h('p', { className: 'ot-hint ot-good', role: 'status' }, skillSearchNote) : null,
         )) : null
 
-      const workbench = h('div', { className: 'ot-pane ot-wb' },
+      const statTiles = h('div', { className: 'ot-stats' },
+        [
+          { key: 'people', value: stats.people, label: t('stat.people'), icon: 'users', color: 'var(--dsw-alias-brand-primary)' },
+          { key: 'teams', value: stats.teams, label: t('stat.teams'), icon: 'org', color: 'var(--dsw-alias-brand-primary)' },
+          { key: 'skills', value: stats.skills, label: t('stat.skills'), icon: 'sparkle', color: 'var(--dsw-alias-brand-primary)' },
+          { key: 'capacity', value: stats.capacity, label: t('stat.capacity'), suffix: t('stat.capacityUnit'), icon: 'chart', color: 'var(--dsw-alias-brand-primary)' },
+        ].map(item => h('button', {
+          key: item.key,
+          type: 'button',
+          className: 'ot-stat',
+          'data-on': statDetail === item.key ? '' : undefined,
+          'aria-expanded': statDetail === item.key,
+          'aria-controls': 'ot-stat-panel',
+          title: t('stat.detail.open'),
+          style: { '--ot-accent': item.color },
+          onClick: () => setStatDetail(previous => previous === item.key ? null : item.key),
+        },
+          h('span', { className: 'ot-stat-icon' }, h(Icon, { name: item.icon, size: 16 })),
+          h('div', { className: 'ot-stat-body' },
+            h('b', null, item.value, item.suffix ? h('small', null, item.suffix) : null),
+            h('span', null, item.label)))))
+
+      const talentView = h('div', { className: 'ot-pane ot-wb' },
+        h('div', { className: 'ot-page-head' },
+          h('div', null,
+            h('h2', { className: 'ot-page-title' }, t('talent.title')),
+            h('p', { className: 'ot-page-sub' }, t('talent.hint'))),
+          h('span', { className: 'ot-page-count' }, t('talent.count', { n: employees.length }))),
         h('div', { className: 'ot-toolbar' },
           h('label', { className: 'ot-search' },
             h(Icon, { name: 'search', size: 15 }),
@@ -3119,28 +3193,6 @@ window.__ModuleLoader__.load({
           h('span', { className: 'ot-status-dot' }),
           h('span', null, t('workbench.status', { n: employees.length })),
           note ? h('span', { className: 'ot-note' }, note) : null),
-        h('div', { className: 'ot-stats' },
-          [
-            { key: 'people', value: stats.people, label: t('stat.people'), icon: 'users', color: 'var(--dsw-alias-brand-primary)' },
-            { key: 'teams', value: stats.teams, label: t('stat.teams'), icon: 'org', color: 'var(--dsw-alias-brand-primary)' },
-            { key: 'skills', value: stats.skills, label: t('stat.skills'), icon: 'sparkle', color: 'var(--dsw-alias-brand-primary)' },
-            { key: 'capacity', value: stats.capacity, label: t('stat.capacity'), suffix: t('stat.capacityUnit'), icon: 'chart', color: 'var(--dsw-alias-brand-primary)' },
-          ].map(item => h('button', {
-            key: item.key,
-            type: 'button',
-            className: 'ot-stat',
-            'data-on': statDetail === item.key ? '' : undefined,
-            'aria-expanded': statDetail === item.key,
-            'aria-controls': 'ot-stat-panel',
-            title: t('stat.detail.open'),
-            style: { '--ot-accent': item.color },
-            onClick: () => setStatDetail(previous => previous === item.key ? null : item.key),
-          },
-            h('span', { className: 'ot-stat-icon' }, h(Icon, { name: item.icon, size: 16 })),
-            h('div', { className: 'ot-stat-body' },
-              h('b', null, item.value, item.suffix ? h('small', null, item.suffix) : null),
-              h('span', null, item.label))))),
-        statPanel,
         h('div', { className: 'ot-wb-body' },
           filtered.length
             ? h('div', { className: 'ot-grid' }, filtered.map(renderCard))
@@ -3150,6 +3202,94 @@ window.__ModuleLoader__.load({
               h('p', { className: 'ot-muted' }, t('empty.employeesHint'))),
           detail,
         ),
+        h('p', { className: 'ot-footnote' }, t('footer.note')),
+      )
+
+      const guideTop = result && result.results && result.results.length ? result.results[0] : null
+      const guideProjects = projects.slice(0, 3)
+      const guideHistory = history.slice(0, 3)
+      const projectView = h('div', { className: 'ot-pane ot-guide' },
+        h('div', { className: 'ot-page-head' },
+          h('div', null,
+            h('h2', { className: 'ot-page-title' }, t('guide.title')),
+            h('p', { className: 'ot-page-sub' }, t('guide.hint'))),
+          h('div', { className: 'ot-page-actions' },
+            h(Btn, { small: true, icon: 'target', onClick: () => setTab('match') }, t('guide.goMatch')),
+            h(Btn, { small: true, icon: 'users', onClick: () => setTab('talent') }, t('guide.goTalent')))),
+        h('div', { className: 'ot-guide-hero' },
+          h('div', { className: 'ot-guide-hero-main' },
+            h('span', { className: 'ot-guide-kicker' }, t('guide.current')),
+            h('div', { className: 'ot-guide-title' }, plan.name || t('match.title')),
+            h('p', { className: 'ot-guide-desc' }, t('guide.requirements', { n: plan.skills.length, size: plan.size })),
+            plan.skills.length
+              ? h('div', { className: 'ot-chip-wrap' },
+                plan.skills.slice(0, 8).map(skill => h('span', { key: skill.name, className: 'ot-mini-chip' }, skill.name + ' ≥' + skill.min)))
+              : h('p', { className: 'ot-hint' }, t('match.reqEmpty'))),
+          h('div', { className: 'ot-guide-hero-side' },
+            guideTop ? h(React.Fragment, null,
+              h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
+              h('div', { className: 'ot-guide-score' },
+                h('b', null, guideTop.score),
+                h('span', null, t('match.score'))),
+              h('p', { className: 'ot-guide-side-meta' }, t('guide.topMeta', {
+                n: guideTop.team.length,
+                coverage: Math.round(guideTop.coverage * 100),
+              })),
+              h('div', { className: 'ot-avatars' }, guideTop.team.map(member => h(Avatar, { key: member.id, employee: member, size: 24 }))),
+              h(Btn, { small: true, onClick: () => setTab('match') }, t('guide.openMatch')))
+              : h(React.Fragment, null,
+                h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
+                h('p', { className: 'ot-guide-side-empty' }, t('guide.noTop')),
+                h(Btn, { small: true, icon: 'target', onClick: () => setTab('match') }, t('guide.goMatch'))))),
+        dirty ? h('p', { className: 'ot-hint ot-warn ot-guide-dirty' }, t('match.dirty')) : null,
+        statTiles,
+        statPanel,
+        h('div', { className: 'ot-guide-grid' },
+          h('section', { className: 'ot-guide-card' },
+            h('div', { className: 'ot-guide-card-head' },
+              h('div', { className: 'ot-h3' }, t('guide.projects')),
+              h('span', { className: 'ot-muted' }, t('guide.projectsHint'))),
+            guideProjects.length
+              ? guideProjects.map(project => {
+                const feedback = Array.isArray(project.feedback) ? project.feedback : []
+                const status = feedback.length ? 'reviewed' : 'active'
+                const memberNames = (project.memberIds || [])
+                  .map(id => employees.find(employee => employee.id === id))
+                  .filter(Boolean)
+                  .map(employee => employee.name)
+                return h('div', { key: project.id, className: 'ot-guide-project' },
+                  h('div', { className: 'ot-guide-project-main' },
+                    h('b', null, project.name || t('project.untitled')),
+                    h('small', null, memberNames.length ? memberNames.join('、') : '—')),
+                  h('span', { className: 'ot-guide-project-feedback' }, t('guide.feedbackCount', { n: feedback.length })),
+                  h('span', { className: 'ot-project-status', 'data-status': status }, t('project.status.' + status)),
+                  h('button', { type: 'button', className: 'ot-link-btn', onClick: () => setTab('match') }, t('guide.openMatch')))
+              })
+              : h('div', { className: 'ot-guide-empty' },
+                h(Icon, { name: 'org', size: 20 }),
+                h('p', null, t('guide.noProjects')),
+                h('p', { className: 'ot-hint' }, t('guide.noProjectsHint')),
+                h(Btn, { small: true, onClick: () => setTab('match') }, t('guide.goMatch')))),
+          h('section', { className: 'ot-guide-card' },
+            h('div', { className: 'ot-guide-card-head' },
+              h('div', { className: 'ot-h3' }, t('guide.recent')),
+              h('span', { className: 'ot-muted' }, t('guide.recentHint'))),
+            guideHistory.length
+              ? guideHistory.map(entry => h('button', {
+                key: entry.ts,
+                type: 'button',
+                className: 'ot-guide-history',
+                onClick: () => { loadHistory(entry); setTab('match') },
+              },
+                h('span', { className: 'ot-guide-history-main' },
+                  h('b', null, entry.name || t('match.title')),
+                  h('small', null, t('guide.historyMeta', { n: entry.size, score: entry.score }))),
+                h('span', { className: 'ot-guide-history-date' },
+                  new Date(entry.ts).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' }))))
+              : h('div', { className: 'ot-guide-empty' },
+                h(Icon, { name: 'target', size: 20 }),
+                h('p', null, t('guide.noHistory')),
+                h(Btn, { small: true, onClick: () => setTab('match') }, t('guide.goMatch'))))),
         h('p', { className: 'ot-footnote' }, t('footer.note')),
       )
 
@@ -3224,7 +3364,7 @@ window.__ModuleLoader__.load({
             h('button', {
               type: 'button',
               className: 'ot-link-btn',
-              onClick: () => { setSelectedId(member.id); setTab('workbench') },
+              onClick: () => { setSelectedId(member.id); setTab('talent') },
             }, t('org.openProfile')))))
 
         const coverageBlock = h('section', { className: 'ot-block' },
@@ -3465,7 +3605,7 @@ window.__ModuleLoader__.load({
               h('p', { className: 'ot-hint' }, t('match.backupHint')),
               h('div', { className: 'ot-chip-wrap' }, backups.map(row => h('button', {
                 key: row.employee.id, type: 'button', className: 'ot-backup',
-                onClick: () => { setSelectedId(row.employee.id); setTab('workbench') },
+                onClick: () => { setSelectedId(row.employee.id); setTab('talent') },
               }, h(Icon, { name: 'plus', size: 12 }), row.employee.name + ' · ' + row.employee.team)))) : null,
           ) : null,
         )
@@ -3581,7 +3721,8 @@ window.__ModuleLoader__.load({
       const matchView = h('div', { className: 'ot-pane ot-match' }, planCard, resultsPane)
 
       const tabs = [
-        ['workbench', t('tab.workbench'), 'users'],
+        ['project', t('tab.project'), 'chart'],
+        ['talent', t('tab.talent'), 'users'],
         ['org', t('tab.org'), 'org'],
         ['match', t('tab.match'), 'target'],
       ]
@@ -3620,17 +3761,18 @@ window.__ModuleLoader__.load({
           },
             h(Icon, { name: item[2], size: 14 }),
             h('span', null, item[1]),
-            item[0] === 'workbench' ? h('span', { className: 'ot-tab-num' }, employees.length)
-              : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
-                : null))),
+            item[0] === 'project' && projects.length ? h('span', { className: 'ot-tab-num' }, projects.length)
+              : item[0] === 'talent' ? h('span', { className: 'ot-tab-num' }, employees.length)
+                : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
+                  : null))),
         h('div', {
           className: 'ot-body',
           role: 'tabpanel',
           id: 'ot-panel-' + tab,
           'aria-labelledby': 'ot-tab-' + tab,
         },
-          tab === 'workbench' ? workbench : tab === 'org' ? orgView : matchView),
-        note && tab !== 'workbench' ? h('div', { className: 'ot-toast', role: 'status' }, note) : null,
+          tab === 'project' ? projectView : tab === 'talent' ? talentView : tab === 'org' ? orgView : matchView),
+        note && tab !== 'talent' ? h('div', { className: 'ot-toast', role: 'status' }, note) : null,
         skillSearchDialog,
       )
     }
@@ -4046,11 +4188,52 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-search-footer-hint{color:var(--ot-faint)!important}
 .ot-skill-search .ot-hint{margin:0}
 .ot-skill-search .ot-good{color:var(--dsw-alias-state-success-primary)}
+.ot-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:2px 0 14px}
+.ot-page-title{font-size:19px;line-height:26px;font-weight:600}
+.ot-page-sub{font-size:12px;line-height:18px;color:var(--ot-muted);margin-top:2px}
+.ot-page-count{font-size:12px;color:var(--ot-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ot-page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ot-guide{overflow:auto;padding-bottom:24px}
+.ot-guide-hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.9fr);gap:14px}
+.ot-guide-hero-main{padding:17px;border:1px solid var(--ot-line-2);border-radius:14px;background:var(--ot-card);min-width:0}
+.ot-guide-kicker{font-size:11px;font-weight:500;color:var(--ot-brand);letter-spacing:.02em}
+.ot-guide-title{font-size:20px;line-height:27px;font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-desc{font-size:12px;line-height:18px;color:var(--ot-muted);margin:3px 0 9px}
+.ot-guide-hero-side{padding:15px;border:1px solid color-mix(in srgb,var(--ot-brand) 24%,var(--ot-line));border-radius:14px;background:color-mix(in srgb,var(--ot-brand) 4%,var(--ot-card));display:flex;flex-direction:column;gap:7px;min-width:0}
+.ot-guide-side-label{font-size:11px;color:var(--ot-muted)}
+.ot-guide-score{display:flex;align-items:baseline;gap:6px}
+.ot-guide-score b{font-size:30px;line-height:34px;font-weight:600;color:var(--ot-brand);font-variant-numeric:tabular-nums}
+.ot-guide-score span{font-size:11px;color:var(--ot-muted)}
+.ot-guide-side-meta{font-size:11.5px;color:var(--ot-muted)}
+.ot-guide-side-empty{font-size:12px;line-height:18px;color:var(--ot-muted);flex:1;min-height:38px}
+.ot-guide-hero-side .ot-avatars .ot-avatar{box-shadow:0 0 0 2px var(--ot-card)}
+.ot-guide-hero-side .ot-btn{align-self:flex-start;margin-top:1px}
+.ot-guide-dirty{margin-top:8px}
+.ot-guide > .ot-stats{margin-top:14px}
+.ot-guide-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;margin-top:16px}
+.ot-guide-card{padding:14px;border:1px solid var(--ot-line);border-radius:14px;background:var(--ot-card);display:flex;flex-direction:column;gap:7px;min-width:0}
+.ot-guide-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.ot-guide-card-head .ot-muted{font-size:11px}
+.ot-guide-project{display:flex;align-items:center;gap:8px;padding:8px 9px;border:1px solid var(--ot-line);border-radius:9px;background:var(--dsw-alias-bg-base);min-width:0}
+.ot-guide-project-main{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.ot-guide-project-main b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-project-main small{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-project-feedback{font-size:11px;color:var(--ot-muted);white-space:nowrap}
+.ot-guide-project .ot-link-btn{flex:none;font-size:11.5px}
+.ot-guide-history{display:flex;align-items:center;gap:8px;width:100%;padding:8px 9px;border:1px solid var(--ot-line);border-radius:9px;background:var(--dsw-alias-bg-base);text-align:left;min-width:0}
+.ot-guide-history:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
+.ot-guide-history-main{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.ot-guide-history-main b{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-history-main small{font-size:11px;color:var(--ot-faint)}
+.ot-guide-history-date{font-size:11px;color:var(--ot-faint);white-space:nowrap}
+.ot-guide-empty{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:12px;border:1px dashed var(--ot-line);border-radius:9px;color:var(--ot-muted);font-size:12px;line-height:18px}
+.ot-guide-empty svg{color:var(--ot-faint);margin-bottom:1px}
+.ot-guide-empty .ot-btn{margin-top:2px}
 .ot-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;padding:8px 15px;border-radius:10px;font-size:12.5px;background:var(--dsw-alias-bg-overlay);color:var(--dsw-alias-label-primary);border:1px solid var(--ot-line-2)}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
-@media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}}
+@media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}}
 `
 
     /* ------------------------------------------------------------------ apply */

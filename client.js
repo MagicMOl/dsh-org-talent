@@ -23,8 +23,40 @@ window.__ModuleLoader__.load({
         'tab.project': '项目导览',
         'tab.talent': '人才库',
         'tab.workspace': '工作区',
+        'tab.pool': '需求池',
         'tab.org': '组织架构',
         'tab.match': '智能匹配',
+        'pool.kicker': '需求资产',
+        'pool.title': '需求池',
+        'pool.hint': '维护可复用的需求；可引用到当前项目需求，或引用到某个项目。',
+        'pool.count': '{n} 条需求',
+        'pool.name': '需求名称',
+        'pool.namePlaceholder': '例如 数据分析、React',
+        'pool.min': '最低等级',
+        'pool.weight': '权重',
+        'pool.note': '备注',
+        'pool.notePlaceholder': '可选：说明、验收标准或适用场景',
+        'pool.add': '添加到需求池',
+        'pool.added': '已添加需求“{name}”',
+        'pool.needName': '请先填写需求名称',
+        'pool.duplicate': '需求池中已有同名需求',
+        'pool.referenceTarget': '引用到项目',
+        'pool.referenceHint': '每条需求可加入当前需求，或引用到所选项目',
+        'pool.noProjects': '还没有项目，先立项',
+        'pool.inPlanBadge': '当前需求',
+        'pool.inPlan': '已在当前需求',
+        'pool.addPlan': '加入当前需求',
+        'pool.addProject': '引用到项目',
+        'pool.levelWeight': '最低 Lv.{min} · 权重 {weight}',
+        'pool.usedBy': '{n} 个项目引用',
+        'pool.delete': '删除需求',
+        'pool.empty': '需求池为空',
+        'pool.emptyHint': '添加常用需求，之后可在项目导览和项目中复用。',
+        'pool.alreadyPlan': '“{name}”已在当前需求中',
+        'pool.addedPlan': '已把“{name}”加入当前需求',
+        'pool.alreadyProject': '“{name}”已在项目“{project}”中',
+        'pool.addedProject': '已把“{name}”引用到项目“{project}”',
+        'pool.removed': '已从需求池删除“{name}”',
         'workspace.title': '工作区',
         'workspace.hint': '已启动项目与成员任务；点任务可切换状态。',
         'workspace.count': '{n} 个进行中项目',
@@ -38,6 +70,19 @@ window.__ModuleLoader__.load({
         'workspace.unassigned': '待分配',
         'workspace.toggle': '{title} · 当前{status}；点击切换状态',
         'workspace.toggleHint': '点击任务切换：待开始 → 进行中 → 已完成',
+        'workspace.taskHint': '点击任务在左侧工作区创建/打开团队对话；右侧状态按钮切换进度。',
+        'workspace.chatOpen': '打开团队对话处理 {title}',
+        'workspace.chatHint': '打开团队对话',
+        'workspace.chatProject': '项目',
+        'workspace.chatOwner': '负责人',
+        'workspace.chatStatus': '当前状态',
+        'workspace.chatTeam': '团队成员',
+        'workspace.chatGoal': '项目目标',
+        'workspace.chatInstruction': '请与团队成员协作推进这个任务，完成后更新任务状态并记录成果。',
+        'workspace.chatSent': '已把“{name}”的任务发送到工作区对话。',
+        'workspace.chatDraft': '已在工作区打开对话并填入任务信息。',
+        'workspace.chatUnavailable': '工作区服务不可用，无法创建对话。',
+        'workspace.chatFailed': '发送任务到工作区对话失败，请重试。',
         'workspace.task.kickoff': '需求对齐与验收标准',
         'workspace.task.deliver': '交付：{skill}（≥Lv.{min}）',
         'workspace.task.review': '联调、验收与复盘',
@@ -366,8 +411,40 @@ window.__ModuleLoader__.load({
         'tab.project': 'Project guide',
         'tab.talent': 'Talent pool',
         'tab.workspace': 'Workspace',
+        'tab.pool': 'Requirement pool',
         'tab.org': 'Organization',
         'tab.match': 'Team match',
+        'pool.kicker': 'Requirement assets',
+        'pool.title': 'Requirement pool',
+        'pool.hint': 'Maintain reusable requirements and reference them from the current project need or a specific project.',
+        'pool.count': '{n} requirements',
+        'pool.name': 'Requirement name',
+        'pool.namePlaceholder': 'e.g. data analysis, React',
+        'pool.min': 'Minimum level',
+        'pool.weight': 'Weight',
+        'pool.note': 'Note',
+        'pool.notePlaceholder': 'Optional: description, acceptance criteria or scenario',
+        'pool.add': 'Add to pool',
+        'pool.added': 'Added “{name}”',
+        'pool.needName': 'Enter a requirement name',
+        'pool.duplicate': 'A requirement with this name already exists',
+        'pool.referenceTarget': 'Reference to project',
+        'pool.referenceHint': 'Each requirement can join the current need or be referenced by the selected project',
+        'pool.noProjects': 'No project yet; create one first',
+        'pool.inPlanBadge': 'Current need',
+        'pool.inPlan': 'Already in current need',
+        'pool.addPlan': 'Add to current need',
+        'pool.addProject': 'Reference to project',
+        'pool.levelWeight': 'Min Lv.{min} · weight {weight}',
+        'pool.usedBy': '{n} project(s) reference',
+        'pool.delete': 'Delete requirement',
+        'pool.empty': 'The requirement pool is empty',
+        'pool.emptyHint': 'Add reusable requirements for project guides and projects.',
+        'pool.alreadyPlan': '“{name}” is already in the current need',
+        'pool.addedPlan': 'Added “{name}” to the current need',
+        'pool.alreadyProject': '“{name}” is already in project “{project}”',
+        'pool.addedProject': 'Referenced “{name}” by project “{project}”',
+        'pool.removed': 'Removed “{name}” from the pool',
         'workspace.title': 'Workspace',
         'workspace.hint': 'Started projects and member tasks; click a task to change its status.',
         'workspace.count': '{n} active projects',
@@ -381,6 +458,19 @@ window.__ModuleLoader__.load({
         'workspace.unassigned': 'Unassigned',
         'workspace.toggle': '{title} · currently {status}; click to change status',
         'workspace.toggleHint': 'Click a task to cycle: to do → in progress → done',
+        'workspace.taskHint': 'Click a task to create/open the team conversation in the left workspace; the status button on the right changes progress.',
+        'workspace.chatOpen': 'Open the team conversation for {title}',
+        'workspace.chatHint': 'Open team conversation',
+        'workspace.chatProject': 'Project',
+        'workspace.chatOwner': 'Owner',
+        'workspace.chatStatus': 'Current status',
+        'workspace.chatTeam': 'Team',
+        'workspace.chatGoal': 'Project goal',
+        'workspace.chatInstruction': 'Work with the team on this task, then update its status and record the outcome.',
+        'workspace.chatSent': 'Sent “{name}” task to the workspace conversation.',
+        'workspace.chatDraft': 'Opened the workspace conversation with the task details.',
+        'workspace.chatUnavailable': 'Workspace services are unavailable; could not create a conversation.',
+        'workspace.chatFailed': 'Could not send the task to the workspace conversation. Please retry.',
         'workspace.task.kickoff': 'Requirements alignment and acceptance criteria',
         'workspace.task.deliver': 'Deliver: {skill} (≥Lv.{min})',
         'workspace.task.review': 'Integration, acceptance and retrospective',
@@ -936,8 +1026,33 @@ window.__ModuleLoader__.load({
       return SEED.map((raw, index) => normalizeEmployee(raw, index))
     }
 
+    function seedRequirementPool() {
+      return DEFAULT_PLAN.skills.map((skill, index) => ({
+        id: 'req-seed-' + index,
+        name: skill.name,
+        min: skill.min,
+        weight: skill.weight,
+        note: '',
+        createdAt: '',
+      }))
+    }
+
+    function normalizePoolItem(raw, index) {
+      if (!raw || typeof raw !== 'object') return null
+      const name = String(raw.name || '').trim().slice(0, 80)
+      if (!name) return null
+      return {
+        id: String(raw.id || ('req-' + index + '-' + Date.now().toString(36))),
+        name,
+        min: clamp(Number(raw.min) || 3, 1, 5),
+        weight: clamp(Number(raw.weight) || 2, 1, 3),
+        note: String(raw.note || '').slice(0, 800),
+        createdAt: String(raw.createdAt || ''),
+      }
+    }
+
     function defaultState() {
-      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [] }
+      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [], requirementPool: seedRequirementPool() }
     }
 
     function normalizeProject(raw) {
@@ -976,6 +1091,7 @@ window.__ModuleLoader__.load({
         updatedAt: String(raw.updatedAt || ''),
         startedAt: String(raw.startedAt || ''),
         dueAt: String(raw.dueAt || ''),
+        conversationId: String(raw.conversationId || ''),
         requirements,
         tasks,
         feedback,
@@ -1013,12 +1129,16 @@ window.__ModuleLoader__.load({
             .map(([key, value]) => [key, value.map(name => String(name)).filter(Boolean)]))
           : {}
         const projects = Array.isArray(raw.projects) ? raw.projects.map(normalizeProject).filter(Boolean).slice(0, 20) : []
+        const requirementPool = Array.isArray(raw.requirementPool)
+          ? raw.requirementPool.map(normalizePoolItem).filter(Boolean).slice(0, 100)
+          : seedRequirementPool()
         return {
           employees,
           plan: normalizePlan(raw.plan),
           history: Array.isArray(raw.history) ? raw.history.slice(0, 5) : [],
           training,
           projects,
+          requirementPool,
         }
       } catch (error) {
         return defaultState()
@@ -2113,6 +2233,13 @@ window.__ModuleLoader__.load({
       const [projectNote, setProjectNote] = useState(null)
       const [showAllRequirements, setShowAllRequirements] = useState(false)
       const [projectProgressId, setProjectProgressId] = useState(null)
+      const [poolName, setPoolName] = useState('')
+      const [poolMin, setPoolMin] = useState('3')
+      const [poolWeight, setPoolWeight] = useState('2')
+      const [poolNote, setPoolNote] = useState('')
+      const [poolProjectId, setPoolProjectId] = useState('')
+      const [poolStatus, setPoolStatus] = useState(null)
+      const [poolStatusTone, setPoolStatusTone] = useState('good')
 
       const employees = data.employees
       const history = data.history
@@ -2122,8 +2249,8 @@ window.__ModuleLoader__.load({
       const teams = useMemo(() => org.flatMap(dept => dept.teams), [org])
 
       useEffect(() => {
-        saveStored({ employees, plan, history, training, projects: data.projects || [] })
-      }, [employees, plan, history, training, data.projects])
+        saveStored({ employees, plan, history, training, projects: data.projects || [], requirementPool: data.requirementPool || [] })
+      }, [employees, plan, history, training, data.projects, data.requirementPool])
 
       useEffect(() => {
         if (!note) return undefined
@@ -2227,6 +2354,8 @@ window.__ModuleLoader__.load({
 
       const selected = selectedId === null ? null : employees.find(employee => employee.id === selectedId) || null
       const projects = Array.isArray(data.projects) ? data.projects : []
+      const requirementPool = Array.isArray(data.requirementPool) ? data.requirementPool : []
+      const selectedPoolProject = projects.find(project => project.id === poolProjectId) || projects[0] || null
 
       const activeTeam = useMemo(() => {
         if (!teams.length) return null
@@ -2368,7 +2497,7 @@ window.__ModuleLoader__.load({
       }
 
       const doReset = () => {
-        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [] }))
+        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [], requirementPool: seedRequirementPool() }))
         setResetAsk(false)
         setImportNote(null)
         setImportFileName('')
@@ -2845,6 +2974,84 @@ window.__ModuleLoader__.load({
               }
               : project),
         }))
+      }
+
+      const setPoolNotice = (text, tone) => {
+        setPoolStatus(text)
+        setPoolStatusTone(tone || 'good')
+      }
+
+      const addPoolRequirement = () => {
+        const name = poolName.trim().slice(0, 80)
+        if (!name) {
+          setPoolNotice(t('pool.needName'), 'bad')
+          return
+        }
+        if (requirementPool.some(item => item.name === name)) {
+          setPoolNotice(t('pool.duplicate'), 'bad')
+          return
+        }
+        const item = {
+          id: 'req-' + Date.now().toString(36),
+          name,
+          min: clamp(Number(poolMin) || 3, 1, 5),
+          weight: clamp(Number(poolWeight) || 2, 1, 3),
+          note: poolNote.trim().slice(0, 800),
+          createdAt: new Date().toISOString(),
+        }
+        setData(previous => ({
+          ...previous,
+          requirementPool: [...(previous.requirementPool || []), item],
+        }))
+        setPoolName('')
+        setPoolNote('')
+        setPoolNotice(t('pool.added', { name }))
+      }
+
+      const removePoolRequirement = id => {
+        const item = requirementPool.find(requirement => requirement.id === id)
+        setData(previous => ({
+          ...previous,
+          requirementPool: (previous.requirementPool || []).filter(requirement => requirement.id !== id),
+        }))
+        if (item) setPoolNotice(t('pool.removed', { name: item.name }))
+      }
+
+      const referencePoolToPlan = item => {
+        if (plan.skills.some(skill => skill.name === item.name)) {
+          setPoolNotice(t('pool.alreadyPlan', { name: item.name }), 'bad')
+          return
+        }
+        setPlan(previous => ({
+          ...previous,
+          skills: [...previous.skills, { name: item.name, min: item.min, weight: item.weight }],
+        }))
+        setPoolNotice(t('pool.addedPlan', { name: item.name }))
+      }
+
+      const referencePoolToProject = item => {
+        if (!selectedPoolProject) {
+          setPoolNotice(t('pool.noProjects'), 'bad')
+          return
+        }
+        const existing = (selectedPoolProject.requirements || []).some(requirement => requirement.name === item.name)
+        if (existing) {
+          setPoolNotice(t('pool.alreadyProject', { name: item.name, project: selectedPoolProject.name }), 'bad')
+          return
+        }
+        const now = new Date().toISOString()
+        setData(previous => ({
+          ...previous,
+          projects: (previous.projects || []).map(project =>
+            project.id === selectedPoolProject.id
+              ? {
+                ...project,
+                updatedAt: now,
+                requirements: [...(project.requirements || []), { name: item.name, min: item.min, weight: item.weight }],
+              }
+              : project),
+        }))
+        setPoolNotice(t('pool.addedProject', { name: item.name, project: selectedPoolProject.name }))
       }
 
       const catalogEntries = (skillCatalog || []).slice()
@@ -3539,6 +3746,83 @@ window.__ModuleLoader__.load({
       const averageProgress = projects.length
         ? Math.round(projects.reduce((sum, project) => sum + projectProgressFor(project).percent, 0) / projects.length)
         : 0
+      const openTaskConversation = async (project, task) => {
+        const sessions = typeof ctx.get === 'function' ? ctx.get('sessions') : ctx.sessions
+        const uiWorkspace = typeof ctx.get === 'function' ? ctx.get('uiWorkspace') : ctx.uiWorkspace
+        const workspaceService = typeof ctx.get === 'function' ? ctx.get('workspaces') : ctx.workspaces
+        let workspaceId = ''
+        try {
+          const workspaceSnapshot = workspaceService && workspaceService.list && workspaceService.list.getSnapshot
+            ? workspaceService.list.getSnapshot()
+            : null
+          const workspaceItems = workspaceSnapshot && Array.isArray(workspaceSnapshot.items) ? workspaceSnapshot.items : []
+          const recent = workspaceItems.slice().sort((a, b) => String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')))[0]
+          workspaceId = recent && recent.workspaceId ? recent.workspaceId : ''
+        } catch (error) {
+          workspaceId = ''
+        }
+        const members = (project.memberIds || [])
+          .map(id => employees.find(employee => employee.id === id))
+          .filter(Boolean)
+          .map(employee => employee.name)
+        const message = [
+          '【项目任务】' + task.title,
+          t('workspace.chatProject') + '：' + (project.name || t('project.untitled')),
+          t('workspace.chatOwner') + '：' + (task.assigneeName || t('workspace.unassigned')),
+          t('workspace.chatStatus') + '：' + t('workspace.task.' + task.status),
+          t('workspace.chatTeam') + '：' + (members.length ? members.join('、') : '—'),
+          t('workspace.chatGoal') + '：' + (project.goal || t('project.noGoal')),
+          '',
+          t('workspace.chatInstruction'),
+        ].join('\n')
+        const openSession = id => {
+          if (uiWorkspace && typeof uiWorkspace.openSession === 'function') uiWorkspace.openSession(id)
+        }
+        if (!sessions) {
+          if (uiWorkspace && typeof uiWorkspace.startSession === 'function') {
+            uiWorkspace.startSession(undefined, { prompt: message, whenDraftExists: 'append' })
+            setNote(t('workspace.chatDraft'))
+          } else {
+            setNote(t('workspace.chatUnavailable'))
+          }
+          return
+        }
+        const sendTo = async id => {
+          await sessions.using(id, { source: 'controllerOperation' }, async reference => {
+            if (!reference.binding || !reference.binding.session) throw new Error('session unavailable')
+            const result = await reference.binding.session.prompt([{ type: 'text', text: message }], 'queue')
+            if (result && result.ok === false) throw new Error((result.error && result.error.message) || 'prompt failed')
+          })
+          openSession(id)
+        }
+        try {
+          if (project.conversationId) {
+            try {
+              await sendTo(project.conversationId)
+              setNote(t('workspace.chatSent', { name: project.name || t('project.untitled') }))
+              return
+            } catch (error) {
+              /* The conversation may have been archived; create a fresh one below. */
+            }
+          }
+          const id = await sessions.create(workspaceId ? { workspaceId } : {})
+          await sendTo(id)
+          setData(previous => ({
+            ...previous,
+            projects: (previous.projects || []).map(item =>
+              item.id === project.id ? { ...item, conversationId: id, updatedAt: new Date().toISOString() } : item),
+          }))
+          setNote(t('workspace.chatSent', { name: project.name || t('project.untitled') }))
+        } catch (error) {
+          if (uiWorkspace && typeof uiWorkspace.startSession === 'function') {
+            uiWorkspace.startSession(undefined, { prompt: message, whenDraftExists: 'append' })
+            setNote(t('workspace.chatDraft'))
+            return
+          }
+          setNote(t('workspace.chatFailed'))
+        }
+      }
+
       const renderProjectStage = (label, value, detail) => h('div', { className: 'ot-stage' },
         h('span', { className: 'ot-stage-label' }, label),
         h('b', { className: 'ot-stage-value' }, value),
@@ -3790,20 +4074,28 @@ window.__ModuleLoader__.load({
                       h(Avatar, { employee: member, size: 22 }), member.name))),
                   h('span', { className: 'ot-workspace-started' }, t('workspace.startedAt', { date: started }))),
                 h('div', { className: 'ot-task-list' },
-                  tasks.map(task => h('button', {
+                  tasks.map(task => h('div', {
                     key: task.id,
-                    type: 'button',
                     className: 'ot-task',
                     'data-status': task.status,
-                    'aria-label': t('workspace.toggle', { title: task.title, status: t('workspace.task.' + task.status) }),
-                    onClick: () => toggleTask(project.id, task.id),
                   },
                     h('span', { className: 'ot-task-dot', 'aria-hidden': true }),
-                    h('span', { className: 'ot-task-title' }, task.title),
-                    h('span', { className: 'ot-task-assignee' }, task.assigneeName || t('workspace.unassigned')),
-                    h('span', { className: 'ot-task-status' }, t('workspace.task.' + task.status))))),
+                    h('button', {
+                      type: 'button',
+                      className: 'ot-task-open',
+                      'aria-label': t('workspace.chatOpen', { title: task.title }),
+                      onClick: () => void openTaskConversation(project, task),
+                    },
+                      h('span', { className: 'ot-task-title' }, task.title, h(Icon, { name: 'arrow', size: 11 })),
+                      h('span', { className: 'ot-task-assignee' }, (task.assigneeName || t('workspace.unassigned')) + ' · ' + t('workspace.chatHint'))),
+                    h('button', {
+                      type: 'button',
+                      className: 'ot-task-status',
+                      'aria-label': t('workspace.toggle', { title: task.title, status: t('workspace.task.' + task.status) }),
+                      onClick: () => toggleTask(project.id, task.id),
+                    }, t('workspace.task.' + task.status))))),
                 h('div', { className: 'ot-workspace-foot' },
-                  h('span', { className: 'ot-hint' }, t('workspace.toggleHint')),
+                  h('span', { className: 'ot-hint' }, t('workspace.taskHint')),
                   h(Btn, { small: true, onClick: () => setTab('project') }, t('workspace.back'))))
             }))
           : h('div', { className: 'ot-empty ot-workspace-empty' },
@@ -3811,6 +4103,86 @@ window.__ModuleLoader__.load({
             h('p', null, t('workspace.empty')),
             h('p', { className: 'ot-muted' }, t('workspace.emptyHint')),
             h(Btn, { small: true, icon: 'chart', onClick: () => setTab('project') }, t('workspace.back'))),
+      )
+
+      const poolView = h('div', { className: 'ot-pane ot-pool' },
+        h('div', { className: 'ot-page-head' },
+          h('div', null,
+            h('span', { className: 'ot-page-kicker' }, t('pool.kicker')),
+            h('h2', { className: 'ot-page-title' }, t('pool.title')),
+            h('p', { className: 'ot-page-sub' }, t('pool.hint'))),
+          h('span', { className: 'ot-page-count' }, t('pool.count', { n: requirementPool.length }))),
+        h('section', { className: 'ot-pool-add' },
+          h('div', { className: 'ot-pool-add-grid' },
+            h('label', { className: 'ot-pool-field ot-pool-name' },
+              h('span', null, t('pool.name')),
+              h('input', {
+                className: 'ot-input',
+                value: poolName,
+                placeholder: t('pool.namePlaceholder'),
+                onChange: event => setPoolName(event.target.value),
+                onKeyDown: event => { if (event.key === 'Enter') { event.preventDefault(); addPoolRequirement() } },
+              })),
+            h('label', { className: 'ot-pool-field' },
+              h('span', null, t('pool.min')),
+              h('select', { className: 'ot-select', value: poolMin, onChange: event => setPoolMin(event.target.value) },
+                [1, 2, 3, 4, 5].map(value => h('option', { key: value, value }, 'Lv.' + value)))),
+            h('label', { className: 'ot-pool-field' },
+              h('span', null, t('pool.weight')),
+              h('select', { className: 'ot-select', value: poolWeight, onChange: event => setPoolWeight(event.target.value) },
+                [1, 2, 3].map(value => h('option', { key: value, value }, String(value))))),
+            h('label', { className: 'ot-pool-field ot-pool-note' },
+              h('span', null, t('pool.note')),
+              h('input', {
+                className: 'ot-input',
+                value: poolNote,
+                placeholder: t('pool.notePlaceholder'),
+                onChange: event => setPoolNote(event.target.value),
+              })),
+            h('div', { className: 'ot-pool-add-action' },
+              h(Btn, { small: true, tone: 'primary', icon: 'plus', onClick: addPoolRequirement }, t('pool.add')))),
+          poolStatus ? h('p', { className: 'ot-hint ' + (poolStatusTone === 'bad' ? 'ot-bad' : 'ot-good'), role: 'status' }, poolStatus) : null),
+        h('div', { className: 'ot-pool-toolbar' },
+          h('span', { className: 'ot-pool-toolbar-label' }, t('pool.referenceTarget')),
+          projects.length
+            ? h('select', {
+              className: 'ot-select',
+              value: selectedPoolProject ? selectedPoolProject.id : '',
+              onChange: event => setPoolProjectId(event.target.value),
+              'aria-label': t('pool.referenceTarget'),
+            }, projects.map(project => h('option', { key: project.id, value: project.id }, project.name || t('project.untitled'))))
+            : h('span', { className: 'ot-hint' }, t('pool.noProjects')),
+          h('span', { className: 'ot-hint ot-pool-toolbar-hint' }, t('pool.referenceHint'))),
+        requirementPool.length
+          ? h('div', { className: 'ot-pool-list' },
+            requirementPool.map(item => {
+              const inPlan = plan.skills.some(skill => skill.name === item.name)
+              const usedBy = projects.filter(project => (project.requirements || []).some(requirement => requirement.name === item.name)).length
+              return h('article', { key: item.id, className: 'ot-pool-item' },
+                h('div', { className: 'ot-pool-item-main' },
+                  h('div', { className: 'ot-pool-item-title' },
+                    h('b', null, item.name),
+                    inPlan ? h('span', { className: 'ot-pool-badge' }, t('pool.inPlanBadge')) : null),
+                  h('div', { className: 'ot-pool-item-meta' },
+                    h('span', null, t('pool.levelWeight', { min: item.min, weight: item.weight })),
+                    h('span', null, t('pool.usedBy', { n: usedBy }))),
+                  item.note ? h('p', { className: 'ot-pool-item-note' }, item.note) : null),
+                h('div', { className: 'ot-pool-item-actions' },
+                  h(Btn, { small: true, disabled: inPlan, onClick: () => referencePoolToPlan(item) },
+                    inPlan ? t('pool.inPlan') : t('pool.addPlan')),
+                  h(Btn, { small: true, disabled: !selectedPoolProject, onClick: () => referencePoolToProject(item) },
+                    t('pool.addProject')),
+                  h('button', {
+                    type: 'button',
+                    className: 'ot-icon-btn',
+                    'aria-label': t('pool.delete') + ' ' + item.name,
+                    onClick: () => removePoolRequirement(item.id),
+                  }, h(Icon, { name: 'close', size: 13 }))))
+            }))
+          : h('div', { className: 'ot-empty ot-pool-empty' },
+            h(Icon, { name: 'grid', size: 30 }),
+            h('p', null, t('pool.empty')),
+            h('p', { className: 'ot-muted' }, t('pool.emptyHint'))),
       )
 
       /* ---------------------------------------------------------------- org */
@@ -4247,6 +4619,7 @@ window.__ModuleLoader__.load({
 
       const tabs = [
         ['project', t('tab.project'), 'chart'],
+        ['pool', t('tab.pool'), 'grid'],
         ['workspace', t('tab.workspace'), 'check'],
         ['talent', t('tab.talent'), 'users'],
         ['org', t('tab.org'), 'org'],
@@ -4288,17 +4661,18 @@ window.__ModuleLoader__.load({
             h(Icon, { name: item[2], size: 14 }),
             h('span', null, item[1]),
             item[0] === 'project' && projects.length ? h('span', { className: 'ot-tab-num' }, projects.length)
-              : item[0] === 'workspace' && workspaceProjects.length ? h('span', { className: 'ot-tab-num' }, workspaceProjects.length)
-                : item[0] === 'talent' ? h('span', { className: 'ot-tab-num' }, employees.length)
-                  : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
-                    : null))),
+              : item[0] === 'pool' ? h('span', { className: 'ot-tab-num' }, requirementPool.length)
+                : item[0] === 'workspace' && workspaceProjects.length ? h('span', { className: 'ot-tab-num' }, workspaceProjects.length)
+                  : item[0] === 'talent' ? h('span', { className: 'ot-tab-num' }, employees.length)
+                    : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
+                      : null))),
         h('div', {
           className: 'ot-body',
           role: 'tabpanel',
           id: 'ot-panel-' + tab,
           'aria-labelledby': 'ot-tab-' + tab,
         },
-          tab === 'project' ? projectView : tab === 'workspace' ? workspaceView : tab === 'talent' ? talentView : tab === 'org' ? orgView : matchView),
+          tab === 'project' ? projectView : tab === 'pool' ? poolView : tab === 'workspace' ? workspaceView : tab === 'talent' ? talentView : tab === 'org' ? orgView : matchView),
         note && tab !== 'talent' ? h('div', { className: 'ot-toast', role: 'status' }, note) : null,
         skillSearchDialog,
       )
@@ -4847,25 +5221,52 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-workspace-person{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px 2px 3px;border-radius:999px;background:var(--ot-card-2);color:var(--ot-muted)}
 .ot-workspace-started{font-size:11px;color:var(--ot-faint);white-space:nowrap}
 .ot-task-list{display:flex;flex-direction:column;gap:4px}
-.ot-task{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:8px;width:100%;padding:8px 10px;border:1px solid var(--ot-line);border-radius:8px;background:var(--dsw-alias-bg-base);text-align:left;font-size:12px;min-width:0}
+.ot-task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;padding:8px 10px;border:1px solid var(--ot-line);border-radius:8px;background:var(--dsw-alias-bg-base);text-align:left;font-size:12px;min-width:0}
 .ot-task:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
 .ot-task-dot{width:8px;height:8px;border-radius:50%;background:color-mix(in srgb,var(--dsw-alias-label-primary) 22%,transparent);flex:none}
 .ot-task[data-status="doing"] .ot-task-dot{background:var(--dsw-alias-state-warn-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-state-warn-primary) 12%,transparent)}
 .ot-task[data-status="done"] .ot-task-dot{background:var(--dsw-alias-state-success-primary)}
-.ot-task-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ot-task-open{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-width:0;width:100%;text-align:left}
+.ot-task-title{display:flex;align-items:center;gap:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ot-task-title svg{color:var(--ot-faint);flex:none}
+.ot-task-open:hover .ot-task-title{color:var(--ot-brand)}
+.ot-task-open:hover .ot-task-title svg{color:var(--ot-brand)}
 .ot-task[data-status="done"] .ot-task-title{text-decoration:line-through;color:var(--ot-muted)}
-.ot-task-assignee{font-size:11px;color:var(--ot-muted);white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
-.ot-task-status{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--ot-card-2);color:var(--ot-muted);white-space:nowrap}
+.ot-task-assignee{font-size:11px;color:var(--ot-muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ot-task-status{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid transparent;background:var(--ot-card-2);color:var(--ot-muted);white-space:nowrap;cursor:pointer}
+.ot-task-status:hover{border-color:var(--ot-line-2);color:var(--dsw-alias-label-primary)}
 .ot-task[data-status="doing"] .ot-task-status{color:var(--dsw-alias-state-warn-primary);background:color-mix(in srgb,var(--dsw-alias-state-warn-primary) 9%,transparent)}
 .ot-task[data-status="done"] .ot-task-status{color:var(--dsw-alias-state-success-primary);background:color-mix(in srgb,var(--dsw-alias-state-success-primary) 9%,transparent)}
 .ot-workspace-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--ot-line);padding-top:8px}
 .ot-workspace-empty{min-height:320px}
+.ot-pool{overflow:auto;padding-bottom:24px}
+.ot-pool-add{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--ot-line-2);border-top:3px solid color-mix(in srgb,var(--ot-brand) 62%,transparent);border-radius:14px;background:color-mix(in srgb,var(--ot-brand) 3%,var(--ot-card))}
+.ot-pool-add-grid{display:grid;grid-template-columns:minmax(0,1.3fr) 100px 90px minmax(0,1fr) auto;gap:8px;align-items:end}
+.ot-pool-field{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--ot-muted);min-width:0}
+.ot-pool-field .ot-input,.ot-pool-field .ot-select{height:30px;font-size:12px}
+.ot-pool-add-action .ot-btn{height:30px}
+.ot-pool-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0;font-size:11.5px;color:var(--ot-muted)}
+.ot-pool-toolbar-label{font-weight:500;color:var(--dsw-alias-label-primary)}
+.ot-pool-toolbar .ot-select{height:30px;min-width:170px;max-width:280px}
+.ot-pool-toolbar-hint{font-size:11px}
+.ot-pool-list{display:flex;flex-direction:column;gap:8px}
+.ot-pool-item{display:flex;align-items:flex-start;gap:12px;padding:11px 12px;border:1px solid var(--ot-line);border-radius:10px;background:var(--ot-card);min-width:0}
+.ot-pool-item:hover{border-color:var(--ot-line-2)}
+.ot-pool-item-main{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.ot-pool-item-title{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.ot-pool-item-title b{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-pool-badge{font-size:11px;padding:1px 7px;border-radius:999px;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 9%,transparent);white-space:nowrap}
+.ot-pool-item-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--ot-muted)}
+.ot-pool-item-note{font-size:11.5px;line-height:1.5;color:var(--ot-muted);overflow-wrap:anywhere}
+.ot-pool-item-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:none;padding-top:1px}
+.ot-pool-empty{min-height:280px}
+.ot-pool-empty .ot-muted{font-size:12px}
 .ot-project-status[data-status="notStarted"]{color:var(--ot-muted);border-style:dashed}
 .ot-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;padding:8px 15px;border-radius:10px;font-size:12.5px;background:var(--dsw-alias-bg-overlay);color:var(--dsw-alias-label-primary);border:1px solid var(--ot-line-2)}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:space-between}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{grid-template-columns:auto minmax(0,1fr) auto;row-gap:2px}.ot-task-dot{grid-row:1 / span 2;align-self:start;margin-top:4px}.ot-task-title{grid-column:2;grid-row:1}.ot-task-assignee{grid-column:2;grid-row:2;max-width:100%}.ot-task-status{grid-column:3;grid-row:1 / span 2;align-self:center}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:space-between}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}}
 `
 
     /* ------------------------------------------------------------------ apply */

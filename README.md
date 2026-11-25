@@ -1,8 +1,8 @@
-﻿# Org Talent Match · 组织人才匹配
+# Org Talent Match · 组织人才匹配
 
-A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a workspace with assigned project tasks, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates, with capability advice for gaps and single points.
+A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a reusable requirement pool, a workspace with assigned project tasks connected to DSH conversations, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates.
 
-左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求与反馈，把员工收进人才库，在工作区把项目拆成成员任务，并以组织架构为整体为项目组队。
+左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求与反馈，用需求池复用需求，把员工收进人才库，在工作区把项目拆成成员任务并连接 DSH 对话，以组织架构为整体为项目组队。
 
 ## Install · 安装
 
@@ -35,12 +35,21 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and latest feedback adjustments. Click an alert to jump to its project.
 - Recent matches can be clicked to restore their requirements and results.
 
+### 需求池 · Requirement pool
+
+- Add reusable requirements with a name, minimum level, weight and optional note.
+- **加入当前需求** adds an entry to the current project requirement (the matching plan).
+- **引用到项目** adds an entry to the selected project's requirement snapshot.
+- Each entry shows whether it is in the current need and how many projects reference it; the pool persists locally.
+
 ### 工作区 · Workspace
 
 - A started project appears with a skill-based task plan assigned to its members: requirements alignment, one delivery task per requirement, and integration/acceptance/retrospective.
-- Click a task to cycle **待开始 → 进行中 → 已完成**; per-project progress updates immediately.
+- Click a task title to create/open its DSH conversation in the current workspace and send the task details (project, owner, status, team, goal).
+- All tasks of one project reuse the same conversation; different projects get separate conversations.
+- The separate status button cycles **待开始 → 进行中 → 已完成** and updates progress without sending another message.
 - Each project card shows members, start date, task assignees and the current status.
-- Workspace projects and tasks persist in this browser.
+- Workspace projects and tasks persist in this browser; conversation IDs are stored with the project.
 
 ### 人才库 · Talent pool
 
@@ -117,9 +126,10 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Data & privacy · 数据与隐私
 
-- Employee data, training plans, project feedback and match history are stored in this browser's `localStorage`, and nothing is uploaded.
+- Employee data, training plans, project teams, tasks, requirement pool, feedback and match history are stored in this browser's `localStorage`.
 - CSV/TSV/JSON/Markdown/XLSX import and CSV export move data only through the file the user chooses.
-- **Skill research** sends only the typed keyword to `api.github.com`; no employee data is sent. All other calculations run locally, with no model calls or telemetry.
+- **Skill research** sends only the typed keyword to `api.github.com`; no employee data is sent.
+- **Workspace task conversations** are explicit user actions: clicking a task sends its task/project/team details to a DSH conversation, which follows the workspace's agent and model settings. Other calculations run locally, with no telemetry.
 - Clearing site data or using another browser loses locally stored employees; export CSV as a backup.
 
 ## Limitations · 限制
@@ -131,6 +141,8 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 - The organization chart uses the flattened department/team fields from the roster; it does not model a multi-level reporting line.
 - Skill research needs internet access; the public GitHub search API is rate-limited (10 requests/minute unauthenticated). A GitHub repository is not a validated competency — **补到技能** adds it at Lv.1 for a human to review.
 - Project feedback is local to this browser; it does not sync across devices.
+- Task conversations require the running DSH workspace/session services. If they are unavailable, the plugin opens a workspace draft with the task text instead.
+- If a project's conversation was archived or removed, the next task click creates a new conversation and updates the project's stored conversation ID.
 
 ## Development · 开发
 
@@ -141,7 +153,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.7.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.7.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.8.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.8.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

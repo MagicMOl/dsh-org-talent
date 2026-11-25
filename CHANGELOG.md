@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.8.0 — 2026-11-25
+
+- New **需求池 / Requirement pool** tab:
+  - add/edit-ready requirement entries with name, minimum level, weight and note;
+  - **加入当前需求** references an entry into the current project need;
+  - **引用到项目** references an entry into a selected project's requirement snapshot;
+  - shows current-need and per-project usage counts; seed pool from the default project requirements and migrate existing local data.
+- Workspace tasks now connect to the DSH conversation surface:
+  - clicking a task title creates a conversation in the current DSH workspace and sends the task description (project, owner, status, team, goal);
+  - all tasks of one project reuse the same `conversationId`, so a team's tasks share one conversation;
+  - the task row keeps a separate status button for 待开始 / 进行中 / 已完成;
+  - if session APIs are unavailable, opens a workspace draft with the task text as a fallback.
+- Requirement pool is stored in local storage alongside employees, projects and planning data.
+
 ## 1.7.0 — 2026-11-25
 
 - Project guide uses multi-color layer accents: violet project hero, four-color stat tiles, blue project progress, amber project alerts, teal recent matches.

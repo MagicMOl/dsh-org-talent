@@ -22,12 +22,33 @@ window.__ModuleLoader__.load({
         'page.subtitle': '从项目需求出发，连接人才库与全组织匹配',
         'tab.project': '项目导览',
         'tab.talent': '人才库',
+        'tab.workspace': '工作区',
         'tab.org': '组织架构',
         'tab.match': '智能匹配',
+        'workspace.title': '工作区',
+        'workspace.hint': '已启动项目与成员任务；点任务可切换状态。',
+        'workspace.count': '{n} 个进行中项目',
+        'workspace.empty': '还没有开始的项目。',
+        'workspace.emptyHint': '到「项目导览」的项目团队行点「开始工作」，系统会创建项目并按技能分配任务。',
+        'workspace.back': '返回项目导览',
+        'workspace.started': '已开始「{name}」，任务已分配。',
+        'workspace.already': '这个项目已经在工作区中了。',
+        'workspace.progress': '{done}/{total} 已完成',
+        'workspace.startedAt': '启动于 {date}',
+        'workspace.unassigned': '待分配',
+        'workspace.toggle': '{title} · 当前{status}；点击切换状态',
+        'workspace.toggleHint': '点击任务切换：待开始 → 进行中 → 已完成',
+        'workspace.task.kickoff': '需求对齐与验收标准',
+        'workspace.task.deliver': '交付：{skill}（≥Lv.{min}）',
+        'workspace.task.review': '联调、验收与复盘',
+        'workspace.task.todo': '待开始',
+        'workspace.task.doing': '进行中',
+        'workspace.task.done': '已完成',
         'talent.title': '人才库',
         'talent.hint': '搜索、筛选并查看员工档案；培养计划与技能补充也在这里。',
         'talent.count': '{n} 名员工',
         'guide.title': '项目导览',
+        'guide.kicker': '项目总览',
         'guide.hint': '从项目需求出发，查看当前团队、项目反馈与最近匹配。',
         'guide.current': '当前项目需求',
         'guide.requirements': '{n} 项技能需求 · 目标 {size} 人',
@@ -225,8 +246,9 @@ window.__ModuleLoader__.load({
         'search.alreadySkill': '“{skill}”已在员工技能中。',
         'search.skillAdded': '已把“{skill}”补充到 {name} 的技能档案（Lv.1）。',
         'project.title': '项目团队',
-        'project.hint': '组建后在这里立项、记录成果与调整；反馈只保存在本机。',
+        'project.hint': '组建后在这里立项、开始工作并记录成果与调整；反馈只保存在本机。',
         'project.status.pending': '待立项',
+        'project.status.notStarted': '待开始',
         'project.status.active': '进行中',
         'project.status.reviewed': '已复盘',
         'project.name': '项目名称',
@@ -235,6 +257,8 @@ window.__ModuleLoader__.load({
         'project.untitled': '未命名项目',
         'project.defaultName': '{goal} 项目组',
         'project.create': '立项并跟踪',
+        'project.start': '开始工作',
+        'project.enterWorkspace': '进入工作区',
         'project.save': '保存名称',
         'project.feedback': '记录反馈',
         'project.adjust': '调整需求',
@@ -249,7 +273,7 @@ window.__ModuleLoader__.load({
         'project.cancel': '取消',
         'project.emptyFeedback': '至少填写一项反馈再保存。',
         'project.feedbackSaved': '项目反馈已保存。',
-        'project.created': '项目团队已立项，可以开始记录反馈。',
+        'project.created': '项目团队已立项，可以点「开始工作」分配任务。',
         'project.history': '反馈记录（{n}）',
         'match.members': '成员与分工',
         'match.showMembers': '展开成员、分工与培养建议',
@@ -303,12 +327,33 @@ window.__ModuleLoader__.load({
         'page.subtitle': 'Start from a project need and connect the talent pool with organization-wide matching',
         'tab.project': 'Project guide',
         'tab.talent': 'Talent pool',
+        'tab.workspace': 'Workspace',
         'tab.org': 'Organization',
         'tab.match': 'Team match',
+        'workspace.title': 'Workspace',
+        'workspace.hint': 'Started projects and member tasks; click a task to change its status.',
+        'workspace.count': '{n} active projects',
+        'workspace.empty': 'No project has been started yet.',
+        'workspace.emptyHint': 'Open a project team in Project guide and click “Start work”; the project and skill-based task assignments are created for you.',
+        'workspace.back': 'Back to Project guide',
+        'workspace.started': '“{name}” started; tasks have been assigned.',
+        'workspace.already': 'This project is already in the workspace.',
+        'workspace.progress': '{done}/{total} done',
+        'workspace.startedAt': 'Started {date}',
+        'workspace.unassigned': 'Unassigned',
+        'workspace.toggle': '{title} · currently {status}; click to change status',
+        'workspace.toggleHint': 'Click a task to cycle: to do → in progress → done',
+        'workspace.task.kickoff': 'Requirements alignment and acceptance criteria',
+        'workspace.task.deliver': 'Deliver: {skill} (≥Lv.{min})',
+        'workspace.task.review': 'Integration, acceptance and retrospective',
+        'workspace.task.todo': 'To do',
+        'workspace.task.doing': 'In progress',
+        'workspace.task.done': 'Done',
         'talent.title': 'Talent pool',
         'talent.hint': 'Search, filter and open employee profiles; training plans and skill research live here too.',
         'talent.count': '{n} employees',
         'guide.title': 'Project guide',
+        'guide.kicker': 'Project overview',
         'guide.hint': 'Start from the project need and review the current team, project feedback and recent matches.',
         'guide.current': 'Current project need',
         'guide.requirements': '{n} skill requirements · target {size} people',
@@ -506,8 +551,9 @@ window.__ModuleLoader__.load({
         'search.alreadySkill': '“{skill}” is already in the employee profile.',
         'search.skillAdded': 'Added “{skill}” to {name}’s profile at Lv.1.',
         'project.title': 'Project team',
-        'project.hint': 'After forming the team, create a project here and record outcomes and adjustments; feedback stays in this browser.',
+        'project.hint': 'After forming the team, create a project here, start work, and record outcomes and adjustments; feedback stays in this browser.',
         'project.status.pending': 'Not created',
+        'project.status.notStarted': 'Not started',
         'project.status.active': 'In progress',
         'project.status.reviewed': 'Reviewed',
         'project.name': 'Project name',
@@ -516,6 +562,8 @@ window.__ModuleLoader__.load({
         'project.untitled': 'Untitled project',
         'project.defaultName': '{goal} project team',
         'project.create': 'Create & track',
+        'project.start': 'Start work',
+        'project.enterWorkspace': 'Open workspace',
         'project.save': 'Save name',
         'project.feedback': 'Record feedback',
         'project.adjust': 'Adjust requirements',
@@ -530,7 +578,7 @@ window.__ModuleLoader__.load({
         'project.cancel': 'Cancel',
         'project.emptyFeedback': 'Fill in at least one feedback field before saving.',
         'project.feedbackSaved': 'Project feedback saved.',
-        'project.created': 'Project team created; you can start recording feedback.',
+        'project.created': 'Project team created. Click “Start work” to assign tasks.',
         'project.history': 'Feedback history ({n})',
         'match.members': 'Members and coverage',
         'match.showMembers': 'Show members, coverage and plan',
@@ -827,6 +875,22 @@ window.__ModuleLoader__.load({
           adjustment: String(item.adjustment || '').slice(0, 4000),
         }))
         : []
+      const requirements = Array.isArray(raw.requirements)
+        ? raw.requirements.filter(item => item && typeof item === 'object').slice(0, 12).map(item => ({
+          name: String(item.name || '').trim().slice(0, 80),
+          min: clamp(Number(item.min) || 3, 1, 5),
+        })).filter(item => item.name)
+        : []
+      const tasks = Array.isArray(raw.tasks)
+        ? raw.tasks.filter(item => item && typeof item === 'object').slice(0, 40).map(item => ({
+          id: String(item.id || ''),
+          title: String(item.title || '').slice(0, 240),
+          assigneeId: String(item.assigneeId || ''),
+          assigneeName: String(item.assigneeName || '').slice(0, 80),
+          status: ['todo', 'doing', 'done'].includes(item.status) ? item.status : 'todo',
+          createdAt: String(item.createdAt || ''),
+        })).filter(item => item.title)
+        : []
       return {
         id: String(raw.id || ''),
         name: String(raw.name || '').slice(0, 100),
@@ -834,6 +898,9 @@ window.__ModuleLoader__.load({
         memberIds: Array.isArray(raw.memberIds) ? raw.memberIds.map(String).filter(Boolean) : [],
         createdAt: String(raw.createdAt || ''),
         updatedAt: String(raw.updatedAt || ''),
+        startedAt: String(raw.startedAt || ''),
+        requirements,
+        tasks,
         feedback,
       }
     }
@@ -2541,7 +2608,7 @@ window.__ModuleLoader__.load({
         })
         : []
       const projectStatus = savedProject
-        ? (savedProject.feedback.length ? 'reviewed' : 'active')
+        ? (!savedProject.startedAt ? 'notStarted' : savedProject.feedback.length ? 'reviewed' : 'active')
         : 'pending'
 
       const saveProject = withFeedback => {
@@ -2565,6 +2632,7 @@ window.__ModuleLoader__.load({
           }
         }
         const now = new Date().toISOString()
+        const snapshotRequirements = (activeProjectPlan.skills || []).map(skill => ({ name: skill.name, min: skill.min }))
         setData(previous => {
           const currentProjects = Array.isArray(previous.projects) ? previous.projects : []
           const existing = currentProjects.find(project => project.id === projectKey)
@@ -2575,6 +2643,7 @@ window.__ModuleLoader__.load({
               goal: activeProjectPlan.goal || activeProjectPlan.name || existing.goal,
               memberIds: topResult.team.map(member => member.id),
               updatedAt: now,
+              requirements: Array.isArray(existing.requirements) && existing.requirements.length ? existing.requirements : snapshotRequirements,
               feedback: feedback ? [...existing.feedback, feedback] : existing.feedback,
             }
             : {
@@ -2584,6 +2653,9 @@ window.__ModuleLoader__.load({
               memberIds: topResult.team.map(member => member.id),
               createdAt: now,
               updatedAt: now,
+              startedAt: '',
+              requirements: snapshotRequirements,
+              tasks: [],
               feedback: feedback ? [feedback] : [],
             }
           return { ...previous, projects: [next, ...currentProjects.filter(project => project.id !== projectKey)].slice(0, 20) }
@@ -2605,6 +2677,90 @@ window.__ModuleLoader__.load({
         setProjectAdjustment('')
         setProjectNote(null)
       }, [projectKey])
+
+      const buildWorkspaceTasks = project => {
+        const members = (project.memberIds || [])
+          .map(id => employees.find(employee => employee.id === id))
+          .filter(Boolean)
+        const requirements = (Array.isArray(project.requirements) && project.requirements.length
+          ? project.requirements
+          : (plan.skills || []).map(skill => ({ name: skill.name, min: skill.min }))
+        ).slice(0, 5)
+        const lead = members.slice().sort((a, b) =>
+          employeeLevel(b, '项目管理') - employeeLevel(a, '项目管理')
+          || employeeLevel(b, '需求分析') - employeeLevel(a, '需求分析')
+          || b.available - a.available)[0] || members[0] || null
+        const bestFor = skill => members.slice().sort((a, b) =>
+          employeeLevel(b, skill) - employeeLevel(a, skill)
+          || b.available - a.available)[0] || lead
+        const now = new Date().toISOString()
+        const stamp = Date.now().toString(36)
+        const tasks = []
+        tasks.push({
+          id: 'task-' + stamp + '-0',
+          title: t('workspace.task.kickoff'),
+          assigneeId: lead ? lead.id : '',
+          assigneeName: lead ? lead.name : '',
+          status: 'doing',
+          createdAt: now,
+        })
+        requirements.forEach((requirement, index) => {
+          const assignee = bestFor(requirement.name)
+          tasks.push({
+            id: 'task-' + stamp + '-' + (index + 1),
+            title: t('workspace.task.deliver', { skill: requirement.name, min: requirement.min }),
+            assigneeId: assignee ? assignee.id : '',
+            assigneeName: assignee ? assignee.name : '',
+            status: 'todo',
+            createdAt: now,
+          })
+        })
+        tasks.push({
+          id: 'task-' + stamp + '-' + (requirements.length + 1),
+          title: t('workspace.task.review'),
+          assigneeId: lead ? lead.id : '',
+          assigneeName: lead ? lead.name : '',
+          status: 'todo',
+          createdAt: now,
+        })
+        return tasks
+      }
+
+      const startProject = project => {
+        if (!project) return
+        if (project.startedAt && Array.isArray(project.tasks) && project.tasks.length) {
+          setTab('workspace')
+          setNote(t('workspace.already'))
+          return
+        }
+        const tasks = buildWorkspaceTasks(project)
+        const now = new Date().toISOString()
+        setData(previous => ({
+          ...previous,
+          projects: (Array.isArray(previous.projects) ? previous.projects : []).map(item =>
+            item.id === project.id
+              ? { ...item, startedAt: now, updatedAt: now, tasks }
+              : item),
+        }))
+        setTab('workspace')
+        setNote(t('workspace.started', { name: project.name || t('project.untitled') }))
+      }
+
+      const toggleTask = (projectId, taskId) => {
+        const nextStatus = { todo: 'doing', doing: 'done', done: 'todo' }
+        setData(previous => ({
+          ...previous,
+          projects: (Array.isArray(previous.projects) ? previous.projects : []).map(project =>
+            project.id === projectId
+              ? {
+                ...project,
+                updatedAt: new Date().toISOString(),
+                tasks: (project.tasks || []).map(task =>
+                  task.id === taskId ? { ...task, status: nextStatus[task.status] || 'todo' } : task),
+              }
+              : project),
+        }))
+      }
 
       const catalogEntries = (skillCatalog || []).slice()
       for (const name of trainingSkills) {
@@ -3208,23 +3364,33 @@ window.__ModuleLoader__.load({
       const guideTop = result && result.results && result.results.length ? result.results[0] : null
       const guideProjects = projects.slice(0, 3)
       const guideHistory = history.slice(0, 3)
+      const workspaceProjects = projects
+        .filter(project => project.startedAt && Array.isArray(project.tasks) && project.tasks.length)
+        .slice()
+        .sort((a, b) => String(b.startedAt).localeCompare(String(a.startedAt)))
       const projectView = h('div', { className: 'ot-pane ot-guide' },
         h('div', { className: 'ot-page-head' },
           h('div', null,
+            h('span', { className: 'ot-page-kicker' }, t('guide.kicker')),
             h('h2', { className: 'ot-page-title' }, t('guide.title')),
-            h('p', { className: 'ot-page-sub' }, t('guide.hint'))),
-          h('div', { className: 'ot-page-actions' },
-            h(Btn, { small: true, icon: 'target', onClick: () => setTab('match') }, t('guide.goMatch')),
-            h(Btn, { small: true, icon: 'users', onClick: () => setTab('talent') }, t('guide.goTalent')))),
+            h('p', { className: 'ot-page-sub' }, t('guide.hint')))),
         h('div', { className: 'ot-guide-hero' },
           h('div', { className: 'ot-guide-hero-main' },
             h('span', { className: 'ot-guide-kicker' }, t('guide.current')),
             h('div', { className: 'ot-guide-title' }, plan.name || t('match.title')),
             h('p', { className: 'ot-guide-desc' }, t('guide.requirements', { n: plan.skills.length, size: plan.size })),
             plan.skills.length
-              ? h('div', { className: 'ot-chip-wrap' },
-                plan.skills.slice(0, 8).map(skill => h('span', { key: skill.name, className: 'ot-mini-chip' }, skill.name + ' ≥' + skill.min)))
-              : h('p', { className: 'ot-hint' }, t('match.reqEmpty'))),
+              ? h('div', { className: 'ot-chip-wrap ot-guide-req-chips' },
+                plan.skills.slice(0, 4).map(skill => h('span', { key: skill.name, className: 'ot-mini-chip' }, skill.name + ' ≥' + skill.min)),
+                plan.skills.length > 4 ? h('span', { key: 'more', className: 'ot-mini-chip' }, '+' + (plan.skills.length - 4)) : null)
+              : h('p', { className: 'ot-hint' }, t('match.reqEmpty')),
+            h('div', { className: 'ot-guide-actions' },
+              h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => setTab('match') },
+                guideTop ? t('guide.openMatch') : t('guide.goMatch')),
+              h(Btn, { small: true, icon: 'users', onClick: () => setTab('talent') }, t('guide.goTalent')),
+              workspaceProjects.length
+                ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('workspace.title'))
+                : null)),
           h('div', { className: 'ot-guide-hero-side' },
             guideTop ? h(React.Fragment, null,
               h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
@@ -3235,12 +3401,10 @@ window.__ModuleLoader__.load({
                 n: guideTop.team.length,
                 coverage: Math.round(guideTop.coverage * 100),
               })),
-              h('div', { className: 'ot-avatars' }, guideTop.team.map(member => h(Avatar, { key: member.id, employee: member, size: 24 }))),
-              h(Btn, { small: true, onClick: () => setTab('match') }, t('guide.openMatch')))
+              h('div', { className: 'ot-avatars' }, guideTop.team.map(member => h(Avatar, { key: member.id, employee: member, size: 24 }))))
               : h(React.Fragment, null,
                 h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
-                h('p', { className: 'ot-guide-side-empty' }, t('guide.noTop')),
-                h(Btn, { small: true, icon: 'target', onClick: () => setTab('match') }, t('guide.goMatch'))))),
+                h('p', { className: 'ot-guide-side-empty' }, t('guide.noTop'))))),
         dirty ? h('p', { className: 'ot-hint ot-warn ot-guide-dirty' }, t('match.dirty')) : null,
         statTiles,
         statPanel,
@@ -3252,7 +3416,7 @@ window.__ModuleLoader__.load({
             guideProjects.length
               ? guideProjects.map(project => {
                 const feedback = Array.isArray(project.feedback) ? project.feedback : []
-                const status = feedback.length ? 'reviewed' : 'active'
+                const status = !project.startedAt ? 'notStarted' : feedback.length ? 'reviewed' : 'active'
                 const memberNames = (project.memberIds || [])
                   .map(id => employees.find(employee => employee.id === id))
                   .filter(Boolean)
@@ -3263,13 +3427,14 @@ window.__ModuleLoader__.load({
                     h('small', null, memberNames.length ? memberNames.join('、') : '—')),
                   h('span', { className: 'ot-guide-project-feedback' }, t('guide.feedbackCount', { n: feedback.length })),
                   h('span', { className: 'ot-project-status', 'data-status': status }, t('project.status.' + status)),
-                  h('button', { type: 'button', className: 'ot-link-btn', onClick: () => setTab('match') }, t('guide.openMatch')))
+                  project.startedAt
+                    ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('project.enterWorkspace'))
+                    : h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => startProject(project) }, t('project.start')))
               })
               : h('div', { className: 'ot-guide-empty' },
                 h(Icon, { name: 'org', size: 20 }),
                 h('p', null, t('guide.noProjects')),
-                h('p', { className: 'ot-hint' }, t('guide.noProjectsHint')),
-                h(Btn, { small: true, onClick: () => setTab('match') }, t('guide.goMatch')))),
+                h('p', { className: 'ot-hint' }, t('guide.noProjectsHint')))),
           h('section', { className: 'ot-guide-card' },
             h('div', { className: 'ot-guide-card-head' },
               h('div', { className: 'ot-h3' }, t('guide.recent')),
@@ -3288,9 +3453,63 @@ window.__ModuleLoader__.load({
                   new Date(entry.ts).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' }))))
               : h('div', { className: 'ot-guide-empty' },
                 h(Icon, { name: 'target', size: 20 }),
-                h('p', null, t('guide.noHistory')),
-                h(Btn, { small: true, onClick: () => setTab('match') }, t('guide.goMatch'))))),
+                h('p', null, t('guide.noHistory'))))),
         h('p', { className: 'ot-footnote' }, t('footer.note')),
+      )
+
+      const workspaceView = h('div', { className: 'ot-pane ot-workspace' },
+        h('div', { className: 'ot-page-head' },
+          h('div', null,
+            h('h2', { className: 'ot-page-title' }, t('workspace.title')),
+            h('p', { className: 'ot-page-sub' }, t('workspace.hint'))),
+          h('span', { className: 'ot-page-count' }, t('workspace.count', { n: workspaceProjects.length }))),
+        workspaceProjects.length
+          ? h('div', { className: 'ot-workspace-list' },
+            workspaceProjects.map(project => {
+              const tasks = Array.isArray(project.tasks) ? project.tasks : []
+              const done = tasks.filter(task => task.status === 'done').length
+              const pct = tasks.length ? Math.round(done / tasks.length * 100) : 0
+              const members = (project.memberIds || [])
+                .map(id => employees.find(employee => employee.id === id))
+                .filter(Boolean)
+              const started = project.startedAt
+                ? new Date(project.startedAt).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' })
+                : '—'
+              return h('section', { key: project.id, className: 'ot-workspace-project' },
+                h('div', { className: 'ot-workspace-head' },
+                  h('div', { className: 'ot-workspace-title-wrap' },
+                    h('h3', { className: 'ot-workspace-title' }, project.name || t('project.untitled')),
+                    h('p', { className: 'ot-workspace-goal' }, project.goal || t('project.noGoal'))),
+                  h('div', { className: 'ot-workspace-progress' },
+                    h('div', { className: 'ot-workspace-progress-num' }, h('b', null, pct + '%'), h('span', null, t('workspace.progress', { done, total: tasks.length }))),
+                    h('div', { className: 'ot-workspace-track', 'aria-hidden': true }, h('i', { style: { width: pct + '%' } })))),
+                h('div', { className: 'ot-workspace-meta' },
+                  h('div', { className: 'ot-workspace-members' },
+                    members.map(member => h('span', { key: member.id, className: 'ot-workspace-person' },
+                      h(Avatar, { employee: member, size: 22 }), member.name))),
+                  h('span', { className: 'ot-workspace-started' }, t('workspace.startedAt', { date: started }))),
+                h('div', { className: 'ot-task-list' },
+                  tasks.map(task => h('button', {
+                    key: task.id,
+                    type: 'button',
+                    className: 'ot-task',
+                    'data-status': task.status,
+                    'aria-label': t('workspace.toggle', { title: task.title, status: t('workspace.task.' + task.status) }),
+                    onClick: () => toggleTask(project.id, task.id),
+                  },
+                    h('span', { className: 'ot-task-dot', 'aria-hidden': true }),
+                    h('span', { className: 'ot-task-title' }, task.title),
+                    h('span', { className: 'ot-task-assignee' }, task.assigneeName || t('workspace.unassigned')),
+                    h('span', { className: 'ot-task-status' }, t('workspace.task.' + task.status))))),
+                h('div', { className: 'ot-workspace-foot' },
+                  h('span', { className: 'ot-hint' }, t('workspace.toggleHint')),
+                  h(Btn, { small: true, onClick: () => setTab('project') }, t('workspace.back'))))
+            }))
+          : h('div', { className: 'ot-empty ot-workspace-empty' },
+            h(Icon, { name: 'check', size: 30 }),
+            h('p', null, t('workspace.empty')),
+            h('p', { className: 'ot-muted' }, t('workspace.emptyHint')),
+            h(Btn, { small: true, icon: 'chart', onClick: () => setTab('project') }, t('workspace.back'))),
       )
 
       /* ---------------------------------------------------------------- org */
@@ -3643,6 +3862,11 @@ window.__ModuleLoader__.load({
         h('div', { className: 'ot-project-actions' },
           h(Btn, { small: true, tone: savedProject ? undefined : 'primary', icon: 'check', onClick: () => saveProject(false) },
             savedProject ? t('project.save') : t('project.create')),
+          savedProject
+            ? (savedProject.startedAt
+              ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('project.enterWorkspace'))
+              : h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => startProject(savedProject) }, t('project.start')))
+            : null,
           h(Btn, { small: true, icon: 'alert', onClick: () => setProjectFormOpen(previous => !previous) }, t('project.feedback')),
           h(Btn, {
             small: true,
@@ -3722,6 +3946,7 @@ window.__ModuleLoader__.load({
 
       const tabs = [
         ['project', t('tab.project'), 'chart'],
+        ['workspace', t('tab.workspace'), 'check'],
         ['talent', t('tab.talent'), 'users'],
         ['org', t('tab.org'), 'org'],
         ['match', t('tab.match'), 'target'],
@@ -3762,16 +3987,17 @@ window.__ModuleLoader__.load({
             h(Icon, { name: item[2], size: 14 }),
             h('span', null, item[1]),
             item[0] === 'project' && projects.length ? h('span', { className: 'ot-tab-num' }, projects.length)
-              : item[0] === 'talent' ? h('span', { className: 'ot-tab-num' }, employees.length)
-                : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
-                  : null))),
+              : item[0] === 'workspace' && workspaceProjects.length ? h('span', { className: 'ot-tab-num' }, workspaceProjects.length)
+                : item[0] === 'talent' ? h('span', { className: 'ot-tab-num' }, employees.length)
+                  : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
+                    : null))),
         h('div', {
           className: 'ot-body',
           role: 'tabpanel',
           id: 'ot-panel-' + tab,
           'aria-labelledby': 'ot-tab-' + tab,
         },
-          tab === 'project' ? projectView : tab === 'talent' ? talentView : tab === 'org' ? orgView : matchView),
+          tab === 'project' ? projectView : tab === 'workspace' ? workspaceView : tab === 'talent' ? talentView : tab === 'org' ? orgView : matchView),
         note && tab !== 'talent' ? h('div', { className: 'ot-toast', role: 'status' }, note) : null,
         skillSearchDialog,
       )
@@ -3792,7 +4018,9 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-title{font-size:21px;line-height:28px;font-weight:600;letter-spacing:.005em}
 .ot-sub{font-size:13px;line-height:19px;color:var(--ot-muted);margin-top:2px}
 .ot-head-actions{display:flex;gap:8px;flex:none;padding-top:4px}
-.ot-tabs{display:flex;gap:3px;align-self:flex-start;margin:18px 28px 0;padding:4px;border:1px solid var(--ot-line);border-radius:999px;background:var(--ot-card)}
+.ot-tabs{display:flex;gap:3px;align-self:flex-start;max-width:calc(100% - 56px);overflow-x:auto;scrollbar-width:none;margin:18px 28px 0;padding:4px;border:1px solid var(--ot-line);border-radius:999px;background:var(--ot-card)}
+.ot-tabs::-webkit-scrollbar{display:none}
+.ot-tab{flex:none}
 .ot-tab{display:flex;align-items:center;gap:7px;height:34px;padding:0 15px;border-radius:999px;font-size:13px;color:var(--ot-muted);transition:background .15s,color .15s}
 .ot-tab:hover{color:var(--dsw-alias-label-primary)}
 .ot-tab[data-on]{background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary)}
@@ -4189,25 +4417,27 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-skill-search .ot-hint{margin:0}
 .ot-skill-search .ot-good{color:var(--dsw-alias-state-success-primary)}
 .ot-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:2px 0 14px}
+.ot-page-kicker{display:block;font-size:11px;line-height:15px;font-weight:500;color:var(--ot-brand);letter-spacing:.04em;margin-bottom:1px}
 .ot-page-title{font-size:19px;line-height:26px;font-weight:600}
 .ot-page-sub{font-size:12px;line-height:18px;color:var(--ot-muted);margin-top:2px}
 .ot-page-count{font-size:12px;color:var(--ot-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ot-page-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ot-guide{overflow:auto;padding-bottom:24px}
 .ot-guide-hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.9fr);gap:14px}
-.ot-guide-hero-main{padding:17px;border:1px solid var(--ot-line-2);border-radius:14px;background:var(--ot-card);min-width:0}
+.ot-guide-hero-main{position:relative;padding:20px;border:1px solid var(--ot-line-2);border-radius:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--ot-brand) 6%,var(--ot-card)),var(--ot-card) 58%);min-width:0}
 .ot-guide-kicker{font-size:11px;font-weight:500;color:var(--ot-brand);letter-spacing:.02em}
-.ot-guide-title{font-size:20px;line-height:27px;font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ot-guide-desc{font-size:12px;line-height:18px;color:var(--ot-muted);margin:3px 0 9px}
-.ot-guide-hero-side{padding:15px;border:1px solid color-mix(in srgb,var(--ot-brand) 24%,var(--ot-line));border-radius:14px;background:color-mix(in srgb,var(--ot-brand) 4%,var(--ot-card));display:flex;flex-direction:column;gap:7px;min-width:0}
+.ot-guide-title{font-size:22px;line-height:29px;font-weight:600;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-desc{font-size:12.5px;line-height:19px;color:var(--ot-muted);margin:3px 0 9px}
+.ot-guide-req-chips{margin-bottom:1px}
+.ot-guide-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:13px}
+.ot-guide-hero-side{padding:16px;border:1px solid color-mix(in srgb,var(--ot-brand) 24%,var(--ot-line));border-radius:14px;background:color-mix(in srgb,var(--ot-brand) 4%,var(--ot-card));display:flex;flex-direction:column;gap:7px;justify-content:center;min-width:0}
 .ot-guide-side-label{font-size:11px;color:var(--ot-muted)}
 .ot-guide-score{display:flex;align-items:baseline;gap:6px}
-.ot-guide-score b{font-size:30px;line-height:34px;font-weight:600;color:var(--ot-brand);font-variant-numeric:tabular-nums}
+.ot-guide-score b{font-size:32px;line-height:36px;font-weight:600;color:var(--ot-brand);font-variant-numeric:tabular-nums}
 .ot-guide-score span{font-size:11px;color:var(--ot-muted)}
 .ot-guide-side-meta{font-size:11.5px;color:var(--ot-muted)}
-.ot-guide-side-empty{font-size:12px;line-height:18px;color:var(--ot-muted);flex:1;min-height:38px}
+.ot-guide-side-empty{font-size:12px;line-height:18px;color:var(--ot-muted);min-height:38px}
 .ot-guide-hero-side .ot-avatars .ot-avatar{box-shadow:0 0 0 2px var(--ot-card)}
-.ot-guide-hero-side .ot-btn{align-self:flex-start;margin-top:1px}
 .ot-guide-dirty{margin-top:8px}
 .ot-guide > .ot-stats{margin-top:14px}
 .ot-guide-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;margin-top:16px}
@@ -4229,11 +4459,43 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-guide-empty{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:12px;border:1px dashed var(--ot-line);border-radius:9px;color:var(--ot-muted);font-size:12px;line-height:18px}
 .ot-guide-empty svg{color:var(--ot-faint);margin-bottom:1px}
 .ot-guide-empty .ot-btn{margin-top:2px}
+.ot-workspace{overflow:auto;padding-bottom:24px}
+.ot-workspace-list{display:flex;flex-direction:column;gap:14px}
+.ot-workspace-project{padding:16px;border:1px solid var(--ot-line-2);border-radius:14px;background:var(--ot-card);display:flex;flex-direction:column;gap:10px}
+.ot-workspace-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.ot-workspace-title-wrap{min-width:0}
+.ot-workspace-title{font-size:16px;line-height:22px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-workspace-goal{font-size:12px;line-height:18px;color:var(--ot-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-workspace-progress{width:180px;flex:none;display:flex;flex-direction:column;gap:4px}
+.ot-workspace-progress-num{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.ot-workspace-progress-num b{font-size:20px;line-height:24px;font-weight:600;color:var(--ot-brand);font-variant-numeric:tabular-nums}
+.ot-workspace-progress-num span{font-size:11px;color:var(--ot-muted)}
+.ot-workspace-track{height:5px;border-radius:3px;background:color-mix(in srgb,var(--dsw-alias-label-primary) 9%,transparent);overflow:hidden}
+.ot-workspace-track i{display:block;height:100%;border-radius:3px;background:var(--ot-brand);opacity:.8}
+.ot-workspace-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ot-workspace-members{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.ot-workspace-person{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 7px 2px 3px;border-radius:999px;background:var(--ot-card-2);color:var(--ot-muted)}
+.ot-workspace-started{font-size:11px;color:var(--ot-faint);white-space:nowrap}
+.ot-task-list{display:flex;flex-direction:column;gap:4px}
+.ot-task{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:8px;width:100%;padding:8px 10px;border:1px solid var(--ot-line);border-radius:8px;background:var(--dsw-alias-bg-base);text-align:left;font-size:12px;min-width:0}
+.ot-task:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
+.ot-task-dot{width:8px;height:8px;border-radius:50%;background:color-mix(in srgb,var(--dsw-alias-label-primary) 22%,transparent);flex:none}
+.ot-task[data-status="doing"] .ot-task-dot{background:var(--dsw-alias-state-warn-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--dsw-alias-state-warn-primary) 12%,transparent)}
+.ot-task[data-status="done"] .ot-task-dot{background:var(--dsw-alias-state-success-primary)}
+.ot-task-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ot-task[data-status="done"] .ot-task-title{text-decoration:line-through;color:var(--ot-muted)}
+.ot-task-assignee{font-size:11px;color:var(--ot-muted);white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
+.ot-task-status{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--ot-card-2);color:var(--ot-muted);white-space:nowrap}
+.ot-task[data-status="doing"] .ot-task-status{color:var(--dsw-alias-state-warn-primary);background:color-mix(in srgb,var(--dsw-alias-state-warn-primary) 9%,transparent)}
+.ot-task[data-status="done"] .ot-task-status{color:var(--dsw-alias-state-success-primary);background:color-mix(in srgb,var(--dsw-alias-state-success-primary) 9%,transparent)}
+.ot-workspace-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--ot-line);padding-top:8px}
+.ot-workspace-empty{min-height:320px}
+.ot-project-status[data-status="notStarted"]{color:var(--ot-muted);border-style:dashed}
 .ot-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:20;padding:8px 15px;border-radius:10px;font-size:12.5px;background:var(--dsw-alias-bg-overlay);color:var(--dsw-alias-label-primary);border:1px solid var(--ot-line-2)}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{grid-template-columns:auto minmax(0,1fr) auto;row-gap:2px}.ot-task-dot{grid-row:1 / span 2;align-self:start;margin-top:4px}.ot-task-title{grid-column:2;grid-row:1}.ot-task-assignee{grid-column:2;grid-row:2;max-width:100%}.ot-task-status{grid-column:3;grid-row:1 / span 2;align-self:center}}
 `
 
     /* ------------------------------------------------------------------ apply */

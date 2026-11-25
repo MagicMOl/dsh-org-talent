@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.6.0 — 2026-11-25
+
+- **Project guide homepage redesign** with a clearer hierarchy: page kicker/title, a single primary project hero, compact requirement chips (4 + overflow), one primary CTA per state, a summary stats strip, and secondary project/history cards. Duplicate CTAs and competing actions were removed.
+- **Workspace** tab (工作区) with started projects:
+  - **开始工作 / Start work** on a project creates its workspace project and a skill-based task plan.
+  - Tasks are assigned to project members (kickoff, one delivery task per requirement, acceptance/retrospective), with a kickoff task already in progress.
+  - Click a task to cycle **待开始 → 进行中 → 已完成**; progress is shown per project and updates immediately.
+  - Project cards show members, start date, task assignees and status.
+- Project teams now distinguish **待开始 / 进行中 / 已复盘**; the project guide shows 开始工作 or 进入工作区 per project.
+- Workspace projects and tasks persist in local storage alongside projects and feedback.
+
 ## 1.5.0 — 2026-11-25
 
 - Split the old workbench into two pages:

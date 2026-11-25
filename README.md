@@ -1,8 +1,8 @@
-﻿# Org Talent Match · 组织人才匹配
+# Org Talent Match · 组织人才匹配
 
-A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates, with capability advice for gaps and single points.
+A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a workspace with assigned project tasks, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates, with capability advice for gaps and single points.
 
-左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求与反馈，把员工收进人才库，并以组织架构为整体为项目组队。
+左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求与反馈，把员工收进人才库，在工作区把项目拆成成员任务，并以组织架构为整体为项目组队。
 
 ## Install · 安装
 
@@ -29,7 +29,15 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - Current project need: requirement name, target team size and required skills.
 - The current recommended team (score, coverage, members) or a direct CTA to build one.
 - The four summary tiles (people, teams, skills, capacity) open detail panels; team, skill and low-availability rows jump to the relevant team, talent filter or profile.
-- Created project teams with status and feedback count; recent matches can be clicked to restore their requirements and results.
+- Created project teams with status and feedback count; **开始工作** creates the workspace project and task assignments, while **进入工作区** opens it again.
+- Recent matches can be clicked to restore their requirements and results.
+
+### 工作区 · Workspace
+
+- A started project appears with a skill-based task plan assigned to its members: requirements alignment, one delivery task per requirement, and integration/acceptance/retrospective.
+- Click a task to cycle **待开始 → 进行中 → 已完成**; per-project progress updates immediately.
+- Each project card shows members, start date, task assignees and the current status.
+- Workspace projects and tasks persist in this browser.
 
 ### 人才库 · Talent pool
 
@@ -93,7 +101,7 @@ Only the search keyword is sent to GitHub; employee names, skills and feedback a
 
 ## Project team · 项目团队
 
-After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **记录反馈** captures outcome, issues/risks and the adjustment for the next round, with a dated feedback history. Feedback stays in this browser and is kept separately for each distinct goal + member combination.
+After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **开始工作** creates the workspace project and assigns tasks to members; **记录反馈** captures outcome, issues/risks and the adjustment for the next round, with a dated feedback history. Feedback and workspace tasks stay in this browser and are kept separately for each distinct goal + member combination.
 
 ## How matching works · 匹配方式
 
@@ -130,7 +138,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.5.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.5.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.6.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.6.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

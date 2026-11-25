@@ -94,7 +94,7 @@ window.__ModuleLoader__.load({
         'talent.count': '{n} 名员工',
         'guide.title': '项目导览',
         'guide.kicker': '项目总览',
-        'guide.hint': '从项目需求出发，查看当前团队、项目反馈与最近匹配。',
+        'guide.hint': '从项目需求出发，查看当前团队、项目进度与近期项目。',
         'guide.current': '当前项目需求',
         'guide.requirements': '{n} 项技能需求 · 目标 {size} 人',
         'guide.topRequirement': '最高优先级需求',
@@ -143,6 +143,19 @@ window.__ModuleLoader__.load({
         'guide.goTalent': '人才库',
         'guide.projects': '项目团队',
         'guide.projectsHint': '已立项团队与反馈进度',
+        'guide.filterProject': '检索项目',
+        'guide.noMatchingProjects': '没有匹配的项目',
+        'guide.filterHint': '清空检索可查看全部项目',
+        'guide.outcomes': '项目成果',
+        'guide.outcomesHint': '阶段成果与卡点 / 难点 / 变更点',
+        'guide.outcomeCount': '{n} 项成果',
+        'guide.noOutcomes': '暂无项目成果',
+        'guide.noOutcomesHint': '在项目反馈中记录成果后，会同步到这里和预警栏。',
+        'guide.recentProjects': '近期项目',
+        'guide.recentProjectsHint': '按最近更新时间排序',
+        'guide.projectUpdated': '更新于 {date}',
+        'guide.noRecentProjects': '还没有项目',
+        'guide.noRecentProjectsHint': '立项后项目会出现在这里。',
         'guide.feedbackCount': '{n} 条反馈',
         'guide.recent': '最近匹配',
         'guide.recentHint': '点击记录恢复当时需求',
@@ -221,7 +234,7 @@ window.__ModuleLoader__.load({
         'match.addSkill': '添加技能',
         'match.noMoreSkills': '所有技能都已加入',
         'match.run': '开始匹配',
-        'match.saved': '最近匹配',
+        'match.saved': '匹配记录',
         'match.none': '还没有匹配记录，先设定需求并开始匹配。',
         'match.summary': '从 {people} 名员工中取 {pool} 位候选，评估 {teams} 种团队组合 · {ms} ms',
         'match.result': '推荐团队 {n}',
@@ -348,10 +361,12 @@ window.__ModuleLoader__.load({
         'project.feedbackTitle': '项目反馈',
         'project.outcome': '成果',
         'project.outcomePlaceholder': '已完成什么、结果如何',
-        'project.issues': '问题 / 风险',
-        'project.issuesPlaceholder': '协作、人员、技能或进度上的问题',
-        'project.adjustment': '调整建议',
-        'project.adjustmentPlaceholder': '下一次组队或培养要调整什么',
+        'project.issues': '卡点',
+        'project.issuesPlaceholder': '阻塞推进的问题、依赖或资源缺口',
+        'project.difficulties': '难点',
+        'project.difficultiesPlaceholder': '技能、协作或技术上的难点',
+        'project.adjustment': '变更点 / 调整',
+        'project.adjustmentPlaceholder': '下一次组队、范围或培养要调整什么',
         'project.saveFeedback': '保存反馈',
         'project.cancel': '取消',
         'project.emptyFeedback': '至少填写一项反馈再保存。',
@@ -482,7 +497,7 @@ window.__ModuleLoader__.load({
         'talent.count': '{n} employees',
         'guide.title': 'Project guide',
         'guide.kicker': 'Project overview',
-        'guide.hint': 'Start from the project need and review the current team, project feedback and recent matches.',
+        'guide.hint': 'Start from the project need and review the current team, project progress and recent projects.',
         'guide.current': 'Current project need',
         'guide.requirements': '{n} skill requirements · target {size} people',
         'guide.topRequirement': 'Highest-priority requirement',
@@ -531,6 +546,19 @@ window.__ModuleLoader__.load({
         'guide.goTalent': 'Talent pool',
         'guide.projects': 'Project teams',
         'guide.projectsHint': 'Created teams and feedback progress',
+        'guide.filterProject': 'Search projects',
+        'guide.noMatchingProjects': 'No matching project',
+        'guide.filterHint': 'Clear the filter to see all projects',
+        'guide.outcomes': 'Project outcomes',
+        'guide.outcomesHint': 'Stage outcomes and blockers / difficulties / changes',
+        'guide.outcomeCount': '{n} outcomes',
+        'guide.noOutcomes': 'No project outcomes yet',
+        'guide.noOutcomesHint': 'Record an outcome in project feedback to sync it here and into alerts.',
+        'guide.recentProjects': 'Recent projects',
+        'guide.recentProjectsHint': 'Sorted by most recently updated',
+        'guide.projectUpdated': 'Updated {date}',
+        'guide.noRecentProjects': 'No projects yet',
+        'guide.noRecentProjectsHint': 'Projects will appear here after they are created.',
         'guide.feedbackCount': '{n} feedback entries',
         'guide.recent': 'Recent matches',
         'guide.recentHint': 'Click a record to restore its requirements',
@@ -609,7 +637,7 @@ window.__ModuleLoader__.load({
         'match.addSkill': 'Add skill',
         'match.noMoreSkills': 'Every skill is already required',
         'match.run': 'Start matching',
-        'match.saved': 'Recent matches',
+        'match.saved': 'Match history',
         'match.none': 'No matches yet. Set a requirement and start matching.',
         'match.summary': 'Evaluated {teams} team combinations from {pool} candidates of {people} people · {ms} ms',
         'match.result': 'Team option {n}',
@@ -736,10 +764,12 @@ window.__ModuleLoader__.load({
         'project.feedbackTitle': 'Project feedback',
         'project.outcome': 'Outcome',
         'project.outcomePlaceholder': 'What was delivered, and how did it go?',
-        'project.issues': 'Issues / risks',
-        'project.issuesPlaceholder': 'Collaboration, staffing, skills or schedule issues',
-        'project.adjustment': 'Adjustment',
-        'project.adjustmentPlaceholder': 'What to adjust in the next team or training plan',
+        'project.issues': 'Blockers',
+        'project.issuesPlaceholder': 'Dependencies, resources or issues blocking progress',
+        'project.difficulties': 'Difficulties',
+        'project.difficultiesPlaceholder': 'Skill, collaboration or technical difficulties',
+        'project.adjustment': 'Changes / adjustment',
+        'project.adjustmentPlaceholder': 'What to adjust in the next team, scope or training plan',
         'project.saveFeedback': 'Save feedback',
         'project.cancel': 'Cancel',
         'project.emptyFeedback': 'Fill in at least one feedback field before saving.',
@@ -1062,6 +1092,9 @@ window.__ModuleLoader__.load({
           id: String(item.id || ''),
           at: String(item.at || ''),
           outcome: String(item.outcome || '').slice(0, 4000),
+          blockers: String(item.blockers || item.issues || '').slice(0, 4000),
+          difficulties: String(item.difficulties || '').slice(0, 4000),
+          changes: String(item.changes || item.adjustment || '').slice(0, 4000),
           issues: String(item.issues || '').slice(0, 4000),
           adjustment: String(item.adjustment || '').slice(0, 4000),
         }))
@@ -2085,6 +2118,36 @@ window.__ModuleLoader__.load({
       }, icon ? h(Icon, { name: icon, size: small ? 13 : 15 }) : null, h('span', { className: 'ot-btn-label' }, children))
     }
 
+    function ProjectSearchSelect({ projects, value, onChange, placeholder, listId, fallback }) {
+      const selected = projects.find(project => project.id === value) || null
+      const [query, setQuery] = React.useState('')
+      React.useEffect(() => {
+        setQuery(selected ? (selected.name || fallback) : '')
+      }, [value, projects.length, fallback])
+      return h('label', { className: 'ot-pselect' },
+        h(Icon, { name: 'search', size: 13 }),
+        h('input', {
+          className: 'ot-input',
+          type: 'search',
+          list: listId,
+          value: query,
+          placeholder: placeholder,
+          'aria-label': placeholder,
+          onChange: event => {
+            const next = event.target.value
+            setQuery(next)
+            if (!next) {
+              onChange('')
+              return
+            }
+            const match = projects.find(project => (project.name || fallback) === next)
+            if (match) onChange(match.id)
+          },
+        }),
+        h('datalist', { id: listId }, projects.map(project =>
+          h('option', { key: project.id, value: project.name || fallback }))))
+    }
+
     function LevelBar({ level, compact }) {
       const values = [1, 2, 3, 4, 5]
       return h('span', { className: 'ot-level' + (compact ? ' ot-level-sm' : ''), 'aria-label': 'Lv.' + level },
@@ -2229,6 +2292,7 @@ window.__ModuleLoader__.load({
       const [projectName, setProjectName] = useState('')
       const [projectOutcome, setProjectOutcome] = useState('')
       const [projectIssues, setProjectIssues] = useState('')
+      const [projectDifficulties, setProjectDifficulties] = useState('')
       const [projectAdjustment, setProjectAdjustment] = useState('')
       const [projectNote, setProjectNote] = useState(null)
       const [showAllRequirements, setShowAllRequirements] = useState(false)
@@ -2240,6 +2304,10 @@ window.__ModuleLoader__.load({
       const [poolProjectId, setPoolProjectId] = useState('')
       const [poolStatus, setPoolStatus] = useState(null)
       const [poolStatusTone, setPoolStatusTone] = useState('good')
+      const [alertProjectFilter, setAlertProjectFilter] = useState('')
+      const [progressProjectFilter, setProgressProjectFilter] = useState('')
+      const [outcomeProjectFilter, setOutcomeProjectFilter] = useState('')
+      const [recentProjectFilter, setRecentProjectFilter] = useState('')
 
       const employees = data.employees
       const history = data.history
@@ -2825,9 +2893,10 @@ window.__ModuleLoader__.load({
         let feedback = null
         if (withFeedback) {
           const outcome = projectOutcome.trim()
-          const issues = projectIssues.trim()
-          const adjustment = projectAdjustment.trim()
-          if (!outcome && !issues && !adjustment) {
+          const blockers = projectIssues.trim()
+          const difficulties = projectDifficulties.trim()
+          const changes = projectAdjustment.trim()
+          if (!outcome && !blockers && !difficulties && !changes) {
             setProjectNote(t('project.emptyFeedback'))
             return
           }
@@ -2835,8 +2904,11 @@ window.__ModuleLoader__.load({
             id: 'fb-' + Date.now().toString(36),
             at: new Date().toISOString(),
             outcome: outcome.slice(0, 4000),
-            issues: issues.slice(0, 4000),
-            adjustment: adjustment.slice(0, 4000),
+            blockers: blockers.slice(0, 4000),
+            difficulties: difficulties.slice(0, 4000),
+            changes: changes.slice(0, 4000),
+            issues: blockers.slice(0, 4000),
+            adjustment: changes.slice(0, 4000),
           }
         }
         const now = new Date().toISOString()
@@ -2873,6 +2945,7 @@ window.__ModuleLoader__.load({
         if (withFeedback) {
           setProjectOutcome('')
           setProjectIssues('')
+          setProjectDifficulties('')
           setProjectAdjustment('')
           setProjectFormOpen(false)
         }
@@ -2883,6 +2956,7 @@ window.__ModuleLoader__.load({
         setProjectName('')
         setProjectOutcome('')
         setProjectIssues('')
+        setProjectDifficulties('')
         setProjectAdjustment('')
         setProjectNote(null)
       }, [projectKey])
@@ -3722,19 +3796,51 @@ window.__ModuleLoader__.load({
           if ((project.requirements || []).length && projectSignature !== planRequirementsSignature) {
             resultWarnings.changes.push({ project, projectName, text: t('guide.warn.requirementChanged') })
           }
-          const latestFeedback = (project.feedback || []).slice().sort((a, b) => String(b.at).localeCompare(String(a.at)))[0]
-          if (latestFeedback && latestFeedback.adjustment) {
-            resultWarnings.changes.push({ project, projectName, text: t('guide.warn.feedbackAdjust', { text: latestFeedback.adjustment.slice(0, 60) }) })
+          for (const entry of project.feedback || []) {
+            const blockers = entry.blockers || entry.issues
+            const difficulties = entry.difficulties
+            const changes = entry.changes || entry.adjustment
+            if (blockers) resultWarnings.blockers.push({ project, projectName, stage: true, text: blockers.slice(0, 120) })
+            if (difficulties) resultWarnings.difficulties.push({ project, projectName, stage: true, text: difficulties.slice(0, 120) })
+            if (changes) resultWarnings.changes.push({ project, projectName, stage: true, text: changes.slice(0, 120) })
           }
         }
         return resultWarnings
       })()
-      const projectWarningCount = projectWarnings.blockers.length + projectWarnings.difficulties.length + projectWarnings.changes.length
+      const warningMatches = item => !alertProjectFilter || item.project.id === alertProjectFilter
+      const filteredWarnings = {
+        blockers: projectWarnings.blockers.filter(warningMatches),
+        difficulties: projectWarnings.difficulties.filter(warningMatches),
+        changes: projectWarnings.changes.filter(warningMatches),
+      }
+      const projectWarningCount = filteredWarnings.blockers.length + filteredWarnings.difficulties.length + filteredWarnings.changes.length
       const warningGroups = [
-        { key: 'blockers', title: t('guide.warnBlockers'), tone: 'rose', items: projectWarnings.blockers },
-        { key: 'difficulties', title: t('guide.warnDifficulties'), tone: 'amber', items: projectWarnings.difficulties },
-        { key: 'changes', title: t('guide.warnChanges'), tone: 'blue', items: projectWarnings.changes },
+        { key: 'blockers', title: t('guide.warnBlockers'), tone: 'rose', items: filteredWarnings.blockers },
+        { key: 'difficulties', title: t('guide.warnDifficulties'), tone: 'amber', items: filteredWarnings.difficulties },
+        { key: 'changes', title: t('guide.warnChanges'), tone: 'blue', items: filteredWarnings.changes },
       ]
+      const progressProjects = projects
+        .filter(project => !progressProjectFilter || project.id === progressProjectFilter)
+        .slice()
+        .sort((a, b) => String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))
+      const projectOutcomeEntries = projects.flatMap(project =>
+        (project.feedback || []).map(entry => ({
+          project,
+          entry,
+          id: project.id + '-' + entry.id,
+          at: entry.at,
+          outcome: entry.outcome,
+          blockers: entry.blockers || entry.issues || '',
+          difficulties: entry.difficulties || '',
+          changes: entry.changes || entry.adjustment || '',
+        }))).filter(item => item.outcome || item.blockers || item.difficulties || item.changes)
+        .sort((a, b) => String(b.at).localeCompare(String(a.at)))
+      const visibleOutcomeEntries = projectOutcomeEntries.filter(item => !outcomeProjectFilter || item.project.id === outcomeProjectFilter)
+      const recentProjects = projects
+        .filter(project => !recentProjectFilter || project.id === recentProjectFilter)
+        .slice()
+        .sort((a, b) => String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))
+        .slice(0, 6)
       const openProjectProgress = id => {
         setProjectProgressId(previous => previous === id ? null : id)
         window.setTimeout(() => {
@@ -3742,9 +3848,9 @@ window.__ModuleLoader__.load({
           if (node && typeof node.scrollIntoView === 'function') node.scrollIntoView({ block: 'nearest' })
         }, 40)
       }
-      const activeProjects = projects.filter(project => projectProgressFor(project).status === 'active').length
-      const averageProgress = projects.length
-        ? Math.round(projects.reduce((sum, project) => sum + projectProgressFor(project).percent, 0) / projects.length)
+      const activeProjects = progressProjects.filter(project => projectProgressFor(project).status === 'active').length
+      const averageProgress = progressProjects.length
+        ? Math.round(progressProjects.reduce((sum, project) => sum + projectProgressFor(project).percent, 0) / progressProjects.length)
         : 0
       const openTaskConversation = async (project, task) => {
         const sessions = typeof ctx.get === 'function' ? ctx.get('sessions') : ctx.sessions
@@ -3881,8 +3987,9 @@ window.__ModuleLoader__.load({
                 ? feedback.slice(-2).reverse().map(entry => h('div', { key: entry.id, className: 'ot-progress-feedback' },
                   h('span', { className: 'ot-progress-feedback-date' }, new Date(entry.at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' })),
                   entry.outcome ? h('p', null, h('b', null, t('project.outcome') + '：'), entry.outcome) : null,
-                  entry.issues ? h('p', null, h('b', null, t('project.issues') + '：'), entry.issues) : null,
-                  entry.adjustment ? h('p', null, h('b', null, t('project.adjustment') + '：'), entry.adjustment) : null))
+                  entry.blockers || entry.issues ? h('p', null, h('b', null, t('project.issues') + '：'), entry.blockers || entry.issues) : null,
+                  entry.difficulties ? h('p', null, h('b', null, t('project.difficulties') + '：'), entry.difficulties) : null,
+                  entry.changes || entry.adjustment ? h('p', null, h('b', null, t('project.adjustment') + '：'), entry.changes || entry.adjustment) : null))
                 : h('p', { className: 'ot-hint' }, t('guide.noFeedback')))))
       }
 
@@ -3926,6 +4033,42 @@ window.__ModuleLoader__.load({
             h('span', null, t('guide.feedbackCount', { n: feedback.length }))),
           open ? renderProjectDetail(project, progress) : null)
       }
+
+      const outcomesCard = h('section', { className: 'ot-guide-card ot-outcomes-card', style: { '--ot-section': '#8b5cf6' } },
+        h('div', { className: 'ot-guide-card-head' },
+          h('div', null,
+            h('div', { className: 'ot-h3' }, t('guide.outcomes')),
+            h('p', { className: 'ot-hint' }, t('guide.outcomesHint'))),
+          h('div', { className: 'ot-guide-card-tools' },
+            h(ProjectSearchSelect, {
+              projects: projects,
+              value: outcomeProjectFilter,
+              onChange: setOutcomeProjectFilter,
+              placeholder: t('guide.filterProject'),
+              listId: 'ot-outcome-projects',
+              fallback: t('project.untitled'),
+            }),
+            h('span', { className: 'ot-muted' }, t('guide.outcomeCount', { n: visibleOutcomeEntries.length })))),
+        visibleOutcomeEntries.length
+          ? h('div', { className: 'ot-outcome-list' },
+            visibleOutcomeEntries.slice(0, 12).map(item => h('button', {
+              key: item.id,
+              type: 'button',
+              className: 'ot-outcome-item',
+              onClick: () => { setTab('project'); openProjectProgress(item.project.id) },
+            },
+              h('div', { className: 'ot-outcome-head' },
+                h('b', null, item.project.name || t('project.untitled')),
+                h('span', null, new Date(item.at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' }))),
+              h('p', { className: 'ot-outcome-summary' }, item.outcome || t('guide.noOutcome')),
+              h('div', { className: 'ot-outcome-tags' },
+                item.blockers ? h('span', { className: 'ot-outcome-tag', 'data-tone': 'rose' }, t('guide.warnBlockers') + '：' + item.blockers) : null,
+                item.difficulties ? h('span', { className: 'ot-outcome-tag', 'data-tone': 'amber' }, t('guide.warnDifficulties') + '：' + item.difficulties) : null,
+                item.changes ? h('span', { className: 'ot-outcome-tag', 'data-tone': 'blue' }, t('guide.warnChanges') + '：' + item.changes) : null))))
+          : h('div', { className: 'ot-guide-empty' },
+            h(Icon, { name: 'sparkle', size: 20 }),
+            h('p', null, t('guide.noOutcomes')),
+            h('p', { className: 'ot-hint' }, t('guide.noOutcomesHint'))))
 
       const projectView = h('div', { className: 'ot-pane ot-guide' },
         h('div', { className: 'ot-page-head' },
@@ -3987,7 +4130,16 @@ window.__ModuleLoader__.load({
             h('div', null,
               h('span', { className: 'ot-section-kicker' }, t('guide.warnings')),
               h('p', { className: 'ot-hint' }, t('guide.warningsHint'))),
-            h('span', { className: 'ot-warning-total' }, t('guide.warningCount', { n: projectWarningCount }))),
+            h('div', { className: 'ot-guide-card-tools' },
+              h(ProjectSearchSelect, {
+                projects: projects,
+                value: alertProjectFilter,
+                onChange: setAlertProjectFilter,
+                placeholder: t('guide.filterProject'),
+                listId: 'ot-alert-projects',
+                fallback: t('project.untitled'),
+              }),
+              h('span', { className: 'ot-warning-total' }, t('guide.warningCount', { n: projectWarningCount })))),
           h('div', { className: 'ot-warning-cols' },
             warningGroups.map(group => h('div', { key: group.key, className: 'ot-warning-col', 'data-tone': group.tone },
               h('div', { className: 'ot-warning-col-head' },
@@ -4003,42 +4155,70 @@ window.__ModuleLoader__.load({
                   h('small', null, item.projectName),
                   h('span', null, item.text)))
                 : h('p', { className: 'ot-hint ot-warning-none' }, t('guide.none')))))),
-        h('div', { className: 'ot-guide-grid' },
+        h('div', { className: 'ot-guide-stack' },
           h('section', { className: 'ot-guide-card ot-progress-card', style: { '--ot-section': '#4c7df0' } },
             h('div', { className: 'ot-guide-card-head' },
               h('div', null,
                 h('div', { className: 'ot-h3' }, t('guide.progress')),
                 h('p', { className: 'ot-hint' }, t('guide.progressHint'))),
-              h('span', { className: 'ot-muted' }, t('guide.projectCount', { n: projects.length }))),
+              h('div', { className: 'ot-guide-card-tools' },
+                h(ProjectSearchSelect, {
+                  projects: projects,
+                  value: progressProjectFilter,
+                  onChange: setProgressProjectFilter,
+                  placeholder: t('guide.filterProject'),
+                  listId: 'ot-progress-projects',
+                  fallback: t('project.untitled'),
+                }),
+                h('span', { className: 'ot-muted' }, t('guide.projectCount', { n: progressProjects.length })))),
             h('div', { className: 'ot-progress-summary' },
-              h('div', { className: 'ot-progress-kpi' }, h('b', null, projects.length), h('span', null, t('guide.totalProjects'))),
+              h('div', { className: 'ot-progress-kpi' }, h('b', null, progressProjects.length), h('span', null, t('guide.totalProjects'))),
               h('div', { className: 'ot-progress-kpi' }, h('b', null, activeProjects), h('span', null, t('guide.activeProjects'))),
               h('div', { className: 'ot-progress-kpi' }, h('b', null, averageProgress + '%'), h('span', null, t('guide.avgProgress')))),
-            projects.length
-              ? h('div', { className: 'ot-progress-list' }, projects.map(renderProjectProgressRow))
+            progressProjects.length
+              ? h('div', { className: 'ot-progress-list' }, progressProjects.map(renderProjectProgressRow))
               : h('div', { className: 'ot-guide-empty' },
                 h(Icon, { name: 'org', size: 20 }),
-                h('p', null, t('guide.noProjects')),
-                h('p', { className: 'ot-hint' }, t('guide.noProjectsHint')))),
+                h('p', null, projects.length ? t('guide.noMatchingProjects') : t('guide.noProjects')),
+                h('p', { className: 'ot-hint' }, projects.length ? t('guide.filterHint') : t('guide.noProjectsHint')))),
+          outcomesCard,
           h('section', { className: 'ot-guide-card', style: { '--ot-section': '#17a398' } },
             h('div', { className: 'ot-guide-card-head' },
-              h('div', { className: 'ot-h3' }, t('guide.recent')),
-              h('span', { className: 'ot-muted' }, t('guide.recentHint'))),
-            guideHistory.length
-              ? guideHistory.map(entry => h('button', {
-                key: entry.ts,
-                type: 'button',
-                className: 'ot-guide-history',
-                onClick: () => { loadHistory(entry); setTab('match') },
-              },
-                h('span', { className: 'ot-guide-history-main' },
-                  h('b', null, entry.name || t('match.title')),
-                  h('small', null, t('guide.historyMeta', { n: entry.size, score: entry.score }))),
-                h('span', { className: 'ot-guide-history-date' },
-                  new Date(entry.ts).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' }))))
+              h('div', null,
+                h('div', { className: 'ot-h3' }, t('guide.recentProjects')),
+                h('p', { className: 'ot-hint' }, t('guide.recentProjectsHint'))),
+              h('div', { className: 'ot-guide-card-tools' },
+                h(ProjectSearchSelect, {
+                  projects: projects,
+                  value: recentProjectFilter,
+                  onChange: setRecentProjectFilter,
+                  placeholder: t('guide.filterProject'),
+                  listId: 'ot-recent-projects',
+                  fallback: t('project.untitled'),
+                }),
+                h('span', { className: 'ot-muted' }, t('guide.projectCount', { n: recentProjects.length })))),
+            recentProjects.length
+              ? h('div', { className: 'ot-recent-list' }, recentProjects.map(project => {
+                const progress = projectProgressFor(project)
+                const outcomes = (project.feedback || []).length
+                return h('button', {
+                  key: project.id,
+                  type: 'button',
+                  className: 'ot-recent-project',
+                  onClick: () => openProjectProgress(project.id),
+                },
+                  h('span', { className: 'ot-recent-project-main' },
+                    h('b', null, project.name || t('project.untitled')),
+                    h('small', null, t('guide.projectUpdated', { date: formatProjectDate(project.updatedAt || project.createdAt) }))),
+                  h('span', { className: 'ot-recent-project-progress' }, progress.percent + '%'),
+                  h('span', { className: 'ot-recent-project-outcomes' }, t('guide.outcomeCount', { n: outcomes })),
+                  h('span', { className: 'ot-project-status', 'data-status': progress.status }, t('project.status.' + progress.status)))
+              }))
               : h('div', { className: 'ot-guide-empty' },
-                h(Icon, { name: 'target', size: 20 }),
-                h('p', null, t('guide.noHistory'))))),
+                h(Icon, { name: 'grid', size: 20 }),
+                h('p', null, projects.length ? t('guide.noMatchingProjects') : t('guide.noRecentProjects')),
+                h('p', { className: 'ot-hint' }, t('guide.noRecentProjectsHint')))),
+        ),
         h('p', { className: 'ot-footnote' }, t('footer.note')),
       )
 
@@ -4575,6 +4755,15 @@ window.__ModuleLoader__.load({
               onChange: event => setProjectIssues(event.target.value),
             })),
           h('label', { className: 'ot-project-field' },
+            h('span', null, t('project.difficulties')),
+            h('textarea', {
+              className: 'ot-textarea',
+              rows: 2,
+              value: projectDifficulties,
+              placeholder: t('project.difficultiesPlaceholder'),
+              onChange: event => setProjectDifficulties(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
             h('span', null, t('project.adjustment')),
             h('textarea', {
               className: 'ot-textarea',
@@ -4594,8 +4783,9 @@ window.__ModuleLoader__.load({
               h('b', null, projectStatus === 'reviewed' ? t('project.feedbackTitle') : t('project.feedbackTitle')),
               h('span', null, new Date(entry.at).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }))),
             entry.outcome ? h('p', null, h('span', null, t('project.outcome') + '：'), entry.outcome) : null,
-            entry.issues ? h('p', null, h('span', null, t('project.issues') + '：'), entry.issues) : null,
-            entry.adjustment ? h('p', null, h('span', null, t('project.adjustment') + '：'), entry.adjustment) : null))) : null,
+            entry.blockers || entry.issues ? h('p', null, h('span', null, t('project.issues') + '：'), entry.blockers || entry.issues) : null,
+            entry.difficulties ? h('p', null, h('span', null, t('project.difficulties') + '：'), entry.difficulties) : null,
+            entry.changes || entry.adjustment ? h('p', null, h('span', null, t('project.adjustment') + '：'), entry.changes || entry.adjustment) : null))) : null,
       ) : null
 
       const resultsPane = h('div', { className: 'ot-results' },
@@ -4609,6 +4799,7 @@ window.__ModuleLoader__.load({
             dirty ? h('p', { className: 'ot-hint ot-warn' }, t('match.dirty')) : null,
             projectPanel,
             result.results.map(renderResult),
+            outcomesCard,
           )
           : h('div', { className: 'ot-empty' },
             h(Icon, { name: 'sparkle', size: 30 }),
@@ -5135,6 +5326,34 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-guide-empty svg{color:var(--ot-faint);margin-bottom:1px}
 .ot-guide-empty .ot-btn{margin-top:2px}
 .ot-guide-card{border-top:3px solid color-mix(in srgb,var(--ot-section,var(--ot-brand)) 62%,transparent)}
+.ot-guide-card-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ot-guide-card-tools .ot-muted{font-size:11px;white-space:nowrap}
+.ot-pselect{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 8px;border:1px solid var(--ot-line);border-radius:8px;background:var(--dsw-alias-bg-base);min-width:150px;max-width:230px;transition:border-color .15s,box-shadow .15s}
+.ot-pselect:focus-within{border-color:color-mix(in srgb,var(--ot-brand) 48%,var(--ot-line));box-shadow:0 0 0 2px color-mix(in srgb,var(--ot-brand) 10%,transparent)}
+.ot-pselect svg{color:var(--ot-faint);flex:none}
+.ot-pselect .ot-input{width:100%;height:24px;min-width:0;padding:0;border:0;outline:0;background:transparent;font-size:11.5px}
+.ot-guide-stack{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.ot-outcome-list{display:flex;flex-direction:column;gap:7px}
+.ot-outcome-item{display:flex;flex-direction:column;gap:4px;width:100%;padding:9px 10px;border:1px solid var(--ot-line);border-radius:9px;background:var(--dsw-alias-bg-base);text-align:left;min-width:0}
+.ot-outcome-item:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
+.ot-outcome-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.ot-outcome-head b{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-outcome-head span{font-size:11px;color:var(--ot-faint);white-space:nowrap}
+.ot-outcome-summary{font-size:11.5px;line-height:1.5;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ot-outcome-tags{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.ot-outcome-tag{font-size:11px;padding:1px 6px;border-radius:5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--ot-card-2);color:var(--ot-muted)}
+.ot-outcome-tag[data-tone="rose"]{color:#e05a7d;background:color-mix(in srgb,#e05a7d 8%,transparent)}
+.ot-outcome-tag[data-tone="amber"]{color:#b8751f;background:color-mix(in srgb,#e0932f 9%,transparent)}
+.ot-outcome-tag[data-tone="blue"]{color:#4c7df0;background:color-mix(in srgb,#4c7df0 8%,transparent)}
+.ot-recent-list{display:flex;flex-direction:column;gap:5px}
+.ot-recent-project{display:flex;align-items:center;gap:8px;width:100%;padding:8px 9px;border:1px solid var(--ot-line);border-radius:8px;background:var(--dsw-alias-bg-base);text-align:left;min-width:0}
+.ot-recent-project:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
+.ot-recent-project-main{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.ot-recent-project-main b{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-recent-project-main small{font-size:11px;color:var(--ot-faint)}
+.ot-recent-project-progress{width:40px;text-align:right;font-size:12px;font-weight:600;color:#4c7df0;font-variant-numeric:tabular-nums}
+.ot-recent-project-outcomes{font-size:11px;color:var(--ot-muted);white-space:nowrap}
+.ot-recent-project .ot-project-status{font-size:11px;padding:2px 7px}
 .ot-guide-hero-main{border-top:3px solid color-mix(in srgb,var(--ot-brand) 62%,transparent)}
 .ot-section-kicker{display:block;font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--ot-section,var(--ot-brand))}
 .ot-guide-req-block{display:flex;flex-direction:column;gap:6px;margin-top:2px}
@@ -5266,7 +5485,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:space-between}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:space-between}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}}
 `
 
     /* ------------------------------------------------------------------ apply */

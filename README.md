@@ -1,4 +1,4 @@
-# Org Talent Match · 组织人才匹配
+﻿# Org Talent Match · 组织人才匹配
 
 A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide, a reusable requirement pool, a workspace with assigned project tasks connected to DSH conversations, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates.
 
@@ -28,12 +28,14 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 
 - Current project need: requirement name, target team size and required skills.
 - The requirement area defaults to the **highest-priority requirement**; **展开全部** reveals the full list without changing the underlying requirements.
-- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress, amber project alerts and teal recent matches.
-- **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date.
-- Click a progress row to expand **阶段成果预览**, **成员完成情况** and **反馈信息** (latest two feedback entries).
+- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress, violet project outcomes, amber project alerts and teal recent projects.
+- **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date. A searchable project dropdown filters the section.
+- Click a progress row to expand **阶段成果预览**, **成员完成情况** and **反馈信息** (latest two feedback entries with blockers/difficulties/changes).
+- **项目成果**: stage outcomes from feedback, each with summary, blockers, difficulties and changes; a searchable project dropdown filters the list. It also appears in the match result area.
+- **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
+- Progress, outcomes and recent projects are stacked as full-width rows rather than squeezed into three columns; each carries lists, filters and detail text.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
-- **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and latest feedback adjustments. Click an alert to jump to its project.
-- Recent matches can be clicked to restore their requirements and results.
+- **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and **saved stage feedback**. A project search dropdown filters alerts; click an alert to jump to its project.
 
 ### 需求池 · Requirement pool
 
@@ -113,7 +115,7 @@ Only the search keyword is sent to GitHub; employee names, skills and feedback a
 
 ## Project team · 项目团队
 
-After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **开始工作** creates the workspace project and assigns tasks to members; **记录反馈** captures outcome, issues/risks and the adjustment for the next round, with a dated feedback history. Feedback and workspace tasks stay in this browser and are kept separately for each distinct goal + member combination.
+After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **开始工作** creates the workspace project and assigns tasks to members; **记录反馈** captures **成果 / 卡点 / 难点 / 变更点**, with a dated feedback history that also feeds the project alert bar and project outcomes. Feedback and workspace tasks stay in this browser and are kept separately for each distinct goal + member combination.
 
 ## How matching works · 匹配方式
 
@@ -153,7 +155,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.8.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.8.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.9.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.9.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

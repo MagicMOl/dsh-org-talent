@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.0 — 2026-11-25
+
+- Stage feedback now captures **成果 / 卡点 / 难点 / 变更点** and synchronizes the three warning categories into the project alert bar.
+- Project alerts support project search; the alert bar filters by project and reflects saved stage records as well as live risks.
+- New **项目成果 / Project outcomes** section on the project guide and in the match result area, with a searchable project dropdown; outcomes show summary, blockers, difficulties and changes.
+- Project progress, project outcomes and **近期项目 / Recent projects** (replacing recent matches) are stacked vertically as full-width sections; this was chosen over a three-column layout because each section carries lists, filters and detail text.
+- All three sections, plus project alerts, use a searchable project dropdown.
+- Project progress detail feedback now displays blockers, difficulties and changes separately.
+
 ## 1.8.0 — 2026-11-25
 
 - New **需求池 / Requirement pool** tab:

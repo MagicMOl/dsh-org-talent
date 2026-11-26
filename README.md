@@ -28,12 +28,11 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 
 - Current project need: requirement name, target team size and required skills.
 - The requirement area defaults to the **highest-priority requirement**; **展开全部** reveals the full list without changing the underlying requirements.
-- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress, violet project outcomes, amber project alerts and teal recent projects.
-- **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date. A searchable project dropdown filters the section.
-- Click a progress row to expand **阶段成果预览** and **成员完成情况**. Alert details are not repeated in progress.
-- **项目成果**: outcome summaries from feedback; a searchable project dropdown filters the list. It also appears in the match result area. Blockers, difficulties and changes are not repeated here.
+- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress with violet outcome bands, amber project alerts and teal recent projects.
+- **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date, planned end date and the **latest project outcome**. A searchable project dropdown filters rows and their outcomes together.
+- Click a progress row to expand **项目成果**, **阶段成果预览** and **成员完成情况**. Project outcomes are nested under their own project, one project → its outcome timeline.
 - **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
-- Progress, outcomes and recent projects are stacked as full-width rows rather than squeezed into three columns; each carries lists, filters and detail text.
+- Progress and recent projects are stacked as full-width rows rather than squeezed into columns; each carries lists, filters and detail text.
 - **Typography hierarchy**: card/section titles are 14px/600, in-card subheads 12.5px/600, primary body 12px, secondary hints 11.5px, and meta labels 11px, so titles no longer read at the same size as their content.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
 - Each progress row also offers **备忘录** and **记录反馈** directly, so feedback no longer requires returning to the match result.
@@ -176,7 +175,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.13.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.13.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.14.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.14.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

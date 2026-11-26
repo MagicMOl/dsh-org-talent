@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Org Talent Match",
-    "description": "Adds a \"Talent match\" entry to the left sidebar. The project guide shows searchable project progress, outcome summaries and recent projects; blockers/difficulties/changes appear only in project alerts, and feedback is recorded by pasting one block of text that is parsed locally. A desktop memo per project can feed the paste box. The talent pool supports creating/deleting employees and CSV/TSV/JSON/Markdown/XLSX import. It also includes the requirement pool, one DSH conversation per project, organization chart, team matching, capability advice and skill research. Local data stays in this browser; task details are sent to DSH conversations by explicit user action, and skill-search keywords go to GitHub.",
+    "description": "Adds a \"Talent match\" entry to the left sidebar. Project progress embeds each project’s outcome timeline, with searchable projects, recent projects and alerts; blockers/difficulties/changes appear only in project alerts, and feedback is recorded by pasting one block of text that is parsed locally. A desktop memo per project can feed the paste box. The talent pool supports creating/deleting employees and CSV/TSV/JSON/Markdown/XLSX import. It also includes the requirement pool, one DSH conversation per project, organization chart, team matching, capability advice and skill research. Local data stays in this browser; task details are sent to DSH conversations by explicit user action, and skill-search keywords go to GitHub.",
     "detail": "docs/DETAIL.md"
   }
 }

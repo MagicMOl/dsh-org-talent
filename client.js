@@ -122,11 +122,8 @@ window.__ModuleLoader__.load({
         'guide.deliveryStage': '需求交付',
         'guide.deliveryDone': '{n}/{total} 已完成',
         'guide.outcomePreview': '最新成果',
-        'guide.noOutcome': '暂无阶段成果记录',
         'guide.memberProgress': '成员完成情况',
         'guide.noTasks': '尚未开始任务',
-        'guide.feedbackPoints': '反馈信息',
-        'guide.noFeedback': '暂无反馈',
         'guide.notStarted': '未开始',
         'guide.warn.overdue': '已超过计划结束时间 {n} 天',
         'guide.warn.unassigned': '存在未分配负责人的任务',
@@ -147,16 +144,13 @@ window.__ModuleLoader__.load({
         'guide.noMatchingProjects': '没有匹配的项目',
         'guide.filterHint': '清空检索可查看全部项目',
         'guide.outcomes': '项目成果',
-        'guide.outcomesHint': '阶段成果摘要与来源项目；卡点 / 难点 / 变更点只在项目预警中展示。',
         'guide.outcomeCount': '{n} 项成果',
         'guide.noOutcomes': '暂无项目成果',
-        'guide.noOutcomesHint': '在项目反馈中记录成果后会同步到这里；卡点/难点/变更点进入项目预警。',
         'guide.recentProjects': '近期项目',
         'guide.recentProjectsHint': '按最近更新时间排序',
         'guide.projectUpdated': '更新于 {date}',
         'guide.noRecentProjects': '还没有项目',
         'guide.noRecentProjectsHint': '立项后项目会出现在这里。',
-        'guide.feedbackCount': '{n} 条反馈',
         'guide.recent': '最近匹配',
         'guide.recentHint': '点击记录恢复当时需求',
         'guide.historyMeta': '{n} 人 · {score} 分',
@@ -569,11 +563,8 @@ window.__ModuleLoader__.load({
         'guide.deliveryStage': 'Delivery',
         'guide.deliveryDone': '{n}/{total} done',
         'guide.outcomePreview': 'Latest outcome',
-        'guide.noOutcome': 'No stage outcome recorded yet',
         'guide.memberProgress': 'Member completion',
         'guide.noTasks': 'Tasks have not started',
-        'guide.feedbackPoints': 'Feedback',
-        'guide.noFeedback': 'No feedback yet',
         'guide.notStarted': 'Not started',
         'guide.warn.overdue': 'Overdue by {n} days',
         'guide.warn.unassigned': 'Some tasks have no assignee',
@@ -594,16 +585,13 @@ window.__ModuleLoader__.load({
         'guide.noMatchingProjects': 'No matching project',
         'guide.filterHint': 'Clear the filter to see all projects',
         'guide.outcomes': 'Project outcomes',
-        'guide.outcomesHint': 'Stage outcome summaries and their source projects; blockers, difficulties and changes live only in project alerts.',
         'guide.outcomeCount': '{n} outcomes',
         'guide.noOutcomes': 'No project outcomes yet',
-        'guide.noOutcomesHint': 'Record an outcome in project feedback to sync it here; blockers, difficulties and changes go to project alerts.',
         'guide.recentProjects': 'Recent projects',
         'guide.recentProjectsHint': 'Sorted by most recently updated',
         'guide.projectUpdated': 'Updated {date}',
         'guide.noRecentProjects': 'No projects yet',
         'guide.noRecentProjectsHint': 'Projects will appear here after they are created.',
-        'guide.feedbackCount': '{n} feedback entries',
         'guide.recent': 'Recent matches',
         'guide.recentHint': 'Click a record to restore its requirements',
         'guide.historyMeta': '{n} people · {score} pts',
@@ -2492,7 +2480,6 @@ window.__ModuleLoader__.load({
       const [poolStatusTone, setPoolStatusTone] = useState('good')
       const [alertProjectFilter, setAlertProjectFilter] = useState('')
       const [progressProjectFilter, setProgressProjectFilter] = useState('')
-      const [outcomeProjectFilter, setOutcomeProjectFilter] = useState('')
       const [recentProjectFilter, setRecentProjectFilter] = useState('')
 
       const employees = data.employees
@@ -4179,19 +4166,10 @@ window.__ModuleLoader__.load({
         .filter(project => !progressProjectFilter || project.id === progressProjectFilter)
         .slice()
         .sort((a, b) => String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))
-      const projectOutcomeEntries = projects.flatMap(project =>
-        (project.feedback || []).map(entry => ({
-          project,
-          entry,
-          id: project.id + '-' + entry.id,
-          at: entry.at,
-          outcome: entry.outcome,
-          blockers: entry.blockers || entry.issues || '',
-          difficulties: entry.difficulties || '',
-          changes: entry.changes || entry.adjustment || '',
-        }))).filter(item => item.outcome)
+      const projectOutcomes = project => (Array.isArray(project.feedback) ? project.feedback : [])
+        .filter(entry => entry && entry.outcome)
+        .slice()
         .sort((a, b) => String(b.at).localeCompare(String(a.at)))
-      const visibleOutcomeEntries = projectOutcomeEntries.filter(item => !outcomeProjectFilter || item.project.id === outcomeProjectFilter)
       const recentProjects = projects
         .filter(project => !recentProjectFilter || project.id === recentProjectFilter)
         .slice()
@@ -4296,11 +4274,7 @@ window.__ModuleLoader__.load({
         const review = tasks.length > 1 ? tasks[tasks.length - 1] : null
         const delivery = tasks.slice(1, -1)
         const deliveryDone = delivery.filter(task => task.status === 'done').length
-        const latestFeedback = (Array.isArray(project.feedback) ? project.feedback : []).slice().sort((a, b) => String(b.at).localeCompare(String(a.at)))[0]
-        const doneTitles = tasks.filter(task => task.status === 'done').map(task => task.title)
-        const outcomePreview = latestFeedback && latestFeedback.outcome
-          ? latestFeedback.outcome
-          : doneTitles.length ? doneTitles.slice(0, 3).join(' / ') : t('guide.noOutcome')
+        const outcomes = projectOutcomes(project)
         const stageValue = task => task ? t('workspace.task.' + task.status) : t('guide.notStarted')
         const stageOwner = task => task ? (task.assigneeName || t('workspace.unassigned')) : '—'
         const memberGroups = new Map()
@@ -4314,15 +4288,20 @@ window.__ModuleLoader__.load({
           if (task.status === 'done') group.done += 1
         }
         return h('div', { className: 'ot-progress-detail', id: 'ot-progress-detail-' + project.id },
+          h('div', { className: 'ot-progress-detail-block ot-progress-outcomes' },
+            h('div', { className: 'ot-progress-detail-title' }, t('guide.outcomes')),
+            outcomes.length
+              ? h('div', { className: 'ot-progress-outcome-list' },
+                outcomes.map(entry => h('div', { key: entry.id, className: 'ot-progress-outcome-item' },
+                  h('span', { className: 'ot-progress-outcome-date' }, new Date(entry.at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' })),
+                  h('p', null, entry.outcome))))
+              : h('p', { className: 'ot-hint' }, t('guide.noOutcomes'))),
           h('div', { className: 'ot-progress-detail-block' },
             h('div', { className: 'ot-progress-detail-title' }, t('guide.stagePreview')),
             h('div', { className: 'ot-progress-stages' },
               renderProjectStage(t('workspace.task.kickoff'), stageValue(kickoff), stageOwner(kickoff)),
               renderProjectStage(t('guide.deliveryStage'), deliveryDone + '/' + delivery.length, t('guide.deliveryDone', { n: deliveryDone, total: delivery.length })),
               renderProjectStage(t('workspace.task.review'), stageValue(review), stageOwner(review)))),
-          h('p', { className: 'ot-progress-outcome' },
-            h('span', null, t('guide.outcomePreview') + '：'),
-            outcomePreview),
           h('div', { className: 'ot-progress-detail-block' },
             h('div', { className: 'ot-progress-detail-title' }, t('guide.memberProgress')),
             memberGroups.size
@@ -4344,6 +4323,8 @@ window.__ModuleLoader__.load({
           .map(id => employees.find(employee => employee.id === id))
           .filter(Boolean)
           .map(employee => employee.name)
+        const outcomes = projectOutcomes(project)
+        const latestOutcome = outcomes[0]
         return h('article', {
           key: project.id,
           id: 'ot-project-' + project.id,
@@ -4375,6 +4356,12 @@ window.__ModuleLoader__.load({
             h('span', null, progress.started ? t('guide.cycle', { n: progress.cycleDays }) : t('guide.cyclePending')),
             h('span', null, t('guide.startAt', { date: formatProjectDate(progress.startAt) })),
             h('span', null, t('guide.endAt', { date: formatProjectDate(progress.endAt) }))),
+          h('div', { className: 'ot-progress-outcome-row' },
+            h('span', { className: 'ot-progress-outcome-label' }, t('guide.outcomes')),
+            latestOutcome
+              ? h('span', { className: 'ot-progress-outcome-text', title: latestOutcome.outcome }, latestOutcome.outcome)
+              : h('span', { className: 'ot-progress-outcome-empty' }, t('guide.noOutcomes')),
+            outcomes.length > 1 ? h('span', { className: 'ot-progress-outcome-more' }, t('guide.outcomeCount', { n: outcomes.length })) : null),
           open ? renderProjectDetail(project, progress) : null)
       }
 
@@ -4394,38 +4381,6 @@ window.__ModuleLoader__.load({
             parsed.changes ? h('div', { className: 'ot-parse-row', 'data-tone': 'blue' },
               h('b', null, t('feedback.toChange')), h('span', null, parsed.changes)) : null)
           : h('p', { className: 'ot-hint' }, t('feedback.none')))
-
-      const outcomesCard = h('section', { className: 'ot-guide-card ot-outcomes-card', style: { '--ot-section': '#8b5cf6' } },
-        h('div', { className: 'ot-guide-card-head' },
-          h('div', null,
-            h('div', { className: 'ot-h3' }, t('guide.outcomes')),
-            h('p', { className: 'ot-hint' }, t('guide.outcomesHint'))),
-          h('div', { className: 'ot-guide-card-tools' },
-            h(ProjectSearchSelect, {
-              projects: projects,
-              value: outcomeProjectFilter,
-              onChange: setOutcomeProjectFilter,
-              placeholder: t('guide.filterProject'),
-              listId: 'ot-outcome-projects',
-              fallback: t('project.untitled'),
-            }),
-            h('span', { className: 'ot-muted' }, t('guide.outcomeCount', { n: visibleOutcomeEntries.length })))),
-        visibleOutcomeEntries.length
-          ? h('div', { className: 'ot-outcome-list' },
-            visibleOutcomeEntries.slice(0, 12).map(item => h('button', {
-              key: item.id,
-              type: 'button',
-              className: 'ot-outcome-item',
-              onClick: () => { setTab('project'); openProjectProgress(item.project.id) },
-            },
-              h('div', { className: 'ot-outcome-head' },
-                h('b', null, item.project.name || t('project.untitled')),
-                h('span', null, new Date(item.at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' }))),
-              h('p', { className: 'ot-outcome-summary' }, item.outcome || t('guide.noOutcome')))))
-          : h('div', { className: 'ot-guide-empty' },
-            h(Icon, { name: 'sparkle', size: 20 }),
-            h('p', null, t('guide.noOutcomes')),
-            h('p', { className: 'ot-hint' }, t('guide.noOutcomesHint'))))
 
       const projectView = h('div', { className: 'ot-pane ot-guide' },
         h('div', { className: 'ot-page-head' },
@@ -4539,7 +4494,6 @@ window.__ModuleLoader__.load({
                 h(Icon, { name: 'org', size: 20 }),
                 h('p', null, projects.length ? t('guide.noMatchingProjects') : t('guide.noProjects')),
                 h('p', { className: 'ot-hint' }, projects.length ? t('guide.filterHint') : t('guide.noProjectsHint')))),
-          outcomesCard,
           h('section', { className: 'ot-guide-card', style: { '--ot-section': '#17a398' } },
             h('div', { className: 'ot-guide-card-head' },
               h('div', null,
@@ -4558,7 +4512,7 @@ window.__ModuleLoader__.load({
             recentProjects.length
               ? h('div', { className: 'ot-recent-list' }, recentProjects.map(project => {
                 const progress = projectProgressFor(project)
-                const outcomes = (project.feedback || []).length
+                const outcomes = projectOutcomes(project).length
                 return h('button', {
                   key: project.id,
                   type: 'button',
@@ -5132,7 +5086,6 @@ window.__ModuleLoader__.load({
             dirty ? h('p', { className: 'ot-hint ot-warn' }, t('match.dirty')) : null,
             projectPanel,
             result.results.map(renderResult),
-            outcomesCard,
           )
           : h('div', { className: 'ot-empty' },
             h(Icon, { name: 'sparkle', size: 30 }),
@@ -5901,6 +5854,15 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-progress-track{height:4px;border-radius:2px;margin:0 9px 5px;background:color-mix(in srgb,var(--dsw-alias-label-primary) 8%,transparent);overflow:hidden}
 .ot-progress-track i{display:block;height:100%;border-radius:2px;background:#4c7df0;opacity:.8}
 .ot-progress-facts{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:0 9px 8px;font-size:11px;color:var(--ot-faint)}
+.ot-progress-outcome-row{display:flex;align-items:baseline;gap:8px;min-width:0;margin:0 9px 8px;padding:7px 8px;border-radius:8px;background:color-mix(in srgb,#8b5cf6 5%,var(--ot-card))}
+.ot-progress-outcome-label{flex:none;font-size:11px;color:#8b5cf6;font-weight:600}
+.ot-progress-outcome-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ot-fs-body);color:var(--dsw-alias-label-primary)}
+.ot-progress-outcome-empty{min-width:0;font-size:11.5px;color:var(--ot-faint)}
+.ot-progress-outcome-more{flex:none;margin-left:auto;font-size:11px;color:var(--ot-muted);white-space:nowrap}
+.ot-progress-outcome-list{display:flex;flex-direction:column;gap:6px}
+.ot-progress-outcome-item{display:flex;align-items:baseline;gap:8px;padding:6px 8px;border-radius:7px;background:var(--ot-card-2);min-width:0}
+.ot-progress-outcome-date{flex:none;font-size:11px;color:var(--ot-faint);white-space:nowrap}
+.ot-progress-outcome-item p{font-size:var(--ot-fs-body);line-height:1.5;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
 .ot-progress-facts span{white-space:nowrap}
 .ot-progress-detail{border-top:1px solid var(--ot-line);padding:10px;display:flex;flex-direction:column;gap:9px;background:color-mix(in srgb,#4c7df0 2%,var(--dsw-alias-bg-base))}
 .ot-progress-detail-block{display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -6019,7 +5981,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}}
 `
 
     /* ------------------------------------------------------------------ apply */

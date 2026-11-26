@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.14.0 — 2026-11-26
+
+- Merged the standalone **项目成果** section into **项目进度**.
+- Each project progress row now shows that project's latest outcome; expanding it lists all outcomes belonging to that project.
+- Project outcomes are now strictly tied to their project (one project → its outcome timeline), including the outcome count in **近期项目**; there is no global outcome list or project-outcome filter.
+- Removed the standalone outcomes card from both the project guide and the match result area.
+- The progress project filter now filters projects and their outcomes together.
+
 ## 1.13.0 — 2026-11-26
 
 - Added **新建员工 / Add employee** to the Talent pool header:

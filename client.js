@@ -371,6 +371,17 @@ window.__ModuleLoader__.load({
         'project.cancel': '取消',
         'project.emptyFeedback': '至少填写一项反馈再保存。',
         'project.feedbackSaved': '项目反馈已保存。',
+        'project.feedbackParsed': '反馈已保存：成果 {outcomes} 项，预警 {alerts} 项。',
+        'feedback.pasteLabel': '粘贴阶段反馈',
+        'feedback.pastePlaceholder': '粘贴项目进展、会议纪要或一段反馈，系统会按关键词自动拆分…',
+        'feedback.pasteHint': '支持「成果：」「卡点：」「难点：」「变更点：」标记；无标记时按关键词归类。内容只在本机解析。',
+        'feedback.detected': '智能识别结果',
+        'feedback.detectedCount': '共 {n} 项',
+        'feedback.toOutcome': '项目成果',
+        'feedback.toBlocker': '项目预警 · 卡点',
+        'feedback.toDifficulty': '项目预警 · 难点',
+        'feedback.toChange': '项目预警 · 变更点',
+        'feedback.none': '未识别出可分配的内容',
         'project.created': '项目团队已立项，可以点「开始工作」分配任务。',
         'project.history': '反馈记录（{n}）',
         'project.recordFeedback': '记录反馈',
@@ -787,6 +798,17 @@ window.__ModuleLoader__.load({
         'project.cancel': 'Cancel',
         'project.emptyFeedback': 'Fill in at least one feedback field before saving.',
         'project.feedbackSaved': 'Project feedback saved.',
+        'project.feedbackParsed': 'Feedback saved: {outcomes} outcome(s), {alerts} alert(s).',
+        'feedback.pasteLabel': 'Paste stage feedback',
+        'feedback.pastePlaceholder': 'Paste progress notes, meeting minutes or feedback; the plugin separates outcomes, blockers, difficulties and changes…',
+        'feedback.pasteHint': 'Supports “Outcome:”, “Blocker:”, “Difficulty:” and “Change:” labels; unlabelled lines are classified by keywords. Parsing stays local.',
+        'feedback.detected': 'Detected',
+        'feedback.detectedCount': '{n} item(s)',
+        'feedback.toOutcome': 'Project outcome',
+        'feedback.toBlocker': 'Project alert · blocker',
+        'feedback.toDifficulty': 'Project alert · difficulty',
+        'feedback.toChange': 'Project alert · change',
+        'feedback.none': 'Nothing could be classified yet',
         'project.created': 'Project team created. Click “Start work” to assign tasks.',
         'project.history': 'Feedback history ({n})',
         'project.recordFeedback': 'Record feedback',
@@ -2152,6 +2174,80 @@ window.__ModuleLoader__.load({
       }, icon ? h(Icon, { name: icon, size: small ? 13 : 15 }) : null, h('span', { className: 'ot-btn-label' }, children))
     }
 
+    function parseFeedbackPaste(raw) {
+      const empty = {
+        outcome: '',
+        blockers: '',
+        difficulties: '',
+        changes: '',
+        counts: { outcome: 0, blockers: 0, difficulties: 0, changes: 0 },
+        total: 0,
+      }
+      const text = String(raw || '').replace(/\r\n?/g, '\n').trim()
+      if (!text) return empty
+      const buckets = { outcome: [], blockers: [], difficulties: [], changes: [] }
+      const labelKey = marker => {
+        const value = marker.toLowerCase()
+        if (/成果|结果|产出|进展|output|outcome|result/.test(value)) return 'outcome'
+        if (/卡点|阻塞|依赖|风险|blocker|blocked|dependency|risk/.test(value)) return 'blockers'
+        if (/难点|困难|挑战|difficulty|challenge/.test(value)) return 'difficulties'
+        return 'changes'
+      }
+      const classify = line => {
+        const value = line.toLowerCase()
+        if (/卡点|阻塞|依赖|等待|未开通|缺少|资源|风险|blocker|blocked|dependency|waiting|risk/.test(value)) return 'blockers'
+        if (/难点|困难|挑战|复杂|分歧|不一致|口径|技术|difficulty|challenge|complex/.test(value)) return 'difficulties'
+        if (/变更|调整|范围|新增|改期|延期|替换|扩大|缩小|change|adjust|scope/.test(value)) return 'changes'
+        return 'outcome'
+      }
+      const add = (key, value) => {
+        const cleaned = String(value || '').replace(/^[；;，,\s]+|[；;，,\s]+$/g, '').trim()
+        if (cleaned) buckets[key].push(cleaned)
+      }
+      const lines = text.split(/\n+/)
+      for (let line of lines) {
+        line = line
+          .replace(/^\s*#{1,6}\s*/, '')
+          .replace(/^\s*(?:[-*+•]|\d+[.)、])\s*/, '')
+          .replace(/\*\*|__|`/g, '')
+          .trim()
+        if (!line) continue
+        const labelPattern = /(成果|结果|产出|进展|卡点|阻塞|依赖|风险|难点|困难|挑战|变更点|变更|调整|output|outcome|result|blocker|blocked|dependency|risk|difficulty|challenge|change|adjust|scope)\s*[:：]\s*/gi
+        const matches = [...line.matchAll(labelPattern)]
+        if (matches.length) {
+          const prefix = line.slice(0, matches[0].index).trim()
+          if (prefix.length > 8) add(classify(prefix), prefix)
+          matches.forEach((match, index) => {
+            const start = match.index + match[0].length
+            const end = index + 1 < matches.length ? matches[index + 1].index : line.length
+            add(labelKey(match[1]), line.slice(start, end))
+          })
+        } else {
+          add(classify(line), line)
+        }
+      }
+      const join = list => [...new Set(list)].join('；').slice(0, 4000)
+      const result = {
+        outcome: join(buckets.outcome),
+        blockers: join(buckets.blockers),
+        difficulties: join(buckets.difficulties),
+        changes: join(buckets.changes),
+        counts: {
+          outcome: buckets.outcome.length,
+          blockers: buckets.blockers.length,
+          difficulties: buckets.difficulties.length,
+          changes: buckets.changes.length,
+        },
+        total: buckets.outcome.length + buckets.blockers.length + buckets.difficulties.length + buckets.changes.length,
+      }
+      if (!result.total) {
+        result.outcome = text.slice(0, 4000)
+        result.counts.outcome = 1
+        result.total = 1
+      }
+      return result
+    }
+
     function ProjectSearchSelect({ projects, value, onChange, placeholder, listId, fallback }) {
       const selected = projects.find(project => project.id === value) || null
       const [query, setQuery] = React.useState('')
@@ -2324,19 +2420,13 @@ window.__ModuleLoader__.load({
       const [skillSearchNote, setSkillSearchNote] = useState(null)
       const [projectFormOpen, setProjectFormOpen] = useState(false)
       const [projectName, setProjectName] = useState('')
-      const [projectOutcome, setProjectOutcome] = useState('')
-      const [projectIssues, setProjectIssues] = useState('')
-      const [projectDifficulties, setProjectDifficulties] = useState('')
-      const [projectAdjustment, setProjectAdjustment] = useState('')
+      const [projectPaste, setProjectPaste] = useState('')
       const [memoOpen, setMemoOpen] = useState(false)
       const [memoProjectId, setMemoProjectId] = useState('')
       const [memoText, setMemoText] = useState('')
       const [memoStatus, setMemoStatus] = useState(null)
       const [feedbackTargetId, setFeedbackTargetId] = useState('')
-      const [feedbackModalOutcome, setFeedbackModalOutcome] = useState('')
-      const [feedbackModalBlockers, setFeedbackModalBlockers] = useState('')
-      const [feedbackModalDifficulties, setFeedbackModalDifficulties] = useState('')
-      const [feedbackModalChanges, setFeedbackModalChanges] = useState('')
+      const [feedbackPaste, setFeedbackPaste] = useState('')
       const [feedbackModalError, setFeedbackModalError] = useState(null)
       const [projectNote, setProjectNote] = useState(null)
       const [showAllRequirements, setShowAllRequirements] = useState(false)
@@ -2470,6 +2560,8 @@ window.__ModuleLoader__.load({
       const selectedPoolProject = projects.find(project => project.id === poolProjectId) || projects[0] || null
       const memoProject = projects.find(project => project.id === memoProjectId) || null
       const feedbackTargetProject = projects.find(project => project.id === feedbackTargetId) || null
+      const projectPasteParsed = parseFeedbackPaste(projectPaste)
+      const feedbackPasteParsed = parseFeedbackPaste(feedbackPaste)
 
       const activeTeam = useMemo(() => {
         if (!teams.length) return null
@@ -2938,23 +3030,20 @@ window.__ModuleLoader__.load({
         const name = projectName.trim() || (savedProject && savedProject.name) || defaultProjectName
         let feedback = null
         if (withFeedback) {
-          const outcome = projectOutcome.trim()
-          const blockers = projectIssues.trim()
-          const difficulties = projectDifficulties.trim()
-          const changes = projectAdjustment.trim()
-          if (!outcome && !blockers && !difficulties && !changes) {
+          const parsed = parseFeedbackPaste(projectPaste)
+          if (!projectPaste.trim() || !parsed.total) {
             setProjectNote(t('project.emptyFeedback'))
             return
           }
           feedback = {
             id: 'fb-' + Date.now().toString(36),
             at: new Date().toISOString(),
-            outcome: outcome.slice(0, 4000),
-            blockers: blockers.slice(0, 4000),
-            difficulties: difficulties.slice(0, 4000),
-            changes: changes.slice(0, 4000),
-            issues: blockers.slice(0, 4000),
-            adjustment: changes.slice(0, 4000),
+            outcome: parsed.outcome,
+            blockers: parsed.blockers,
+            difficulties: parsed.difficulties,
+            changes: parsed.changes,
+            issues: parsed.blockers,
+            adjustment: parsed.changes,
           }
         }
         const now = new Date().toISOString()
@@ -2989,10 +3078,7 @@ window.__ModuleLoader__.load({
         })
         setProjectNote(withFeedback ? t('project.feedbackSaved') : t('project.created'))
         if (withFeedback) {
-          setProjectOutcome('')
-          setProjectIssues('')
-          setProjectDifficulties('')
-          setProjectAdjustment('')
+          setProjectPaste('')
           setProjectFormOpen(false)
         }
       }
@@ -3000,10 +3086,7 @@ window.__ModuleLoader__.load({
       useEffect(() => {
         setProjectFormOpen(false)
         setProjectName('')
-        setProjectOutcome('')
-        setProjectIssues('')
-        setProjectDifficulties('')
-        setProjectAdjustment('')
+        setProjectPaste('')
         setProjectNote(null)
       }, [projectKey])
 
@@ -3112,10 +3195,7 @@ window.__ModuleLoader__.load({
         const project = projects.find(item => item.id === projectId)
         if (!project) return
         setFeedbackTargetId(project.id)
-        setFeedbackModalOutcome(String(initialOutcome || '').slice(0, 4000))
-        setFeedbackModalBlockers('')
-        setFeedbackModalDifficulties('')
-        setFeedbackModalChanges('')
+        setFeedbackPaste(String(initialOutcome || '').slice(0, 8000))
         setFeedbackModalError(null)
         setMemoOpen(false)
       }
@@ -3138,11 +3218,8 @@ window.__ModuleLoader__.load({
       const saveDirectFeedback = () => {
         const project = feedbackTargetProject
         if (!project) return
-        const outcome = feedbackModalOutcome.trim()
-        const blockers = feedbackModalBlockers.trim()
-        const difficulties = feedbackModalDifficulties.trim()
-        const changes = feedbackModalChanges.trim()
-        if (!outcome && !blockers && !difficulties && !changes) {
+        const parsed = parseFeedbackPaste(feedbackPaste)
+        if (!feedbackPaste.trim() || !parsed.total) {
           setFeedbackModalError(t('project.emptyFeedback'))
           return
         }
@@ -3150,12 +3227,12 @@ window.__ModuleLoader__.load({
         const entry = {
           id: 'fb-' + Date.now().toString(36),
           at: now,
-          outcome: outcome.slice(0, 4000),
-          blockers: blockers.slice(0, 4000),
-          difficulties: difficulties.slice(0, 4000),
-          changes: changes.slice(0, 4000),
-          issues: blockers.slice(0, 4000),
-          adjustment: changes.slice(0, 4000),
+          outcome: parsed.outcome,
+          blockers: parsed.blockers,
+          difficulties: parsed.difficulties,
+          changes: parsed.changes,
+          issues: parsed.blockers,
+          adjustment: parsed.changes,
         }
         setData(previous => ({
           ...previous,
@@ -3165,14 +3242,14 @@ window.__ModuleLoader__.load({
               : item),
         }))
         setFeedbackTargetId('')
-        setFeedbackModalOutcome('')
-        setFeedbackModalBlockers('')
-        setFeedbackModalDifficulties('')
-        setFeedbackModalChanges('')
+        setFeedbackPaste('')
         setFeedbackModalError(null)
         setProjectProgressId(project.id)
         setTab('project')
-        setNote(t('project.feedbackSaved'))
+        setNote(t('project.feedbackParsed', {
+          outcomes: parsed.counts.outcome,
+          alerts: parsed.counts.blockers + parsed.counts.difficulties + parsed.counts.changes,
+        }))
       }
 
 
@@ -4178,6 +4255,23 @@ window.__ModuleLoader__.load({
           open ? renderProjectDetail(project, progress) : null)
       }
 
+      const renderParsePreview = parsed => h('div', { className: 'ot-parse-preview' },
+        h('div', { className: 'ot-parse-head' },
+          h(Icon, { name: 'sparkle', size: 14 }),
+          h('b', null, t('feedback.detected')),
+          h('span', null, t('feedback.detectedCount', { n: parsed.total }))),
+        parsed.total
+          ? h('div', { className: 'ot-parse-grid' },
+            parsed.outcome ? h('div', { className: 'ot-parse-row', 'data-tone': 'violet' },
+              h('b', null, t('feedback.toOutcome')), h('span', null, parsed.outcome)) : null,
+            parsed.blockers ? h('div', { className: 'ot-parse-row', 'data-tone': 'rose' },
+              h('b', null, t('feedback.toBlocker')), h('span', null, parsed.blockers)) : null,
+            parsed.difficulties ? h('div', { className: 'ot-parse-row', 'data-tone': 'amber' },
+              h('b', null, t('feedback.toDifficulty')), h('span', null, parsed.difficulties)) : null,
+            parsed.changes ? h('div', { className: 'ot-parse-row', 'data-tone': 'blue' },
+              h('b', null, t('feedback.toChange')), h('span', null, parsed.changes)) : null)
+          : h('p', { className: 'ot-hint' }, t('feedback.none')))
+
       const outcomesCard = h('section', { className: 'ot-guide-card ot-outcomes-card', style: { '--ot-section': '#8b5cf6' } },
         h('div', { className: 'ot-guide-card-head' },
           h('div', null,
@@ -4882,41 +4976,16 @@ window.__ModuleLoader__.load({
             h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setProjectFormOpen(false) },
               h(Icon, { name: 'close', size: 13 }))),
           h('label', { className: 'ot-project-field' },
-            h('span', null, t('project.outcome')),
+            h('span', null, t('feedback.pasteLabel')),
             h('textarea', {
-              className: 'ot-textarea',
-              rows: 2,
-              value: projectOutcome,
-              placeholder: t('project.outcomePlaceholder'),
-              onChange: event => setProjectOutcome(event.target.value),
+              className: 'ot-textarea ot-paste-area',
+              rows: 5,
+              value: projectPaste,
+              placeholder: t('feedback.pastePlaceholder'),
+              onChange: event => setProjectPaste(event.target.value),
             })),
-          h('label', { className: 'ot-project-field' },
-            h('span', null, t('project.issues')),
-            h('textarea', {
-              className: 'ot-textarea',
-              rows: 2,
-              value: projectIssues,
-              placeholder: t('project.issuesPlaceholder'),
-              onChange: event => setProjectIssues(event.target.value),
-            })),
-          h('label', { className: 'ot-project-field' },
-            h('span', null, t('project.difficulties')),
-            h('textarea', {
-              className: 'ot-textarea',
-              rows: 2,
-              value: projectDifficulties,
-              placeholder: t('project.difficultiesPlaceholder'),
-              onChange: event => setProjectDifficulties(event.target.value),
-            })),
-          h('label', { className: 'ot-project-field' },
-            h('span', null, t('project.adjustment')),
-            h('textarea', {
-              className: 'ot-textarea',
-              rows: 2,
-              value: projectAdjustment,
-              placeholder: t('project.adjustmentPlaceholder'),
-              onChange: event => setProjectAdjustment(event.target.value),
-            })),
+          h('p', { className: 'ot-hint' }, t('feedback.pasteHint')),
+          projectPaste.trim() ? renderParsePreview(projectPasteParsed) : null,
           h('div', { className: 'ot-project-form-actions' },
             h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: () => saveProject(true) }, t('project.saveFeedback')),
             h(Btn, { small: true, onClick: () => setProjectFormOpen(false) }, t('project.cancel')))) : null,
@@ -5012,41 +5081,16 @@ window.__ModuleLoader__.load({
           h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setFeedbackTargetId('') },
             h(Icon, { name: 'close', size: 13 }))),
         h('label', { className: 'ot-project-field' },
-          h('span', null, t('project.outcome')),
+          h('span', null, t('feedback.pasteLabel')),
           h('textarea', {
-            className: 'ot-textarea',
-            rows: 3,
-            value: feedbackModalOutcome,
-            placeholder: t('project.outcomePlaceholder'),
-            onChange: event => setFeedbackModalOutcome(event.target.value),
+            className: 'ot-textarea ot-paste-area',
+            rows: 7,
+            value: feedbackPaste,
+            placeholder: t('feedback.pastePlaceholder'),
+            onChange: event => { setFeedbackPaste(event.target.value); setFeedbackModalError(null) },
           })),
-        h('label', { className: 'ot-project-field' },
-          h('span', null, t('project.issues')),
-          h('textarea', {
-            className: 'ot-textarea',
-            rows: 2,
-            value: feedbackModalBlockers,
-            placeholder: t('project.issuesPlaceholder'),
-            onChange: event => setFeedbackModalBlockers(event.target.value),
-          })),
-        h('label', { className: 'ot-project-field' },
-          h('span', null, t('project.difficulties')),
-          h('textarea', {
-            className: 'ot-textarea',
-            rows: 2,
-            value: feedbackModalDifficulties,
-            placeholder: t('project.difficultiesPlaceholder'),
-            onChange: event => setFeedbackModalDifficulties(event.target.value),
-          })),
-        h('label', { className: 'ot-project-field' },
-          h('span', null, t('project.adjustment')),
-          h('textarea', {
-            className: 'ot-textarea',
-            rows: 2,
-            value: feedbackModalChanges,
-            placeholder: t('project.adjustmentPlaceholder'),
-            onChange: event => setFeedbackModalChanges(event.target.value),
-          })),
+        h('p', { className: 'ot-hint' }, t('feedback.pasteHint')),
+        feedbackPaste.trim() ? renderParsePreview(feedbackPasteParsed) : null,
         feedbackModalError ? h('p', { className: 'ot-hint ot-bad', role: 'status' }, feedbackModalError) : null,
         h('div', { className: 'ot-modal-actions' },
           h(Btn, { small: true, onClick: () => setFeedbackTargetId('') }, t('project.cancel')),
@@ -5739,10 +5783,23 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-modal-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;border-top:1px solid var(--ot-line);padding-top:10px;margin-top:2px}
 .ot-feedback-modal .ot-project-field textarea{min-height:62px}
 .ot-feedback-modal .ot-project-field span{font-size:11px;color:var(--ot-muted)}
+.ot-paste-area{min-height:118px;font-size:var(--ot-fs-body);line-height:1.6;resize:vertical}
+.ot-parse-preview{display:flex;flex-direction:column;gap:7px;padding:10px;border:1px solid var(--ot-line);border-radius:10px;background:color-mix(in srgb,var(--ot-brand) 3%,var(--ot-card))}
+.ot-parse-head{display:flex;align-items:center;gap:6px;color:var(--ot-brand);min-width:0}
+.ot-parse-head b{font-size:var(--ot-fs-sub);font-weight:600;line-height:18px}
+.ot-parse-head span{margin-left:auto;font-size:11px;color:var(--ot-muted);white-space:nowrap}
+.ot-parse-grid{display:flex;flex-direction:column;gap:5px}
+.ot-parse-row{display:grid;grid-template-columns:98px minmax(0,1fr);gap:8px;font-size:var(--ot-fs-body);line-height:1.5;min-width:0}
+.ot-parse-row b{font-size:11px;line-height:18px;font-weight:500;color:var(--ot-muted);border-left:2px solid var(--ot-line-2);padding-left:6px;align-self:start}
+.ot-parse-row span{color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ot-parse-row[data-tone="violet"] b{border-color:#8b5cf6}
+.ot-parse-row[data-tone="rose"] b{border-color:#e05a7d}
+.ot-parse-row[data-tone="amber"] b{border-color:#e0932f}
+.ot-parse-row[data-tone="blue"] b{border-color:#4c7df0}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}}
 `
 
     /* ------------------------------------------------------------------ apply */

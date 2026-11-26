@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.11.0 — 2026-11-26
+
+- Replaced the four-field feedback form with a **single paste box** in both the direct project feedback modal and the match-result project panel.
+- Added local intelligent parsing:
+  - explicit labels such as **成果： / 卡点： / 难点： / 变更点：**;
+  - bullet, numbered and Markdown-style pasted notes;
+  - keyword fallback for unlabelled lines (e.g. 等待/依赖 → blocker, 分歧/复杂 → difficulty, 新增/调整 → change, 完成/交付 → outcome).
+- The parsed result is previewed before saving and explicitly shows what will be written to **项目成果** and **项目预警**.
+- Saving still updates project outcomes, progress feedback and the alert bar; desktop memo “记入反馈” now prefills the paste box.
+- Parsing runs entirely in the browser; pasted text is not sent to a model or external service.
+
 ## 1.10.0 — 2026-11-25
 
 - Added a **桌面备忘录 / Desktop memo**:

@@ -4,7 +4,7 @@ This package is ready for the DSH community plugin market. The public repository
 
 ## 0. What is already prepared
 
-- Public repository: <https://github.com/MagicMOl/dsh-org-talent>, branch `main`, tag `v1.10.0`.
+- Public repository: <https://github.com/MagicMOl/dsh-org-talent>, branch `main`, tag `v1.11.0`.
 - `package.json` declares `dsh.bundle` + `dsh.client`, `engines.dsh`, an MIT license, keywords, `files`, public publish config, and the matching `repository`/`homepage`.
 - `cordis.patch.yml` inserts the `org-talent` bundle row.
 - The package installs locally with `dsh plugin --profile desktop add <path>` and was verified in a DSH 0.2.2-rc.5 profile.
@@ -64,7 +64,7 @@ Requirements checked by the list: `dsh.bundle` in the repo's `package.json`, a r
 
   Only GitHub-hosted raster images; paths are relative to `screenshots.json` and must stay inside the package directory. Do not add fake screenshots.
 - **Catalog icon**: a square 180–512 px PNG/JPEG/WebP in the repository, declared as `icon:` in the catalog entry. SVG is not accepted by the catalog.
-- **GitHub Release tarball** (only if you skip npm): attach `npm pack` output to a release and add `tarball: https://github.com/MagicMOl/dsh-org-talent/releases/download/v1.10.0/dsh-org-talent-1.10.0.tgz`.
+- **GitHub Release tarball** (only if you skip npm): attach `npm pack` output to a release and add `tarball: https://github.com/MagicMOl/dsh-org-talent/releases/download/v1.11.0/dsh-org-talent-1.11.0.tgz`.
 
 ## 5. Verify before submitting
 

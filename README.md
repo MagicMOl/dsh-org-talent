@@ -30,7 +30,7 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - The requirement area defaults to the **highest-priority requirement**; **展开全部** reveals the full list without changing the underlying requirements.
 - Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress, violet project outcomes, amber project alerts and teal recent projects.
 - **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date. A searchable project dropdown filters the section.
-- Click a progress row to expand **阶段成果预览**, **成员完成情况** and **反馈信息** (latest two feedback entries with blockers/difficulties/changes).
+- Click a progress row to expand **阶段成果预览**, **成员完成情况** and **反馈信息** (latest two pasted feedback entries with parsed blockers/difficulties/changes).
 - **项目成果**: stage outcomes from feedback, each with summary, blockers, difficulties and changes; a searchable project dropdown filters the list. It also appears in the match result area.
 - **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
 - Progress, outcomes and recent projects are stacked as full-width rows rather than squeezed into three columns; each carries lists, filters and detail text.
@@ -39,11 +39,20 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - Each progress row also offers **备忘录** and **记录反馈** directly, so feedback no longer requires returning to the match result.
 - **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and **saved stage feedback**. A project search dropdown filters alerts; click an alert to jump to its project.
 
+### 智能粘贴反馈 · Smart feedback paste
+
+- **记录反馈** is now one paste box, both in the direct project modal and in the match-result project panel.
+- Paste a progress update, meeting note or bullet list; the local parser separates:
+  - **成果** → project outcomes;
+  - **卡点 / 难点 / 变更点** → project alerts.
+- Explicit labels such as `成果：`, `卡点：`, `难点：`, `变更点：` are respected; unlabelled lines fall back to keyword classification (等待/依赖 → 卡点, 分歧/复杂 → 难点, 新增/调整 → 变更点, 完成/交付 → 成果).
+- A preview shows exactly where each item will go before saving; parsing runs entirely in the browser.
+
 ### 桌面备忘录 · Desktop memo
 
 - Open **备忘录** from the project hero or any progress row; the memo auto-links to that project.
 - One lightweight note per project with local persistence and last-saved time.
-- **记入反馈** saves the memo and opens the feedback form with the memo text prefilled as the outcome.
+- **记入反馈** saves the memo and opens the paste box with the memo text prefilled.
 - Memos are intentionally plain text — no rich text or formatting overhead.
 
 ### 需求池 · Requirement pool
@@ -124,7 +133,7 @@ Only the search keyword is sent to GitHub; employee names, skills and feedback a
 
 ## Project team · 项目团队
 
-After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **开始工作** creates the workspace project and assigns tasks to members; **记录反馈** captures **成果 / 卡点 / 难点 / 变更点**, with a dated feedback history that also feeds the project alert bar and project outcomes. Feedback and workspace tasks stay in this browser and are kept separately for each distinct goal + member combination.
+After matching, the **项目团队** module shows the recommended team, goal, covered requirements and availability. **立项并跟踪** saves the team as a local project; **开始工作** creates the workspace project and assigns tasks to members; **记录反馈** opens one paste box whose text is parsed into **成果 / 卡点 / 难点 / 变更点**, with a dated feedback history that also feeds the project alert bar and project outcomes. Feedback and workspace tasks stay in this browser and are kept separately for each distinct goal + member combination.
 
 ## How matching works · 匹配方式
 
@@ -140,7 +149,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 - Employee data, training plans, project teams, tasks, requirement pool, desktop memos, feedback and match history are stored in this browser's `localStorage`.
 - CSV/TSV/JSON/Markdown/XLSX import and CSV export move data only through the file the user chooses.
 - **Skill research** sends only the typed keyword to `api.github.com`; no employee data is sent.
-- **Workspace task conversations** are explicit user actions: clicking a task sends its task/project/team details to a DSH conversation, which follows the workspace's agent and model settings. Other calculations run locally, with no telemetry.
+- **Workspace task conversations** are explicit user actions: clicking a task sends its task/project/team details to a DSH conversation, which follows the workspace's agent and model settings. **Feedback paste parsing** runs locally with deterministic rules and is never sent to a model. Other calculations run locally, with no telemetry.
 - Clearing site data or using another browser loses locally stored employees; export CSV as a backup.
 
 ## Limitations · 限制
@@ -164,7 +173,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.10.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.10.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.11.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.11.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.1 — 2026-11-26
+
+- Finalized the 1.15 project-workflow release:
+  - the **人才匹配** tab label is restored consistently;
+  - project outcomes appear only once, in the expanded progress detail (the duplicate row band is gone);
+  - product-acceptance reviewer and acceptance task are present on new projects;
+  - normalized requirement deduplication and duplicate-development blocking are active.
+
 ## 1.15.0 — 2026-11-26
 
 - Removed the duplicated outcome band from each project progress row; outcomes now appear once, inside the expanded project progress detail.

@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.12.0 — 2026-11-26
+
+- Moved **导入员工 / 导出 CSV** from the global header to the **人才库 / Talent pool** page header.
+- Added **GitHub employee import**:
+  - paste a public repository URL or `owner/repo`;
+  - read up to 100 contributors from `api.github.com`;
+  - de-duplicate by GitHub login and add contributors with role, team and source focus;
+  - only the repository address is sent to GitHub.
+- Removed duplicate alert information from the project guide:
+  - **项目进度** now keeps only outcome/stage/member information;
+  - removed the progress **反馈信息** block and feedback count;
+  - project outcomes show only outcome summaries, without blocker/difficulty/change tags;
+  - **项目预警** is now the single place for 卡点 / 难点 / 变更点.
+- Feedback parsing and desktop memo behavior are unchanged.
+
 ## 1.11.0 — 2026-11-26
 
 - Replaced the four-field feedback form with a **single paste box** in both the direct project feedback modal and the match-result project panel.

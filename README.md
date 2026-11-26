@@ -30,14 +30,14 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - The requirement area defaults to the **highest-priority requirement**; **展开全部** reveals the full list without changing the underlying requirements.
 - Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress, violet project outcomes, amber project alerts and teal recent projects.
 - **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date. A searchable project dropdown filters the section.
-- Click a progress row to expand **阶段成果预览**, **成员完成情况** and **反馈信息** (latest two pasted feedback entries with parsed blockers/difficulties/changes).
-- **项目成果**: stage outcomes from feedback, each with summary, blockers, difficulties and changes; a searchable project dropdown filters the list. It also appears in the match result area.
+- Click a progress row to expand **阶段成果预览** and **成员完成情况**. Alert details are not repeated in progress.
+- **项目成果**: outcome summaries from feedback; a searchable project dropdown filters the list. It also appears in the match result area. Blockers, difficulties and changes are not repeated here.
 - **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
 - Progress, outcomes and recent projects are stacked as full-width rows rather than squeezed into three columns; each carries lists, filters and detail text.
 - **Typography hierarchy**: card/section titles are 14px/600, in-card subheads 12.5px/600, primary body 12px, secondary hints 11.5px, and meta labels 11px, so titles no longer read at the same size as their content.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
 - Each progress row also offers **备忘录** and **记录反馈** directly, so feedback no longer requires returning to the match result.
-- **项目预警** bar with **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and **saved stage feedback**. A project search dropdown filters alerts; click an alert to jump to its project.
+- **项目预警** is the single place for **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and saved stage feedback. A project search dropdown filters alerts; click an alert to jump to its project. The old progress “反馈信息” block was removed to avoid duplication.
 
 ### 智能粘贴反馈 · Smart feedback paste
 
@@ -76,7 +76,9 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - Every employee in one roster with role, department/team, level, availability, current skills and skill level.
 - Search by name, role, team or skill; filter by department; show only people with at least 50% availability; sort by name, availability or skill count.
 - Open a profile for all skills, strengths, growth areas and current focus.
+- Import/export actions sit beside the **人才库 / Talent pool** title, not in the global header.
 - Import employees from CSV, TSV, JSON, Markdown tables or XLSX (first worksheet) — choose a file or drop it in; text files show a CSV preview before merging. Export the current roster, or restore the sample organization.
+- **Import from GitHub**: paste a public repository link (or `owner/repo`) to read up to 100 contributors, de-duplicate by GitHub login and add them to the talent pool. Only the repository address is sent to `api.github.com`.
 - People are color-coded by department; availability uses success/warning/error states.
 
 ### 组织架构 · Organization
@@ -148,7 +150,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 - Employee data, training plans, project teams, tasks, requirement pool, desktop memos, feedback and match history are stored in this browser's `localStorage`.
 - CSV/TSV/JSON/Markdown/XLSX import and CSV export move data only through the file the user chooses.
-- **Skill research** sends only the typed keyword to `api.github.com`; no employee data is sent.
+- **Skill research** sends only the typed keyword to `api.github.com`; **GitHub employee import** sends only the repository address. No employee data is sent.
 - **Workspace task conversations** are explicit user actions: clicking a task sends its task/project/team details to a DSH conversation, which follows the workspace's agent and model settings. **Feedback paste parsing** runs locally with deterministic rules and is never sent to a model. Other calculations run locally, with no telemetry.
 - Clearing site data or using another browser loses locally stored employees; export CSV as a backup.
 
@@ -160,6 +162,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 - The talent pool is single-browser, not a shared HR database.
 - The organization chart uses the flattened department/team fields from the roster; it does not model a multi-level reporting line.
 - Skill research needs internet access; the public GitHub search API is rate-limited (10 requests/minute unauthenticated). A GitHub repository is not a validated competency — **补到技能** adds it at Lv.1 for a human to review.
+- **GitHub employee import** reads public repository contributors only (up to 100) and needs internet access; the unauthenticated API is rate-limited. Contributor logins are imported with an inferred level and no skills, so add skills manually before relying on matching.
 - Project feedback is local to this browser; it does not sync across devices.
 - Task conversations require the running DSH workspace/session services. If they are unavailable, the plugin opens a workspace draft with the task text instead.
 - If a project's conversation was archived or removed, the next task click creates a new conversation and updates the project's stored conversation ID.
@@ -173,7 +176,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.11.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.11.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.12.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.12.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

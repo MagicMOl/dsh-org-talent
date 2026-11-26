@@ -147,10 +147,10 @@ window.__ModuleLoader__.load({
         'guide.noMatchingProjects': '没有匹配的项目',
         'guide.filterHint': '清空检索可查看全部项目',
         'guide.outcomes': '项目成果',
-        'guide.outcomesHint': '阶段成果与卡点 / 难点 / 变更点',
+        'guide.outcomesHint': '阶段成果摘要与来源项目；卡点 / 难点 / 变更点只在项目预警中展示。',
         'guide.outcomeCount': '{n} 项成果',
         'guide.noOutcomes': '暂无项目成果',
-        'guide.noOutcomesHint': '在项目反馈中记录成果后，会同步到这里和预警栏。',
+        'guide.noOutcomesHint': '在项目反馈中记录成果后会同步到这里；卡点/难点/变更点进入项目预警。',
         'guide.recentProjects': '近期项目',
         'guide.recentProjectsHint': '按最近更新时间排序',
         'guide.projectUpdated': '更新于 {date}',
@@ -419,6 +419,20 @@ window.__ModuleLoader__.load({
         'import.title': '导入员工',
         'import.hint': '每行一名员工：姓名,职位,部门,团队,职级,可投入(0-100),技能。技能用 | 分隔，等级 1-5，例如 React:4|TypeScript:3。同名员工会被覆盖。',
         'import.formats': '支持 CSV、TSV、JSON、Markdown 表格与 XLSX（首个工作表）；也可直接拖入文件。',
+        'import.githubTitle': '从 GitHub 导入',
+        'import.githubPlaceholder': '粘贴 GitHub 仓库链接，如 https://github.com/owner/repo',
+        'import.githubButton': '导入贡献者',
+        'import.githubLoading': '读取中…',
+        'import.githubHint': '读取公开仓库的贡献者（最多 100 人），按 GitHub login 去重；只把仓库地址发送到 api.github.com。',
+        'import.githubBad': '无法识别 GitHub 链接，请粘贴仓库地址或 owner/repo。',
+        'import.githubNotFound': '仓库不存在或不是公开仓库。',
+        'import.githubRate': 'GitHub API 频率超限，请稍后再试。',
+        'import.githubEmpty': '该仓库没有可导入的贡献者。',
+        'import.githubNoNew': '该仓库的贡献者都已在人才库中。',
+        'import.githubDone': '已从 {repo} 导入 {n} 名贡献者。',
+        'import.githubFailed': 'GitHub 导入失败：{error}',
+        'import.githubRole': 'GitHub 贡献者',
+        'import.githubFocus': '贡献者 · {repo}',
         'import.chooseFile': '选择文件',
         'import.dropHint': '或把文件拖到这里',
         'import.reading': '正在读取文件…',
@@ -574,10 +588,10 @@ window.__ModuleLoader__.load({
         'guide.noMatchingProjects': 'No matching project',
         'guide.filterHint': 'Clear the filter to see all projects',
         'guide.outcomes': 'Project outcomes',
-        'guide.outcomesHint': 'Stage outcomes and blockers / difficulties / changes',
+        'guide.outcomesHint': 'Stage outcome summaries and their source projects; blockers, difficulties and changes live only in project alerts.',
         'guide.outcomeCount': '{n} outcomes',
         'guide.noOutcomes': 'No project outcomes yet',
-        'guide.noOutcomesHint': 'Record an outcome in project feedback to sync it here and into alerts.',
+        'guide.noOutcomesHint': 'Record an outcome in project feedback to sync it here; blockers, difficulties and changes go to project alerts.',
         'guide.recentProjects': 'Recent projects',
         'guide.recentProjectsHint': 'Sorted by most recently updated',
         'guide.projectUpdated': 'Updated {date}',
@@ -846,6 +860,20 @@ window.__ModuleLoader__.load({
         'import.title': 'Import employees',
         'import.hint': 'One employee per line: name, role, department, team, level, availability (0-100), skills. Separate skills with |, levels 1-5, e.g. React:4|TypeScript:3. An employee with the same name is overwritten.',
         'import.formats': 'Supports CSV, TSV, JSON, Markdown tables and XLSX (first sheet); you can also drop a file here.',
+        'import.githubTitle': 'Import from GitHub',
+        'import.githubPlaceholder': 'Paste a GitHub repository link, e.g. https://github.com/owner/repo',
+        'import.githubButton': 'Import contributors',
+        'import.githubLoading': 'Reading…',
+        'import.githubHint': 'Reads contributors from a public repository (up to 100), de-duplicates by GitHub login, and sends only the repository address to api.github.com.',
+        'import.githubBad': 'Could not recognize a GitHub link. Paste a repository URL or owner/repo.',
+        'import.githubNotFound': 'Repository not found or not public.',
+        'import.githubRate': 'GitHub API rate limit reached; try again later.',
+        'import.githubEmpty': 'This repository has no contributors to import.',
+        'import.githubNoNew': 'All contributors from this repository are already in the talent pool.',
+        'import.githubDone': 'Imported {n} contributor(s) from {repo}.',
+        'import.githubFailed': 'GitHub import failed: {error}',
+        'import.githubRole': 'GitHub contributor',
+        'import.githubFocus': 'Contributor · {repo}',
         'import.chooseFile': 'Choose file',
         'import.dropHint': 'or drop a file here',
         'import.reading': 'Reading file…',
@@ -2127,6 +2155,7 @@ window.__ModuleLoader__.load({
       chart: [['path', { d: 'M4 20V11M10 20V4M16 20v-6M2 20h20' }]],
       grid: [['rect', { x: 4, y: 4, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 13, y: 4, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 4, y: 13, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 13, y: 13, width: 7, height: 7, rx: 1.4 }]],
       pin: [['path', { d: 'M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z' }], ['circle', { cx: 12, cy: 11, r: 2 }]],
+      github: [['path', { d: 'M9 19c-4 1.5-4-2-6-2m12 4v-3.9c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.7 4.7 0 0 0-1.3-3.3 4.4 4.4 0 0 0-.1-3.3s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C5.7 2.1 4.7 2.4 4.7 2.4a4.4 4.4 0 0 0-.1 3.3A4.7 4.7 0 0 0 3.3 9c0 4.6 2.7 5.7 5.5 6-.4.4-.6.9-.6 1.5V20' }]],
       note: [['path', { d: 'M5 4h14v13l-3 3H5z' }], ['path', { d: 'M16 20v-3h3' }], ['path', { d: 'M8 8h8M8 12h6' }]],
     }
 
@@ -2172,6 +2201,18 @@ window.__ModuleLoader__.load({
         disabled,
         'aria-label': label,
       }, icon ? h(Icon, { name: icon, size: small ? 13 : 15 }) : null, h('span', { className: 'ot-btn-label' }, children))
+    }
+
+    function parseGithubRepo(value) {
+      const raw = String(value || '').trim()
+      if (!raw) return null
+      const match = raw.match(/(?:https?:\/\/)?(?:www\.)?github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/i) ||
+        raw.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/)
+      if (!match) return null
+      const owner = match[1]
+      const repo = match[2].replace(/\.git$/i, '')
+      if (!owner || !repo || owner === '.' || owner === '..') return null
+      return { owner, repo, slug: owner + '/' + repo }
     }
 
     function parseFeedbackPaste(raw) {
@@ -2388,6 +2429,8 @@ window.__ModuleLoader__.load({
       const openerRef = useRef(null)
       const [importOpen, setImportOpen] = useState(false)
       const [importText, setImportText] = useState('')
+      const [githubUrl, setGithubUrl] = useState('')
+      const [githubBusy, setGithubBusy] = useState(false)
       const [importNote, setImportNote] = useState(null)
       const [importFileName, setImportFileName] = useState('')
       const [importBusy, setImportBusy] = useState(false)
@@ -2664,10 +2707,72 @@ window.__ModuleLoader__.load({
         if (file) void loadImportFile(file)
       }
 
+      const importGithub = async value => {
+        if (githubBusy) return
+        const repo = parseGithubRepo(value)
+        if (!repo) {
+          setImportNote({ tone: 'bad', text: t('import.githubBad') })
+          return
+        }
+        setGithubBusy(true)
+        setImportNote(null)
+        try {
+          const response = await fetch('https://api.github.com/repos/' + encodeURIComponent(repo.owner) + '/' + encodeURIComponent(repo.repo) + '/contributors?per_page=100', {
+            headers: { Accept: 'application/vnd.github+json' },
+          })
+          if (!response.ok) {
+            const message = response.status === 404
+              ? t('import.githubNotFound')
+              : response.status === 403 ? t('import.githubRate') : 'HTTP ' + response.status
+            throw new Error(message)
+          }
+          const contributors = await response.json()
+          if (!Array.isArray(contributors) || !contributors.length) throw new Error(t('import.githubEmpty'))
+          const existing = new Set(employees.map(employee => employee.name.trim().toLowerCase()))
+          const imported = []
+          contributors.forEach((contributor, index) => {
+            const login = String(contributor && contributor.login || '').trim()
+            if (!login || existing.has(login.toLowerCase())) return
+            existing.add(login.toLowerCase())
+            const id = ('gh-' + repo.owner + '-' + repo.repo + '-' + login).toLowerCase().replace(/[^a-z0-9_-]/g, '-')
+            imported.push(normalizeEmployee({
+              id,
+              name: login,
+              role: t('import.githubRole'),
+              dept: 'GitHub',
+              team: repo.slug,
+              level: 'P5',
+              available: 80,
+              joined: new Date().toISOString().slice(0, 10),
+              focus: t('import.githubFocus', { repo: repo.slug }),
+              updated: currentMonth(),
+              skills: [],
+            }, employees.length + index))
+          })
+          if (!imported.length) {
+            setImportNote({ tone: 'bad', text: t('import.githubNoNew') })
+            return
+          }
+          setData(previous => ({ ...previous, employees: [...previous.employees, ...imported] }))
+          setGithubUrl(repo.slug)
+          setImportNote({ tone: 'good', text: t('import.githubDone', { n: imported.length, repo: repo.slug }) })
+          setNote(t('import.githubDone', { n: imported.length, repo: repo.slug }))
+        } catch (error) {
+          setImportNote({ tone: 'bad', text: t('import.githubFailed', { error: error && error.message ? error.message : 'unknown' }) })
+        } finally {
+          setGithubBusy(false)
+        }
+      }
+
       const doImport = () => {
-        if (importBusy) return
+        if (importBusy || githubBusy) return
         const parsed = parseCsv(importText)
         if (!parsed.length) {
+          const repo = parseGithubRepo(importText)
+          if (repo) {
+            void importGithub(importText)
+            return
+          }
           setImportNote({ tone: 'bad', text: t('import.bad') })
           return
         }
@@ -3846,7 +3951,10 @@ window.__ModuleLoader__.load({
           h('div', null,
             h('h2', { className: 'ot-page-title' }, t('talent.title')),
             h('p', { className: 'ot-page-sub' }, t('talent.hint'))),
-          h('span', { className: 'ot-page-count' }, t('talent.count', { n: employees.length }))),
+          h('div', { className: 'ot-page-actions' },
+            h('span', { className: 'ot-page-count' }, t('talent.count', { n: employees.length })),
+            h(Btn, { icon: 'upload', small: true, onClick: openImport, title: t('workbench.import') }, t('workbench.import')),
+            h(Btn, { icon: 'download', small: true, onClick: doExport, title: t('workbench.export') }, t('workbench.export')))),
         h('div', { className: 'ot-toolbar' },
           h('label', { className: 'ot-search' },
             h(Icon, { name: 'search', size: 15 }),
@@ -3897,6 +4005,26 @@ window.__ModuleLoader__.load({
               h(Icon, { name: 'close' }))),
           h('p', { className: 'ot-hint' }, t('import.hint')),
           h('p', { className: 'ot-hint' }, t('import.formats')),
+          h('div', { className: 'ot-github-import' },
+            h('div', { className: 'ot-github-import-head' },
+              h(Icon, { name: 'github', size: 15 }),
+              h('b', null, t('import.githubTitle'))),
+            h('div', { className: 'ot-github-row' },
+              h('input', {
+                className: 'ot-input',
+                type: 'url',
+                value: githubUrl,
+                placeholder: t('import.githubPlaceholder'),
+                onChange: event => { setGithubUrl(event.target.value); setImportNote(null) },
+                onKeyDown: event => { if (event.key === 'Enter') { event.preventDefault(); void importGithub(githubUrl) } },
+              }),
+              h(Btn, {
+                small: true,
+                icon: 'github',
+                disabled: githubBusy || !githubUrl.trim(),
+                onClick: () => void importGithub(githubUrl),
+              }, githubBusy ? t('import.githubLoading') : t('import.githubButton'))),
+            h('p', { className: 'ot-hint' }, t('import.githubHint'))),
           h('div', { className: 'ot-import-file' },
             h('input', {
               ref: fileInputRef,
@@ -3908,7 +4036,7 @@ window.__ModuleLoader__.load({
             h(Btn, {
               small: true,
               icon: 'upload',
-              disabled: importBusy,
+              disabled: importBusy || githubBusy,
               onClick: () => { if (fileInputRef.current) fileInputRef.current.click() },
             }, t('import.chooseFile')),
             h('span', { className: 'ot-hint' }, importBusy ? t('import.reading') : (importFileName || t('import.dropHint')))),
@@ -3920,7 +4048,7 @@ window.__ModuleLoader__.load({
             rows: 4,
           }),
           h('div', { className: 'ot-import-actions' },
-            h(Btn, { tone: 'primary', icon: 'check', small: true, onClick: doImport, disabled: importBusy || !importText.trim() }, t('import.confirm')),
+            h(Btn, { tone: 'primary', icon: 'check', small: true, onClick: doImport, disabled: importBusy || githubBusy || !importText.trim() }, t('import.confirm')),
             h(Btn, { small: true, onClick: () => setImportOpen(false) }, t('import.cancel')),
             h('span', { className: 'ot-spacer' }),
             resetAsk ? h('span', { className: 'ot-reset-ask' },
@@ -4052,7 +4180,7 @@ window.__ModuleLoader__.load({
           blockers: entry.blockers || entry.issues || '',
           difficulties: entry.difficulties || '',
           changes: entry.changes || entry.adjustment || '',
-        }))).filter(item => item.outcome || item.blockers || item.difficulties || item.changes)
+        }))).filter(item => item.outcome)
         .sort((a, b) => String(b.at).localeCompare(String(a.at)))
       const visibleOutcomeEntries = projectOutcomeEntries.filter(item => !outcomeProjectFilter || item.project.id === outcomeProjectFilter)
       const recentProjects = projects
@@ -4159,8 +4287,7 @@ window.__ModuleLoader__.load({
         const review = tasks.length > 1 ? tasks[tasks.length - 1] : null
         const delivery = tasks.slice(1, -1)
         const deliveryDone = delivery.filter(task => task.status === 'done').length
-        const feedback = Array.isArray(project.feedback) ? project.feedback : []
-        const latestFeedback = feedback.slice().sort((a, b) => String(b.at).localeCompare(String(a.at)))[0]
+        const latestFeedback = (Array.isArray(project.feedback) ? project.feedback : []).slice().sort((a, b) => String(b.at).localeCompare(String(a.at)))[0]
         const doneTitles = tasks.filter(task => task.status === 'done').map(task => task.title)
         const outcomePreview = latestFeedback && latestFeedback.outcome
           ? latestFeedback.outcome
@@ -4187,34 +4314,22 @@ window.__ModuleLoader__.load({
           h('p', { className: 'ot-progress-outcome' },
             h('span', null, t('guide.outcomePreview') + '：'),
             outcomePreview),
-          h('div', { className: 'ot-progress-detail-grid' },
-            h('div', { className: 'ot-progress-detail-block' },
-              h('div', { className: 'ot-progress-detail-title' }, t('guide.memberProgress')),
-              memberGroups.size
-                ? [...memberGroups.values()].map(group => {
-                  const member = group.id ? employees.find(employee => employee.id === group.id) : null
-                  return h('div', { key: group.id || group.name, className: 'ot-progress-member' },
-                    member ? h(Avatar, { employee: member, size: 22 }) : h('span', { className: 'ot-progress-unassigned-dot' }),
-                    h('span', { className: 'ot-progress-member-name' }, group.name),
-                    h('span', { className: 'ot-progress-member-bar' }, h('i', { style: { width: Math.round(group.done / group.total * 100) + '%' } })),
-                    h('span', { className: 'ot-progress-member-num' }, group.done + '/' + group.total))
-                })
-                : h('p', { className: 'ot-hint' }, t('guide.noTasks'))),
-            h('div', { className: 'ot-progress-detail-block' },
-              h('div', { className: 'ot-progress-detail-title' }, t('guide.feedbackPoints')),
-              feedback.length
-                ? feedback.slice(-2).reverse().map(entry => h('div', { key: entry.id, className: 'ot-progress-feedback' },
-                  h('span', { className: 'ot-progress-feedback-date' }, new Date(entry.at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' })),
-                  entry.outcome ? h('p', null, h('b', null, t('project.outcome') + '：'), entry.outcome) : null,
-                  entry.blockers || entry.issues ? h('p', null, h('b', null, t('project.issues') + '：'), entry.blockers || entry.issues) : null,
-                  entry.difficulties ? h('p', null, h('b', null, t('project.difficulties') + '：'), entry.difficulties) : null,
-                  entry.changes || entry.adjustment ? h('p', null, h('b', null, t('project.adjustment') + '：'), entry.changes || entry.adjustment) : null))
-                : h('p', { className: 'ot-hint' }, t('guide.noFeedback')))))
+          h('div', { className: 'ot-progress-detail-block' },
+            h('div', { className: 'ot-progress-detail-title' }, t('guide.memberProgress')),
+            memberGroups.size
+              ? [...memberGroups.values()].map(group => {
+                const member = group.id ? employees.find(employee => employee.id === group.id) : null
+                return h('div', { key: group.id || group.name, className: 'ot-progress-member' },
+                  member ? h(Avatar, { employee: member, size: 22 }) : h('span', { className: 'ot-progress-unassigned-dot' }),
+                  h('span', { className: 'ot-progress-member-name' }, group.name),
+                  h('span', { className: 'ot-progress-member-bar' }, h('i', { style: { width: Math.round(group.done / group.total * 100) + '%' } })),
+                  h('span', { className: 'ot-progress-member-num' }, group.done + '/' + group.total))
+              })
+              : h('p', { className: 'ot-hint' }, t('guide.noTasks'))))
       }
 
       const renderProjectProgressRow = project => {
         const progress = projectProgressFor(project)
-        const feedback = Array.isArray(project.feedback) ? project.feedback : []
         const open = projectProgressId === project.id
         const memberNames = (project.memberIds || [])
           .map(id => employees.find(employee => employee.id === id))
@@ -4250,8 +4365,7 @@ window.__ModuleLoader__.load({
           h('div', { className: 'ot-progress-facts' },
             h('span', null, progress.started ? t('guide.cycle', { n: progress.cycleDays }) : t('guide.cyclePending')),
             h('span', null, t('guide.startAt', { date: formatProjectDate(progress.startAt) })),
-            h('span', null, t('guide.endAt', { date: formatProjectDate(progress.endAt) })),
-            h('span', null, t('guide.feedbackCount', { n: feedback.length }))),
+            h('span', null, t('guide.endAt', { date: formatProjectDate(progress.endAt) }))),
           open ? renderProjectDetail(project, progress) : null)
       }
 
@@ -4298,11 +4412,7 @@ window.__ModuleLoader__.load({
               h('div', { className: 'ot-outcome-head' },
                 h('b', null, item.project.name || t('project.untitled')),
                 h('span', null, new Date(item.at).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', { month: 'numeric', day: 'numeric' }))),
-              h('p', { className: 'ot-outcome-summary' }, item.outcome || t('guide.noOutcome')),
-              h('div', { className: 'ot-outcome-tags' },
-                item.blockers ? h('span', { className: 'ot-outcome-tag', 'data-tone': 'rose' }, t('guide.warnBlockers') + '：' + item.blockers) : null,
-                item.difficulties ? h('span', { className: 'ot-outcome-tag', 'data-tone': 'amber' }, t('guide.warnDifficulties') + '：' + item.difficulties) : null,
-                item.changes ? h('span', { className: 'ot-outcome-tag', 'data-tone': 'blue' }, t('guide.warnChanges') + '：' + item.changes) : null))))
+              h('p', { className: 'ot-outcome-summary' }, item.outcome || t('guide.noOutcome')))))
           : h('div', { className: 'ot-guide-empty' },
             h(Icon, { name: 'sparkle', size: 20 }),
             h('p', null, t('guide.noOutcomes')),
@@ -5103,10 +5213,7 @@ window.__ModuleLoader__.load({
             h('span', { className: 'ot-mark' }, h(Icon, { name: 'org', size: 18 })),
             h('div', null,
               h('h1', { className: 'ot-title' }, t('page.title')),
-              h('p', { className: 'ot-sub' }, t('page.subtitle')))),
-          h('div', { className: 'ot-head-actions' },
-            h(Btn, { icon: 'upload', small: true, onClick: openImport, title: t('workbench.import') }, t('workbench.import')),
-            h(Btn, { icon: 'download', small: true, onClick: doExport, title: t('workbench.export') }, t('workbench.export')))),
+              h('p', { className: 'ot-sub' }, t('page.subtitle'))))),
         h('nav', { className: 'ot-tabs', role: 'tablist' },
           tabs.map(item => h('button', {
             key: item[0], type: 'button', role: 'tab', className: 'ot-tab',
@@ -5202,6 +5309,12 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-import{margin-bottom:14px}
 .ot-import-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .ot-import-file{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+.ot-github-import{display:flex;flex-direction:column;gap:7px;margin-top:10px;padding:10px;border:1px solid var(--ot-line);border-radius:10px;background:color-mix(in srgb,#24292f 3%,var(--ot-card))}
+.ot-github-import-head{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600}
+.ot-github-import-head svg{color:var(--ot-muted)}
+.ot-github-row{display:flex;align-items:center;gap:7px;min-width:0}
+.ot-github-row .ot-input{flex:1;min-width:0;height:32px;font-size:12px}
+.ot-github-row .ot-btn{flex:none;height:32px}
 .ot-import-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:10px}
 .ot-spacer{flex:1}
 .ot-reset-ask{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:12.5px;color:var(--ot-muted)}
@@ -5799,7 +5912,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-github-row{flex-direction:column;align-items:stretch}.ot-github-row .ot-btn{width:100%}}
 `
 
     /* ------------------------------------------------------------------ apply */

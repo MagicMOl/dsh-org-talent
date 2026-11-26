@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.15.0 — 2026-11-26
+
+- Removed the duplicated outcome band from each project progress row; outcomes now appear once, inside the expanded project progress detail.
+- Added a dedicated **产品验收 / Product acceptance** role to each project:
+  - selected automatically from the organization, preferring product/quality roles and excluding project members;
+  - shown in the project panel and progress row;
+  - project workspace gets a **产品验收：需求与成果校核** task assigned to them.
+- Added duplicate-development protection:
+  - requirements are normalized before task generation and duplicate requirements are skipped;
+  - referencing a pool requirement checks both project requirements and existing development tasks using normalized names;
+  - duplicate references are blocked with an explicit “无需重复开发” message.
+
 ## 1.14.0 — 2026-11-26
 
 - Merged the standalone **项目成果** section into **项目进度**.

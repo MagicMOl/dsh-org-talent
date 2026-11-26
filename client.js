@@ -25,7 +25,7 @@ window.__ModuleLoader__.load({
         'tab.workspace': '工作区',
         'tab.pool': '需求池',
         'tab.org': '组织架构',
-        'tab.match': '人才匹配',
+        'tab.match': '智能匹配',
         'pool.kicker': '需求资产',
         'pool.title': '需求池',
         'pool.hint': '维护可复用的需求；可引用到当前项目需求，或引用到某个项目。',
@@ -55,6 +55,7 @@ window.__ModuleLoader__.load({
         'pool.alreadyPlan': '“{name}”已在当前需求中',
         'pool.addedPlan': '已把“{name}”加入当前需求',
         'pool.alreadyProject': '“{name}”已在项目“{project}”中',
+        'pool.duplicateDevelopment': '“{name}”已在项目“{project}”的需求或开发任务中，无需重复开发。',
         'pool.addedProject': '已把“{name}”引用到项目“{project}”',
         'pool.removed': '已从需求池删除“{name}”',
         'workspace.title': '工作区',
@@ -86,6 +87,7 @@ window.__ModuleLoader__.load({
         'workspace.task.kickoff': '需求对齐与验收标准',
         'workspace.task.deliver': '交付：{skill}（≥Lv.{min}）',
         'workspace.task.review': '联调、验收与复盘',
+        'workspace.task.acceptance': '产品验收：需求与成果校核',
         'workspace.task.todo': '待开始',
         'workspace.task.doing': '进行中',
         'workspace.task.done': '已完成',
@@ -136,7 +138,7 @@ window.__ModuleLoader__.load({
         'guide.topMeta': '{n} 人 · 覆盖 {coverage}%',
         'guide.noTop': '还没有匹配结果，先到人才匹配生成团队。',
         'guide.openMatch': '查看匹配',
-        'guide.goMatch': '去人才匹配',
+        'guide.goMatch': '去智能匹配',
         'guide.goTalent': '人才库',
         'guide.projects': '项目团队',
         'guide.projectsHint': '已立项团队与反馈进度',
@@ -237,6 +239,8 @@ window.__ModuleLoader__.load({
         'org.empty': '选择左侧的团队查看详情',
         'org.openProfile': '档案',
         'match.title': '项目需求',
+        'match.formTitle': '匹配条件',
+        'match.untitled': '未命名项目',
         'match.name': '项目名称',
         'match.namePlaceholder': '例如：企业知识库 Agent',
         'match.size': '团队人数',
@@ -400,6 +404,8 @@ window.__ModuleLoader__.load({
         'project.history': '反馈记录（{n}）',
         'project.recordFeedback': '记录反馈',
         'project.feedbackFor': '为「{name}」记录本阶段反馈',
+        'project.acceptor': '产品验收',
+        'project.acceptorHint': '产品验收会校核每次进入的需求与成果，拦截重复功能项。',
         'memo.title': '桌面备忘录',
         'memo.open': '备忘录',
         'memo.project': '关联项目',
@@ -466,7 +472,7 @@ window.__ModuleLoader__.load({
         'tab.workspace': 'Workspace',
         'tab.pool': 'Requirement pool',
         'tab.org': 'Organization',
-        'tab.match': 'Talent match',
+        'tab.match': 'Team matching',
         'pool.kicker': 'Requirement assets',
         'pool.title': 'Requirement pool',
         'pool.hint': 'Maintain reusable requirements and reference them from the current project need or a specific project.',
@@ -496,6 +502,7 @@ window.__ModuleLoader__.load({
         'pool.alreadyPlan': '“{name}” is already in the current need',
         'pool.addedPlan': 'Added “{name}” to the current need',
         'pool.alreadyProject': '“{name}” is already in project “{project}”',
+        'pool.duplicateDevelopment': '“{name}” is already a requirement or development task in “{project}”; no duplicate development needed.',
         'pool.addedProject': 'Referenced “{name}” by project “{project}”',
         'pool.removed': 'Removed “{name}” from the pool',
         'workspace.title': 'Workspace',
@@ -527,6 +534,7 @@ window.__ModuleLoader__.load({
         'workspace.task.kickoff': 'Requirements alignment and acceptance criteria',
         'workspace.task.deliver': 'Deliver: {skill} (≥Lv.{min})',
         'workspace.task.review': 'Integration, acceptance and retrospective',
+        'workspace.task.acceptance': 'Product acceptance: requirement and outcome review',
         'workspace.task.todo': 'To do',
         'workspace.task.doing': 'In progress',
         'workspace.task.done': 'Done',
@@ -577,7 +585,7 @@ window.__ModuleLoader__.load({
         'guide.topMeta': '{n} people · {coverage}% coverage',
         'guide.noTop': 'No match yet. Go to Talent match to generate a team.',
         'guide.openMatch': 'View match',
-        'guide.goMatch': 'Go to Talent match',
+        'guide.goMatch': 'Go to team matching',
         'guide.goTalent': 'Talent pool',
         'guide.projects': 'Project teams',
         'guide.projectsHint': 'Created teams and feedback progress',
@@ -678,6 +686,8 @@ window.__ModuleLoader__.load({
         'org.empty': 'Pick a team on the left',
         'org.openProfile': 'Profile',
         'match.title': 'Project requirement',
+        'match.formTitle': 'Matching criteria',
+        'match.untitled': 'Untitled project',
         'match.name': 'Project name',
         'match.namePlaceholder': 'e.g. Enterprise knowledge Agent',
         'match.size': 'Team size',
@@ -841,6 +851,8 @@ window.__ModuleLoader__.load({
         'project.history': 'Feedback history ({n})',
         'project.recordFeedback': 'Record feedback',
         'project.feedbackFor': 'Record this stage’s feedback for “{name}”',
+        'project.acceptor': 'Product acceptance',
+        'project.acceptorHint': 'Product acceptance reviews incoming requirements and outcomes to catch duplicate features.',
         'memo.title': 'Desktop memo',
         'memo.open': 'Memo',
         'memo.project': 'Project',
@@ -1201,6 +1213,7 @@ window.__ModuleLoader__.load({
         startedAt: String(raw.startedAt || ''),
         dueAt: String(raw.dueAt || ''),
         conversationId: String(raw.conversationId || ''),
+        acceptorId: String(raw.acceptorId || ''),
         requirements,
         tasks,
         feedback,
@@ -2190,16 +2203,24 @@ window.__ModuleLoader__.load({
 
     /* --------------------------------------------------------------- elements */
 
-    function Btn({ children, onClick, tone, icon, small, title, disabled, type }) {
+    function Btn({ children, onClick, tone, icon, small, block, title, disabled, type }) {
       const label = title || (typeof children === 'string' ? children : undefined)
       return h('button', {
         type: type || 'button',
-        className: 'ot-btn' + (tone ? ' ot-btn-' + tone : '') + (small ? ' ot-btn-sm' : ''),
+        className: 'ot-btn' + (tone ? ' ot-btn-' + tone : '') + (small ? ' ot-btn-sm' : '') + (block ? ' ot-btn-block' : ''),
         onClick,
         title,
         disabled,
         'aria-label': label,
       }, icon ? h(Icon, { name: icon, size: small ? 13 : 15 }) : null, h('span', { className: 'ot-btn-label' }, children))
+    }
+
+    function normalizeFeatureName(value) {
+      return String(value || '')
+        .toLowerCase()
+        .replace(/交付|验收|需求|功能|开发/g, '')
+        .replace(/[\s\-_/\\（）()【】\[\]：:，,。.、|]+/g, '')
+        .trim()
     }
 
     function parseFeedbackPaste(raw) {
@@ -2636,7 +2657,7 @@ window.__ModuleLoader__.load({
           const top = computed.results[0]
           const entry = {
             ts: Date.now(),
-            name: plan.name || t('match.title'),
+            name: plan.name || t('match.untitled'),
             size: computed.size,
             score: top ? top.score : 0,
             memberNames: top ? top.team.map(employee => employee.name) : [],
@@ -3156,6 +3177,7 @@ window.__ModuleLoader__.load({
         }
         const now = new Date().toISOString()
         const snapshotRequirements = (activeProjectPlan.skills || []).map(skill => ({ name: skill.name, min: skill.min }))
+        const defaultAcceptor = chooseAcceptor(topResult.team.map(member => member.id))
         setData(previous => {
           const currentProjects = Array.isArray(previous.projects) ? previous.projects : []
           const existing = currentProjects.find(project => project.id === projectKey)
@@ -3165,6 +3187,9 @@ window.__ModuleLoader__.load({
               name,
               goal: activeProjectPlan.goal || activeProjectPlan.name || existing.goal,
               memberIds: topResult.team.map(member => member.id),
+              acceptorId: existing.acceptorId && employees.some(employee => employee.id === existing.acceptorId)
+                ? existing.acceptorId
+                : (defaultAcceptor ? defaultAcceptor.id : ''),
               updatedAt: now,
               requirements: Array.isArray(existing.requirements) && existing.requirements.length ? existing.requirements : snapshotRequirements,
               feedback: feedback ? [...existing.feedback, feedback] : existing.feedback,
@@ -3174,6 +3199,7 @@ window.__ModuleLoader__.load({
               name,
               goal: activeProjectPlan.goal || activeProjectPlan.name || '',
               memberIds: topResult.team.map(member => member.id),
+              acceptorId: defaultAcceptor ? defaultAcceptor.id : '',
               createdAt: now,
               updatedAt: now,
               startedAt: '',
@@ -3198,10 +3224,25 @@ window.__ModuleLoader__.load({
         setProjectNote(null)
       }, [projectKey])
 
-      const projectRequirements = project => (Array.isArray(project.requirements) && project.requirements.length
-        ? project.requirements
-        : (plan.skills || []).map(skill => ({ name: skill.name, min: skill.min }))
-      ).slice(0, 5)
+      const chooseAcceptor = memberIds => {
+        const excluded = new Set(memberIds || [])
+        const candidates = employees.filter(employee => !excluded.has(employee.id))
+        const product = candidates.find(employee => /产品|验收|QA|质量|测试/i.test(employee.role + ' ' + employee.dept + ' ' + employee.team))
+        return product || candidates[0] || employees[0] || null
+      }
+
+      const projectRequirements = project => {
+        const seen = new Set()
+        return (Array.isArray(project.requirements) && project.requirements.length
+          ? project.requirements
+          : (plan.skills || []).map(skill => ({ name: skill.name, min: skill.min }))
+        ).filter(requirement => {
+          const key = normalizeFeatureName(requirement && requirement.name)
+          if (!key || seen.has(key)) return false
+          seen.add(key)
+          return true
+        }).slice(0, 5)
+      }
 
       const buildWorkspaceTasks = project => {
         const members = (project.memberIds || [])
@@ -3237,6 +3278,17 @@ window.__ModuleLoader__.load({
             createdAt: now,
           })
         })
+        const acceptor = employees.find(employee => employee.id === project.acceptorId) || chooseAcceptor(project.memberIds)
+        if (acceptor) {
+          tasks.push({
+            id: 'task-' + stamp + '-acceptance',
+            title: t('workspace.task.acceptance'),
+            assigneeId: acceptor.id,
+            assigneeName: acceptor.name,
+            status: 'todo',
+            createdAt: now,
+          })
+        }
         tasks.push({
           id: 'task-' + stamp + '-' + (requirements.length + 1),
           title: t('workspace.task.review'),
@@ -3256,6 +3308,7 @@ window.__ModuleLoader__.load({
           return
         }
         const tasks = buildWorkspaceTasks(project)
+        const acceptor = employees.find(employee => employee.id === project.acceptorId) || chooseAcceptor(project.memberIds)
         const now = new Date().toISOString()
         const requirementCount = projectRequirements(project).length
         const durationDays = Math.max(7, 7 + requirementCount * 4)
@@ -3264,7 +3317,7 @@ window.__ModuleLoader__.load({
           ...previous,
           projects: (Array.isArray(previous.projects) ? previous.projects : []).map(item =>
             item.id === project.id
-              ? { ...item, startedAt: now, dueAt, updatedAt: now, tasks }
+              ? { ...item, startedAt: now, dueAt, updatedAt: now, tasks, acceptorId: acceptor ? acceptor.id : '' }
               : item),
         }))
         setTab('workspace')
@@ -3419,7 +3472,8 @@ window.__ModuleLoader__.load({
       }
 
       const referencePoolToPlan = item => {
-        if (plan.skills.some(skill => skill.name === item.name)) {
+        const key = normalizeFeatureName(item.name)
+        if (plan.skills.some(skill => normalizeFeatureName(skill.name) === key)) {
           setPoolNotice(t('pool.alreadyPlan', { name: item.name }), 'bad')
           return
         }
@@ -3435,9 +3489,11 @@ window.__ModuleLoader__.load({
           setPoolNotice(t('pool.noProjects'), 'bad')
           return
         }
-        const existing = (selectedPoolProject.requirements || []).some(requirement => requirement.name === item.name)
+        const key = normalizeFeatureName(item.name)
+        const existing = (selectedPoolProject.requirements || []).some(requirement => normalizeFeatureName(requirement.name) === key) ||
+          (selectedPoolProject.tasks || []).some(task => normalizeFeatureName(task.title).includes(key))
         if (existing) {
-          setPoolNotice(t('pool.alreadyProject', { name: item.name, project: selectedPoolProject.name }), 'bad')
+          setPoolNotice(t('pool.duplicateDevelopment', { name: item.name, project: selectedPoolProject.name }), 'bad')
           return
         }
         const now = new Date().toISOString()
@@ -3968,9 +4024,9 @@ window.__ModuleLoader__.load({
             h('p', { className: 'ot-page-sub' }, t('talent.hint'))),
           h('div', { className: 'ot-page-actions' },
             h('span', { className: 'ot-page-count' }, t('talent.count', { n: employees.length })),
-            h(Btn, { icon: 'plus', small: true, tone: 'primary', onClick: openCreateEmployee }, t('employee.create')),
             h(Btn, { icon: 'upload', small: true, onClick: openImport, title: t('workbench.import') }, t('workbench.import')),
-            h(Btn, { icon: 'download', small: true, onClick: doExport, title: t('workbench.export') }, t('workbench.export')))),
+            h(Btn, { icon: 'download', small: true, onClick: doExport, title: t('workbench.export') }, t('workbench.export')),
+            h(Btn, { icon: 'plus', small: true, tone: 'primary', onClick: openCreateEmployee }, t('employee.create')))),
         h('div', { className: 'ot-toolbar' },
           h('label', { className: 'ot-search' },
             h(Icon, { name: 'search', size: 15 }),
@@ -4323,8 +4379,7 @@ window.__ModuleLoader__.load({
           .map(id => employees.find(employee => employee.id === id))
           .filter(Boolean)
           .map(employee => employee.name)
-        const outcomes = projectOutcomes(project)
-        const latestOutcome = outcomes[0]
+        const acceptor = employees.find(employee => employee.id === project.acceptorId)
         return h('article', {
           key: project.id,
           id: 'ot-project-' + project.id,
@@ -4342,7 +4397,7 @@ window.__ModuleLoader__.load({
             },
               h('span', { className: 'ot-progress-title' },
                 h('b', null, project.name || t('project.untitled')),
-                h('small', null, memberNames.length ? memberNames.join('、') : '—')),
+                h('small', null, (memberNames.length ? memberNames.join('、') : '—') + (acceptor ? ' · ' + t('project.acceptor') + ' ' + acceptor.name : ''))),
               h('span', { className: 'ot-progress-percent' }, progress.percent + '%')),
             h('div', { className: 'ot-progress-actions' },
               progress.started
@@ -4356,12 +4411,6 @@ window.__ModuleLoader__.load({
             h('span', null, progress.started ? t('guide.cycle', { n: progress.cycleDays }) : t('guide.cyclePending')),
             h('span', null, t('guide.startAt', { date: formatProjectDate(progress.startAt) })),
             h('span', null, t('guide.endAt', { date: formatProjectDate(progress.endAt) }))),
-          h('div', { className: 'ot-progress-outcome-row' },
-            h('span', { className: 'ot-progress-outcome-label' }, t('guide.outcomes')),
-            latestOutcome
-              ? h('span', { className: 'ot-progress-outcome-text', title: latestOutcome.outcome }, latestOutcome.outcome)
-              : h('span', { className: 'ot-progress-outcome-empty' }, t('guide.noOutcomes')),
-            outcomes.length > 1 ? h('span', { className: 'ot-progress-outcome-more' }, t('guide.outcomeCount', { n: outcomes.length })) : null),
           open ? renderProjectDetail(project, progress) : null)
       }
 
@@ -4385,13 +4434,12 @@ window.__ModuleLoader__.load({
       const projectView = h('div', { className: 'ot-pane ot-guide' },
         h('div', { className: 'ot-page-head' },
           h('div', null,
-            h('span', { className: 'ot-page-kicker' }, t('guide.kicker')),
             h('h2', { className: 'ot-page-title' }, t('guide.title')),
             h('p', { className: 'ot-page-sub' }, t('guide.hint')))),
         h('div', { className: 'ot-guide-hero' },
           h('div', { className: 'ot-guide-hero-main' },
             h('span', { className: 'ot-guide-kicker' }, t('guide.current')),
-            h('div', { className: 'ot-guide-title' }, plan.name || t('match.title')),
+            h('div', { className: 'ot-guide-title' }, plan.name || t('match.untitled')),
             h('p', { className: 'ot-guide-desc' }, t('guide.requirements', { n: plan.skills.length, size: plan.size })),
             topRequirement
               ? h('div', { className: 'ot-guide-req-block' },
@@ -4416,11 +4464,10 @@ window.__ModuleLoader__.load({
             h('div', { className: 'ot-guide-actions' },
               h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => setTab('match') },
                 guideTop ? t('guide.openMatch') : t('guide.goMatch')),
-              h(Btn, { small: true, icon: 'users', onClick: () => setTab('talent') }, t('guide.goTalent')),
-              h(Btn, { small: true, icon: 'note', onClick: () => openMemo(projectProgressId || '') }, t('memo.open')),
               workspaceProjects.length
                 ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('workspace.title'))
-                : null)),
+                : null,
+              h(Btn, { small: true, icon: 'note', onClick: () => openMemo(projectProgressId || '') }, t('memo.open')))),
           h('div', { className: 'ot-guide-hero-side' },
             guideTop ? h(React.Fragment, null,
               h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
@@ -4441,7 +4488,7 @@ window.__ModuleLoader__.load({
         h('section', { className: 'ot-warnings', style: { '--ot-section': '#e0932f' } },
           h('div', { className: 'ot-warnings-head' },
             h('div', null,
-              h('span', { className: 'ot-section-kicker' }, t('guide.warnings')),
+              h('div', { className: 'ot-h3' }, t('guide.warnings')),
               h('p', { className: 'ot-hint' }, t('guide.warningsHint'))),
             h('div', { className: 'ot-guide-card-tools' },
               h(ProjectSearchSelect, {
@@ -4600,7 +4647,6 @@ window.__ModuleLoader__.load({
       const poolView = h('div', { className: 'ot-pane ot-pool' },
         h('div', { className: 'ot-page-head' },
           h('div', null,
-            h('span', { className: 'ot-page-kicker' }, t('pool.kicker')),
             h('h2', { className: 'ot-page-title' }, t('pool.title')),
             h('p', { className: 'ot-page-sub' }, t('pool.hint'))),
           h('span', { className: 'ot-page-count' }, t('pool.count', { n: requirementPool.length }))),
@@ -4813,7 +4859,7 @@ window.__ModuleLoader__.load({
 
       const planCard = h('section', { className: 'ot-plan ot-block' },
         h('div', { className: 'ot-plan-head' },
-          h('div', { className: 'ot-h3' }, t('match.title')),
+          h('div', { className: 'ot-h3' }, t('match.formTitle')),
           h('span', { className: 'ot-muted' }, t('match.formula'))),
         h('label', { className: 'ot-field' },
           h('span', { className: 'ot-field-label' }, t('match.name')),
@@ -4869,7 +4915,7 @@ window.__ModuleLoader__.load({
                   className: 'ot-select ot-select-sm', value: skill.weight,
                   onChange: event => updateSkill(index, { weight: Number(event.target.value) }),
                 }, [1, 2, 3].map(weight => h('option', { key: weight, value: weight }, String(weight)))))))),
-        h(Btn, { tone: 'primary', icon: 'target', onClick: () => run(true), disabled: !plan.skills.length },
+        h(Btn, { tone: 'primary', icon: 'target', block: true, onClick: () => run(true), disabled: !plan.skills.length },
           t('match.run')),
         h('div', { className: 'ot-history' },
           h('div', { className: 'ot-h3' }, t('match.saved')),
@@ -4995,7 +5041,11 @@ window.__ModuleLoader__.load({
         )
       }
 
-      const projectPanel = topResult ? h('section', { className: 'ot-project' },
+      const projectPanel = topResult ? (() => {
+        const projectAcceptor = savedProject && savedProject.acceptorId
+          ? employees.find(employee => employee.id === savedProject.acceptorId)
+          : chooseAcceptor(topResult.team.map(member => member.id))
+        return h('section', { className: 'ot-project' },
         h('div', { className: 'ot-project-head' },
           h('div', null,
             h('div', { className: 'ot-h3' }, t('project.title')),
@@ -5024,6 +5074,11 @@ window.__ModuleLoader__.load({
                 ? row.covers.slice(0, 3).map(name => h('span', { key: name, className: 'ot-mini-chip' }, name))
                 : h('span', { className: 'ot-muted' }, '—')),
             h('span', { className: 'ot-project-avail' }, row.member.available + '%')))),
+        projectAcceptor ? h('div', { className: 'ot-project-acceptor' },
+          h(Icon, { name: 'users', size: 14 }),
+          h('b', null, t('project.acceptor')),
+          h('span', null, projectAcceptor.name),
+          h('small', null, t('project.acceptorHint'))) : null,
         h('div', { className: 'ot-project-actions' },
           h(Btn, { small: true, tone: savedProject ? undefined : 'primary', icon: 'check', onClick: () => saveProject(false) },
             savedProject ? t('project.save') : t('project.create')),
@@ -5073,7 +5128,8 @@ window.__ModuleLoader__.load({
             entry.blockers || entry.issues ? h('p', null, h('span', null, t('project.issues') + '：'), entry.blockers || entry.issues) : null,
             entry.difficulties ? h('p', null, h('span', null, t('project.difficulties') + '：'), entry.difficulties) : null,
             entry.changes || entry.adjustment ? h('p', null, h('span', null, t('project.adjustment') + '：'), entry.changes || entry.adjustment) : null))) : null,
-      ) : null
+        )
+      })() : null
 
       const resultsPane = h('div', { className: 'ot-results' },
         result
@@ -5096,11 +5152,11 @@ window.__ModuleLoader__.load({
 
       const tabs = [
         ['project', t('tab.project'), 'chart'],
-        ['pool', t('tab.pool'), 'grid'],
+        ['match', t('tab.match'), 'target'],
         ['workspace', t('tab.workspace'), 'check'],
         ['talent', t('tab.talent'), 'users'],
         ['org', t('tab.org'), 'org'],
-        ['match', t('tab.match'), 'target'],
+        ['pool', t('tab.pool'), 'grid'],
       ]
 
       const memoUpdatedAt = data.memos && data.memos[memoProjectId] ? data.memos[memoProjectId].updatedAt : ''
@@ -5266,10 +5322,8 @@ window.__ModuleLoader__.load({
         h('style', null, CSS),
         h('header', { className: 'ot-head' },
           h('div', { className: 'ot-brand' },
-            h('span', { className: 'ot-mark' }, h(Icon, { name: 'org', size: 18 })),
-            h('div', null,
-              h('h1', { className: 'ot-title' }, t('page.title')),
-              h('p', { className: 'ot-sub' }, t('page.subtitle'))))),
+            h('span', { className: 'ot-mark' }, h(Icon, { name: 'org', size: 16 })),
+            h('h1', { className: 'ot-title' }, t('page.title')))),
         h('nav', { className: 'ot-tabs', role: 'tablist' },
           tabs.map(item => h('button', {
             key: item[0], type: 'button', role: 'tab', className: 'ot-tab',
@@ -5294,11 +5348,9 @@ window.__ModuleLoader__.load({
             h(Icon, { name: item[2], size: 14 }),
             h('span', null, item[1]),
             item[0] === 'project' && projects.length ? h('span', { className: 'ot-tab-num' }, projects.length)
-              : item[0] === 'pool' ? h('span', { className: 'ot-tab-num' }, requirementPool.length)
+              : item[0] === 'pool' && requirementPool.length ? h('span', { className: 'ot-tab-num' }, requirementPool.length)
                 : item[0] === 'workspace' && workspaceProjects.length ? h('span', { className: 'ot-tab-num' }, workspaceProjects.length)
-                  : item[0] === 'talent' ? h('span', { className: 'ot-tab-num' }, employees.length)
-                    : item[0] === 'org' ? h('span', { className: 'ot-tab-num' }, teams.length)
-                      : null))),
+                  : null))),
         h('div', {
           className: 'ot-body',
           role: 'tabpanel',
@@ -5322,19 +5374,19 @@ window.__ModuleLoader__.load({
 .ot-root button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 .ot-root h1,.ot-root h2,.ot-root h3,.ot-root p{margin:0}
 .ot-root svg{display:block}
-.ot-head{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:14px 20px;padding:26px 28px 0}
-html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-top-clearance,0px))}
-.ot-brand{display:flex;align-items:center;gap:13px;min-width:0}
-.ot-mark{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;flex:none;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 12%,var(--ot-card));border:1px solid color-mix(in srgb,var(--ot-brand) 26%,transparent)}
-.ot-title{font-size:21px;line-height:28px;font-weight:600;letter-spacing:.005em}
+.ot-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding:18px 28px 0}
+html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-top-clearance,0px))}
+.ot-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.ot-mark{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;flex:none;color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 12%,var(--ot-card));border:1px solid color-mix(in srgb,var(--ot-brand) 26%,transparent)}
+.ot-title{font-size:16px;line-height:22px;font-weight:600;letter-spacing:.005em;color:var(--dsw-alias-label-primary)}
 .ot-sub{font-size:13px;line-height:19px;color:var(--ot-muted);margin-top:2px}
 .ot-head-actions{display:flex;gap:8px;flex:none;padding-top:4px}
-.ot-tabs{display:flex;gap:3px;align-self:flex-start;max-width:calc(100% - 56px);overflow-x:auto;scrollbar-width:none;margin:18px 28px 0;padding:4px;border:1px solid var(--ot-line);border-radius:999px;background:var(--ot-card)}
+.ot-tabs{display:flex;gap:3px;align-self:flex-start;max-width:calc(100% - 56px);overflow-x:auto;scrollbar-width:none;margin:12px 28px 0;padding:4px;border:1px solid var(--ot-line);border-radius:999px;background:var(--ot-card)}
 .ot-tabs::-webkit-scrollbar{display:none}
 .ot-tab{flex:none}
 .ot-tab{display:flex;align-items:center;gap:7px;height:34px;padding:0 15px;border-radius:999px;font-size:13px;color:var(--ot-muted);transition:background .15s,color .15s}
 .ot-tab:hover{color:var(--dsw-alias-label-primary)}
-.ot-tab[data-on]{background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary)}
+.ot-tab[data-on]{background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font-weight:500}
 .ot-tab[data-on] svg{color:var(--ot-brand)}
 .ot-tab-num{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;padding:0 6px;border-radius:10px;font-size:11px;background:color-mix(in srgb,var(--ot-brand) 13%,var(--ot-card));color:color-mix(in srgb,var(--ot-brand) 72%,var(--dsw-alias-label-primary))}
 .ot-body{flex:1;min-height:0;display:flex;flex-direction:column;padding-top:18px}
@@ -5343,10 +5395,11 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-btn:hover{background:var(--ot-card-2);border-color:var(--ot-line-2)}
 .ot-btn:focus-visible{outline:2px solid color-mix(in srgb,var(--ot-brand) 60%,transparent);outline-offset:1px}
 .ot-btn:disabled{opacity:.45;cursor:not-allowed}
-.ot-btn-primary{background:var(--ot-brand);border-color:transparent;color:#fff;font-weight:500;width:100%;height:36px;margin-top:14px}
-.ot-btn-primary:hover{background:var(--ot-brand);opacity:.9;border-color:transparent}
+.ot-btn-primary{background:var(--ot-brand);border-color:transparent;color:var(--dsw-alias-label-primary-foreground);font-weight:500}
+.ot-btn-primary:hover{opacity:.92;border-color:transparent}
 .ot-btn-danger{color:var(--dsw-alias-state-error-primary);border-color:color-mix(in srgb,var(--dsw-alias-state-error-primary) 40%,transparent)}
 .ot-btn-sm{height:28px;padding:0 10px;font-size:12px;border-radius:8px}
+.ot-btn-block{width:100%;height:36px;margin-top:14px}
 .ot-input,.ot-select{height:32px;border-radius:9px;border:1px solid var(--ot-line);background:var(--dsw-alias-bg-base);color:inherit;padding:0 9px;font:inherit;font-size:13px;outline:none;min-width:0}
 .ot-input:focus,.ot-select:focus,.ot-textarea:focus{border-color:color-mix(in srgb,var(--ot-brand) 65%,var(--ot-line));box-shadow:0 0 0 2px color-mix(in srgb,var(--ot-brand) 14%,transparent)}
 .ot-select{padding-right:5px}
@@ -5398,8 +5451,8 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-stat-panel .ot-stat-line .ot-avatar{flex:none}
 .ot-wb-body{position:relative;flex:1;min-height:0;display:flex}
 .ot-grid{flex:1;min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:16px;padding:2px 4px 14px}
-.ot-card{display:flex;flex-direction:column;gap:11px;padding:16px;border:1px solid var(--ot-line);border-radius:14px;background:var(--ot-card);box-shadow:inset 3px 0 0 color-mix(in srgb,var(--ot-dept) 70%,transparent);transition:border-color .15s,background .15s,box-shadow .15s;min-width:0}
-.ot-card:hover{border-color:var(--ot-line-2);background:color-mix(in srgb,var(--ot-dept) 5%,var(--ot-card))}
+.ot-card{display:flex;flex-direction:column;gap:11px;padding:16px;border:1px solid var(--ot-line);border-radius:14px;background:var(--ot-card);transition:border-color .15s,background .15s,box-shadow .15s;min-width:0}
+.ot-card:hover{border-color:var(--ot-line-2);background:color-mix(in srgb,var(--ot-dept) 4%,var(--ot-card))}
 .ot-card:focus-visible{outline:2px solid color-mix(in srgb,var(--ot-dept) 55%,transparent);outline-offset:1px}
 .ot-card[data-on]{border-color:color-mix(in srgb,var(--ot-dept) 62%,transparent);box-shadow:inset 3px 0 0 var(--ot-dept),0 0 0 1px color-mix(in srgb,var(--ot-dept) 45%,transparent)}
 .ot-card-head{display:flex;align-items:center;gap:12px;min-width:0}
@@ -5472,7 +5525,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-employee-form-grid .ot-textarea{font-size:12px}
 .ot-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--ot-muted);padding:44px 20px;text-align:center;min-height:220px}
 .ot-empty svg{opacity:.5;margin-bottom:3px}
-.ot-empty p{font-size:13.5px}
+.ot-empty p{font-size:13.5px;font-weight:500;color:var(--dsw-alias-label-primary)}
 .ot-empty .ot-muted{font-size:12.5px;max-width:360px}
 .ot-muted{color:var(--ot-muted)}
 .ot-good{color:var(--dsw-alias-state-success-primary)}
@@ -5676,6 +5729,11 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-project-member-id small{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ot-project-covers{display:flex;align-items:center;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
 .ot-project-avail{font-size:11.5px;color:var(--ot-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ot-project-acceptor{display:flex;align-items:center;gap:6px;padding:7px 8px;border:1px solid color-mix(in srgb,#17a398 25%,var(--ot-line));border-radius:8px;background:color-mix(in srgb,#17a398 5%,var(--ot-card));font-size:11.5px;min-width:0}
+.ot-project-acceptor svg{color:#17a398;flex:none}
+.ot-project-acceptor b{font-size:11.5px;font-weight:600;color:#17a398;white-space:nowrap}
+.ot-project-acceptor span{font-size:12px;color:var(--dsw-alias-label-primary);white-space:nowrap}
+.ot-project-acceptor small{font-size:11px;color:var(--ot-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .ot-project-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--ot-line);padding-top:10px}
 .ot-project-form{display:flex;flex-direction:column;gap:8px;padding:10px;border:1px solid var(--ot-line);border-radius:10px;background:var(--dsw-alias-bg-base)}
 .ot-project-form-head{display:flex;align-items:center;justify-content:space-between;gap:8px}

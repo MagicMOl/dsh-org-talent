@@ -77,6 +77,8 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - Search by name, role, team or skill; filter by department; show only people with at least 50% availability; sort by name, availability or skill count.
 - Open a profile for all skills, strengths, growth areas and current focus.
 - Import/export actions sit beside the **人才库 / Talent pool** title, not in the global header.
+- **新建员工**: create a roster entry with name, role, level, department, team, availability, city, focus and optional skills; duplicates by name are rejected.
+- Open an employee profile to remove them with a two-step confirmation; deletion also removes them from project member lists while keeping task assignee names as history.
 - Import employees from CSV, TSV, JSON, Markdown tables or XLSX (first worksheet) — choose a file or drop it in; text files show a CSV preview before merging. Export the current roster, or restore the sample organization.
 - People are color-coded by department; availability uses success/warning/error states.
 
@@ -174,7 +176,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.12.1](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.12.1), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.13.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.13.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

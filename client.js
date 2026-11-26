@@ -209,6 +209,26 @@ window.__ModuleLoader__.load({
         'employee.city': '城市',
         'employee.joined': '加入',
         'employee.lead': '负责人',
+        'employee.create': '新建员工',
+        'employee.createTitle': '新建员工',
+        'employee.createHint': '创建后会加入人才库，并可参与组织匹配。',
+        'employee.name': '姓名',
+        'employee.roleLabel': '职位',
+        'employee.defaultRole': '员工',
+        'employee.defaultDept': '未分组',
+        'employee.defaultTeam': '未分组',
+        'employee.availableLabel': '可投入（%）',
+        'employee.skillsPlaceholder': 'React:4|TypeScript:3（可选）',
+        'employee.nameRequired': '请填写员工姓名',
+        'employee.duplicate': '人才库中已有同名员工',
+        'employee.created': '已创建员工“{name}”',
+        'employee.delete': '删除员工',
+        'employee.deleteConfirm': '确定删除“{name}”？会从项目团队中移除，任务中的姓名保留。',
+        'employee.deleteYes': '确认删除',
+        'employee.deleteNo': '取消',
+        'employee.deleted': '已删除员工“{name}”',
+        'employee.createSave': '创建员工',
+        'employee.cancel': '取消',
         'empty.employees': '没有符合条件的员工',
         'empty.employeesHint': '换个筛选条件，或导入新的员工数据。',
         'org.members': '{n} 人',
@@ -636,6 +656,26 @@ window.__ModuleLoader__.load({
         'employee.city': 'City',
         'employee.joined': 'Joined',
         'employee.lead': 'Lead',
+        'employee.create': 'Add employee',
+        'employee.createTitle': 'Add employee',
+        'employee.createHint': 'The employee joins the talent pool and can participate in organization-wide matching.',
+        'employee.name': 'Name',
+        'employee.roleLabel': 'Role',
+        'employee.defaultRole': 'Employee',
+        'employee.defaultDept': 'Ungrouped',
+        'employee.defaultTeam': 'Ungrouped',
+        'employee.availableLabel': 'Availability (%)',
+        'employee.skillsPlaceholder': 'React:4|TypeScript:3 (optional)',
+        'employee.nameRequired': 'Enter an employee name',
+        'employee.duplicate': 'An employee with this name already exists',
+        'employee.created': 'Created “{name}”',
+        'employee.delete': 'Delete employee',
+        'employee.deleteConfirm': 'Delete “{name}”? They will be removed from project teams; task assignee names are kept.',
+        'employee.deleteYes': 'Delete',
+        'employee.deleteNo': 'Cancel',
+        'employee.deleted': 'Deleted “{name}”',
+        'employee.createSave': 'Create employee',
+        'employee.cancel': 'Cancel',
         'empty.employees': 'No employees match these filters',
         'empty.employeesHint': 'Adjust the filters or import new employee data.',
         'org.members': '{n} people',
@@ -2383,6 +2423,18 @@ window.__ModuleLoader__.load({
       const [onlyAvailable, setOnlyAvailable] = useState(false)
       const [sortBy, setSortBy] = useState('name')
       const [selectedId, setSelectedId] = useState(null)
+      const [employeeModalOpen, setEmployeeModalOpen] = useState(false)
+      const [newEmployeeName, setNewEmployeeName] = useState('')
+      const [newEmployeeRole, setNewEmployeeRole] = useState('')
+      const [newEmployeeDept, setNewEmployeeDept] = useState('')
+      const [newEmployeeTeam, setNewEmployeeTeam] = useState('')
+      const [newEmployeeLevel, setNewEmployeeLevel] = useState('P5')
+      const [newEmployeeAvailable, setNewEmployeeAvailable] = useState('80')
+      const [newEmployeeCity, setNewEmployeeCity] = useState('')
+      const [newEmployeeFocus, setNewEmployeeFocus] = useState('')
+      const [newEmployeeSkills, setNewEmployeeSkills] = useState('')
+      const [employeeModalError, setEmployeeModalError] = useState(null)
+      const [deleteConfirmId, setDeleteConfirmId] = useState(null)
       const [compact, setCompact] = useState(false)
       const detailRef = useRef(null)
       const openerRef = useRef(null)
@@ -2459,6 +2511,10 @@ window.__ModuleLoader__.load({
         const timer = window.setTimeout(() => setNote(null), 4200)
         return () => window.clearTimeout(timer)
       }, [note])
+
+      useEffect(() => {
+        setDeleteConfirmId(null)
+      }, [selectedId])
 
       useEffect(() => {
         if (selectedId === null) return undefined
@@ -2662,6 +2718,71 @@ window.__ModuleLoader__.load({
         event.preventDefault()
         const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0]
         if (file) void loadImportFile(file)
+      }
+
+      const openCreateEmployee = () => {
+        setEmployeeModalOpen(true)
+        setNewEmployeeName('')
+        setNewEmployeeRole('')
+        setNewEmployeeDept('')
+        setNewEmployeeTeam('')
+        setNewEmployeeLevel('P5')
+        setNewEmployeeAvailable('80')
+        setNewEmployeeCity('')
+        setNewEmployeeFocus('')
+        setNewEmployeeSkills('')
+        setEmployeeModalError(null)
+      }
+
+      const createEmployee = () => {
+        const name = newEmployeeName.trim()
+        if (!name) {
+          setEmployeeModalError(t('employee.nameRequired'))
+          return
+        }
+        if (employees.some(employee => employee.name.trim().toLowerCase() === name.toLowerCase())) {
+          setEmployeeModalError(t('employee.duplicate'))
+          return
+        }
+        let id = 'e' + Date.now().toString(36)
+        while (employees.some(employee => employee.id === id)) id += 'x'
+        const employee = {
+          id,
+          name,
+          role: newEmployeeRole.trim() || t('employee.defaultRole'),
+          dept: newEmployeeDept.trim() || t('employee.defaultDept'),
+          team: newEmployeeTeam.trim() || t('employee.defaultTeam'),
+          level: newEmployeeLevel,
+          available: clamp(Number(newEmployeeAvailable) || 0, 0, 100),
+          city: newEmployeeCity.trim(),
+          joined: new Date().toISOString().slice(0, 10),
+          focus: newEmployeeFocus.trim(),
+          updated: currentMonth(),
+          lead: false,
+          skills: parseSkillCell(newEmployeeSkills),
+        }
+        setData(previous => ({ ...previous, employees: [...previous.employees, employee] }))
+        setEmployeeModalOpen(false)
+        setSelectedId(id)
+        setNote(t('employee.created', { name }))
+      }
+
+      const deleteEmployee = id => {
+        const employee = employees.find(item => item.id === id)
+        if (!employee) return
+        setData(previous => ({
+          ...previous,
+          employees: previous.employees.filter(item => item.id !== id),
+          training: Object.fromEntries(Object.entries(previous.training || {}).filter(([key]) => key !== id)),
+          projects: (previous.projects || []).map(project => ({
+            ...project,
+            memberIds: (project.memberIds || []).filter(memberId => memberId !== id),
+            tasks: (project.tasks || []).map(task => task.assigneeId === id ? { ...task, assigneeId: '' } : task),
+          })),
+        }))
+        setDeleteConfirmId(null)
+        setSelectedId(null)
+        setNote(t('employee.deleted', { name: employee.name }))
       }
 
       const doImport = () => {
@@ -3583,7 +3704,19 @@ window.__ModuleLoader__.load({
                 setTab('org')
                 setSelectedId(null)
               },
-            }, t('employee.viewTeam'))),
+            }, t('employee.viewTeam')),
+            h('div', { className: 'ot-detail-delete' },
+              deleteConfirmId === selected.id
+                ? h('div', { className: 'ot-delete-confirm' },
+                  h('span', null, t('employee.deleteConfirm', { name: selected.name })),
+                  h(Btn, { small: true, tone: 'danger', onClick: () => deleteEmployee(selected.id) }, t('employee.deleteYes')),
+                  h(Btn, { small: true, onClick: () => setDeleteConfirmId(null) }, t('employee.deleteNo')))
+                : h(Btn, {
+                  small: true,
+                  tone: 'danger',
+                  icon: 'close',
+                  onClick: () => setDeleteConfirmId(selected.id),
+                }, t('employee.delete')))),
         )) : null
 
       const statPanel = (() => {
@@ -3848,6 +3981,7 @@ window.__ModuleLoader__.load({
             h('p', { className: 'ot-page-sub' }, t('talent.hint'))),
           h('div', { className: 'ot-page-actions' },
             h('span', { className: 'ot-page-count' }, t('talent.count', { n: employees.length })),
+            h(Btn, { icon: 'plus', small: true, tone: 'primary', onClick: openCreateEmployee }, t('employee.create')),
             h(Btn, { icon: 'upload', small: true, onClick: openImport, title: t('workbench.import') }, t('workbench.import')),
             h(Btn, { icon: 'download', small: true, onClick: doExport, title: t('workbench.export') }, t('workbench.export')))),
         h('div', { className: 'ot-toolbar' },
@@ -5081,6 +5215,100 @@ window.__ModuleLoader__.load({
           h(Btn, { small: true, onClick: () => setFeedbackTargetId('') }, t('project.cancel')),
           h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: saveDirectFeedback }, t('project.saveFeedback'))))) : null
 
+      const employeeDialog = employeeModalOpen ? h('div', {
+        className: 'ot-modal-scrim',
+        onClick: () => setEmployeeModalOpen(false),
+      }, h('div', {
+        className: 'ot-modal ot-employee-modal',
+        role: 'dialog',
+        'aria-modal': 'true',
+        'aria-label': t('employee.createTitle'),
+        onClick: event => event.stopPropagation(),
+      },
+        h('div', { className: 'ot-modal-head' },
+          h('div', null,
+            h('h3', { className: 'ot-modal-title' }, t('employee.createTitle')),
+            h('p', { className: 'ot-hint' }, t('employee.createHint'))),
+          h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setEmployeeModalOpen(false) },
+            h(Icon, { name: 'close', size: 13 }))),
+        h('div', { className: 'ot-employee-form-grid' },
+          h('label', { className: 'ot-project-field ot-employee-form-wide' },
+            h('span', null, t('employee.name')),
+            h('input', {
+              className: 'ot-input',
+              value: newEmployeeName,
+              placeholder: t('employee.name'),
+              autoFocus: true,
+              onChange: event => { setNewEmployeeName(event.target.value); setEmployeeModalError(null) },
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('employee.roleLabel')),
+            h('input', {
+              className: 'ot-input',
+              value: newEmployeeRole,
+              placeholder: t('employee.defaultRole'),
+              onChange: event => setNewEmployeeRole(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('employee.level')),
+            h('select', { className: 'ot-select', value: newEmployeeLevel, onChange: event => setNewEmployeeLevel(event.target.value) },
+              ['P4', 'P5', 'P6', 'P7', 'P8', 'P9'].map(level => h('option', { key: level, value: level }, level)))),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('employee.dept')),
+            h('input', {
+              className: 'ot-input',
+              value: newEmployeeDept,
+              placeholder: t('employee.defaultDept'),
+              onChange: event => setNewEmployeeDept(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('employee.team')),
+            h('input', {
+              className: 'ot-input',
+              value: newEmployeeTeam,
+              placeholder: t('employee.defaultTeam'),
+              onChange: event => setNewEmployeeTeam(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('employee.availableLabel')),
+            h('input', {
+              className: 'ot-input',
+              type: 'number',
+              min: 0,
+              max: 100,
+              value: newEmployeeAvailable,
+              onChange: event => setNewEmployeeAvailable(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('employee.city')),
+            h('input', {
+              className: 'ot-input',
+              value: newEmployeeCity,
+              placeholder: '—',
+              onChange: event => setNewEmployeeCity(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field ot-employee-form-wide' },
+            h('span', null, t('employee.focus')),
+            h('input', {
+              className: 'ot-input',
+              value: newEmployeeFocus,
+              placeholder: '—',
+              onChange: event => setNewEmployeeFocus(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field ot-employee-form-wide' },
+            h('span', null, t('employee.skills')),
+            h('textarea', {
+              className: 'ot-textarea',
+              rows: 2,
+              value: newEmployeeSkills,
+              placeholder: t('employee.skillsPlaceholder'),
+              onChange: event => setNewEmployeeSkills(event.target.value),
+            }))),
+        employeeModalError ? h('p', { className: 'ot-hint ot-bad', role: 'status' }, employeeModalError) : null,
+        h('div', { className: 'ot-modal-actions' },
+          h(Btn, { small: true, onClick: () => setEmployeeModalOpen(false) }, t('employee.cancel')),
+          h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: createEmployee }, t('employee.createSave'))))) : null
+
       return h('div', { className: 'ot-root' },
         h('style', null, CSS),
         h('header', { className: 'ot-head' },
@@ -5129,6 +5357,7 @@ window.__ModuleLoader__.load({
         skillSearchDialog,
         memoPanel,
         feedbackDialog,
+        employeeDialog,
       )
     }
 
@@ -5277,8 +5506,17 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 .ot-level-sm i{width:7px;height:4px}
 .ot-skill-lv{font-size:11px;color:var(--ot-muted);width:34px;text-align:right;font-variant-numeric:tabular-nums}
 .ot-chip-wrap{display:flex;flex-wrap:wrap;gap:5px}
-.ot-detail-foot{margin-top:auto;padding-top:6px}
-.ot-detail-foot .ot-btn{width:100%}
+.ot-detail-foot{margin-top:auto;padding-top:6px;display:flex;flex-direction:column;gap:8px}
+.ot-detail-foot>.ot-btn{width:100%}
+.ot-detail-delete{display:flex;flex-direction:column;gap:6px;padding-top:7px;border-top:1px solid var(--ot-line)}
+.ot-delete-confirm{display:flex;flex-direction:column;gap:6px;padding:8px;border:1px solid color-mix(in srgb,#e05a7d 30%,var(--ot-line));border-radius:9px;background:color-mix(in srgb,#e05a7d 5%,var(--ot-card))}
+.ot-delete-confirm span{font-size:11.5px;line-height:17px;color:var(--ot-muted)}
+.ot-delete-confirm .ot-btn{width:100%}
+.ot-employee-modal{width:min(600px,100%)}
+.ot-employee-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ot-employee-form-wide{grid-column:1 / -1}
+.ot-employee-form-grid .ot-input,.ot-employee-form-grid .ot-select{height:32px;font-size:12px}
+.ot-employee-form-grid .ot-textarea{font-size:12px}
 .ot-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--ot-muted);padding:44px 20px;text-align:center;min-height:220px}
 .ot-empty svg{opacity:.5;margin-bottom:3px}
 .ot-empty p{font-size:13.5px}
@@ -5781,7 +6019,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(26px + var(--dsh-frame-to
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}}
 `
 
     /* ------------------------------------------------------------------ apply */

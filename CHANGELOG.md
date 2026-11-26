@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.13.0 — 2026-11-26
+
+- Added **新建员工 / Add employee** to the Talent pool header:
+  - name, role, level, department, team, availability, city, current focus and optional skills;
+  - created employees join the roster immediately and can participate in matching;
+  - duplicate names are rejected.
+- Added **删除员工 / Delete employee** to the employee detail drawer:
+  - two-step confirmation;
+  - removes the employee from the roster and training data;
+  - removes them from project member lists while keeping task assignee names as historical records.
+- The create action sits beside import/export in the Talent pool header.
+
 ## 1.12.1 — 2026-11-26
 
 - Removed the **从 GitHub 导入 / Import from GitHub** employee import control and its contributor lookup from the import panel.

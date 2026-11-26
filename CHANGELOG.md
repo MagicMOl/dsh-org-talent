@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.2 — 2026-11-26
+
+- Backfills **产品验收 / Product acceptance** for existing projects:
+  - projects created before 1.15 receive an acceptor automatically;
+  - already-started projects receive the **产品验收：需求与成果校核** task assigned to that reviewer.
+- Prevents duplicate acceptance-task insertion across locale changes by using a stable task id.
+- Re-confirms the 1.15 fixes: no duplicate outcome band, no standalone outcomes card, and normalized duplicate-development guards.
+
 ## 1.15.1 — 2026-11-26
 
 - Finalized the 1.15 project-workflow release:

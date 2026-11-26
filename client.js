@@ -2622,6 +2622,48 @@ window.__ModuleLoader__.load({
       const projects = Array.isArray(data.projects) ? data.projects : []
       const requirementPool = Array.isArray(data.requirementPool) ? data.requirementPool : []
       const selectedPoolProject = projects.find(project => project.id === poolProjectId) || projects[0] || null
+      useEffect(() => {
+        if (!projects.length || !employees.length) return
+        setData(previous => {
+          let changed = false
+          const now = new Date().toISOString()
+          const nextProjects = (previous.projects || []).map(project => {
+            let acceptorId = project.acceptorId
+            const currentAcceptor = acceptorId && previous.employees.some(employee => employee.id === acceptorId)
+            if (!currentAcceptor) {
+              const acceptor = chooseAcceptor(project.memberIds || [])
+              if (acceptor) {
+                acceptorId = acceptor.id
+                changed = true
+              }
+            }
+            let tasks = Array.isArray(project.tasks) ? project.tasks : []
+            const hasAcceptance = tasks.some(task => task.id === 'task-accept-' + project.id || task.title === t('workspace.task.acceptance'))
+            let taskAdded = false
+            if (project.startedAt && tasks.length && !hasAcceptance && acceptorId) {
+              const acceptor = previous.employees.find(employee => employee.id === acceptorId)
+              tasks = [...tasks, {
+                id: 'task-accept-' + project.id,
+                title: t('workspace.task.acceptance'),
+                assigneeId: acceptorId,
+                assigneeName: acceptor ? acceptor.name : '',
+                status: 'todo',
+                createdAt: now,
+              }]
+              taskAdded = true
+              changed = true
+            }
+            if (acceptorId === project.acceptorId && !taskAdded) return project
+            return {
+              ...project,
+              acceptorId,
+              ...(taskAdded ? { tasks, updatedAt: now } : {}),
+            }
+          })
+          return changed ? { ...previous, projects: nextProjects } : previous
+        })
+      }, [projects, employees, locale])
+
       const memoProject = projects.find(project => project.id === memoProjectId) || null
       const feedbackTargetProject = projects.find(project => project.id === feedbackTargetId) || null
       const projectPasteParsed = parseFeedbackPaste(projectPaste)

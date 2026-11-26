@@ -1,7 +1,7 @@
 {
   "name": "dsh-org-talent",
-  "version": "1.12.0",
-  "description": "Organization-wide employee matching in the DSH left sidebar: a project guide with searchable progress, outcome summaries, recent projects and alerts; one-paste feedback parsed locally; a desktop memo per project; a requirement pool; one DSH conversation per project; a talent pool with CSV/XLSX and GitHub contributor import; an org chart; team matching; capability advice; skill research. · 左侧栏的组织人才匹配：可检索的项目进度、成果摘要、近期项目与预警；粘贴反馈本地智能拆分；按项目保存的桌面备忘录；需求池；按项目创建的 DSH 对话工作区；人才库支持 CSV/XLSX 与 GitHub 贡献者导入；以及组织架构、团队匹配与能力培养建议。",
+  "version": "1.12.1",
+  "description": "Organization-wide employee matching in the DSH left sidebar: a project guide with searchable progress, outcome summaries, recent projects and alerts; one-paste feedback parsed locally; a desktop memo per project; a requirement pool; one DSH conversation per project; a talent pool with CSV/XLSX import; an org chart; team matching; capability advice; skill research. · 左侧栏的组织人才匹配：可检索的项目进度、成果摘要、近期项目与预警；粘贴反馈本地智能拆分；按项目保存的桌面备忘录；需求池；按项目创建的 DSH 对话工作区；人才库支持 CSV/XLSX 导入；以及组织架构、团队匹配与能力培养建议。",
   "type": "module",
   "main": "index.js",
   "license": "MIT",

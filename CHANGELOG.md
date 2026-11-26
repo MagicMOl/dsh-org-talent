@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.12.1 — 2026-11-26
+
+- Removed the **从 GitHub 导入 / Import from GitHub** employee import control and its contributor lookup from the import panel.
+- CSV, TSV, JSON, Markdown and XLSX file/text import remain available; import/export still sit beside the **人才库 / Talent pool** title.
+- No network request is made by employee import. GitHub is still used only for the separate skill research feature.
+- Keeps the 1.12.0 alert deduplication: 卡点 / 难点 / 变更点 appear only in project alerts; project progress keeps stage outcomes and member progress.
+
 ## 1.12.0 — 2026-11-26
 
 - Moved **导入员工 / 导出 CSV** from the global header to the **人才库 / Talent pool** page header.

@@ -77,6 +77,7 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - Every employee in one roster with role, department/team, level, availability, current skills and skill level.
 - Search by name, role, team or skill; filter by department; show only people with at least 50% availability; sort by name, availability or skill count.
 - Open a profile for all skills, strengths, growth areas and current focus.
+- **编辑资料**: edit name, role, level, department, team, availability, city, focus and skills; changes update the talent pool, org chart and future matching.
 - Import/export actions sit beside the **人才库 / Talent pool** title, not in the global header.
 - **新建员工**: create a roster entry with name, role, level, department, team, availability, city, focus and optional skills; duplicates by name are rejected.
 - Open an employee profile to remove them with a two-step confirmation; deletion also removes them from project member lists while keeping task assignee names as history.
@@ -87,16 +88,18 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 
 - Department → team tree with headcount.
 - Team roster, availability, skill coverage, and single-point skills held by only one person.
+- **Drag a roster member onto a team** in the left tree to reassign their department/team for organization adjustments.
 - An organization skill matrix (skills × teams) to see where capability is concentrated.
 
-### 智能匹配 · Team match
+### 人才匹配 · Team matching
 
 - Set a project name, team size, maximum people from one team, and required skills with a minimum level and weight.
-- Matching evaluates combinations of people across the organization — not just individual rankings — and scores each team on:
+- Matching evaluates combinations of people across the organization and returns **one best team**:
   **coverage 55% + depth 13% + availability 12% + balance 12% + synergy 8%**.
-- The top three team options show the score, per-requirement owner, capability gaps, single-point dependencies, department mix, remaining team capacity after the draw, and backup candidates.
+- The best team shows the score, per-requirement owner, capability gaps, single-point dependencies, department mix, remaining team capacity after the draw, and backup candidates.
+- The right sidebar has a **基础团队 / Base team** panel: configure up to eight regular project members. Matching starts from them and adds people only when the base membership cannot cover the project requirements; result members are tagged **基础** or **新增**. The base team persists and can be seeded from the current recommendation.
 - Large organizations or large teams are pre-shortlisted by individual fit; the result header states how many candidates were actually evaluated. Recent matches are saved and can be reloaded.
-- 中文：填项目名称、团队人数、同团队上限和所需技能（最低等级 + 权重），系统枚举整个组织的团队组合并评分，给出前三组团队、每项需求的分工、能力缺口、单点依赖、抽取后的团队剩余产能和补位建议；候选人数与组合数会如实显示。
+- 中文：填项目名称、团队人数、同团队上限和所需技能（最低等级 + 权重），系统枚举整个组织的团队组合并只给出**一组最佳团队**；右侧栏可配置基础团队，匹配优先使用基础成员，基础成员覆盖不了需求时才新增人员，结果会标记「基础 / 新增」。
 
 ## Capability advice · 能力建设建议
 
@@ -177,7 +180,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.15.2](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.15.2), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.16.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.16.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

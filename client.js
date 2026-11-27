@@ -206,6 +206,11 @@ window.__ModuleLoader__.load({
         'employee.joined': '加入',
         'employee.lead': '负责人',
         'employee.create': '新建员工',
+        'employee.edit': '编辑资料',
+        'employee.editTitle': '编辑员工资料',
+        'employee.editHint': '修改后会立即更新人才库和组织架构，已匹配结果需要重新运行。',
+        'employee.updateSave': '保存修改',
+        'employee.updated': '已更新员工“{name}”',
         'employee.createTitle': '新建员工',
         'employee.createHint': '创建后会加入人才库，并可参与组织匹配。',
         'employee.name': '姓名',
@@ -231,6 +236,8 @@ window.__ModuleLoader__.load({
         'org.teamSkills': '团队技能覆盖',
         'org.teamSkillsHint': '括号内为达到 Lv.3 的人数',
         'org.singlePoint': '单点风险',
+        'org.dragHint': '拖动成员到左侧团队，可调整组织归属。',
+        'org.moved': '已把 {name} 移到 {team}。',
         'org.singlePointHint': '只有 1 人达到 Lv.3 的技能；抽人时会先提示',
         'org.noRisk': '暂无单点风险',
         'org.matrix': '全员技能矩阵',
@@ -427,6 +434,18 @@ window.__ModuleLoader__.load({
         'match.backupHint': '未入选、但能补上缺口的员工',
         'match.historyScore': '{n} 分',
         'match.formula': '综合分 = 需求覆盖 55% + 能力深度 13% + 可用产能 12% + 组织均衡 12% + 协同互补 8%',
+        'match.bestTeam': '最佳团队',
+        'base.title': '基础团队',
+        'base.hint': '先配置项目常规成员。匹配时优先使用基础团队；基础成员能覆盖需求就不增人，无法覆盖时才补充。',
+        'base.members': '{n} 名基础成员',
+        'base.empty': '还没有基础成员',
+        'base.add': '添加基础成员',
+        'base.clear': '清空',
+        'base.fromCurrent': '用当前推荐团队',
+        'base.remove': '移除 {name}',
+        'base.updated': '基础团队已更新，请重新匹配。',
+        'base.baseTag': '基础',
+        'base.newTag': '新增',
         'match.dirty': '需求已修改，重新匹配后生效',
         'match.noResult': '点击「开始匹配」查看推荐团队',
         'match.noResultHint': '会从整个组织里评估团队组合，而不只是给每个人打分。',
@@ -653,6 +672,11 @@ window.__ModuleLoader__.load({
         'employee.joined': 'Joined',
         'employee.lead': 'Lead',
         'employee.create': 'Add employee',
+        'employee.edit': 'Edit profile',
+        'employee.editTitle': 'Edit employee profile',
+        'employee.editHint': 'Changes update the talent pool and org chart immediately; re-run matching if needed.',
+        'employee.updateSave': 'Save changes',
+        'employee.updated': 'Updated “{name}”',
         'employee.createTitle': 'Add employee',
         'employee.createHint': 'The employee joins the talent pool and can participate in organization-wide matching.',
         'employee.name': 'Name',
@@ -678,6 +702,8 @@ window.__ModuleLoader__.load({
         'org.teamSkills': 'Team skill coverage',
         'org.teamSkillsHint': 'Numbers show how many people reach Lv.3',
         'org.singlePoint': 'Single points of failure',
+        'org.dragHint': 'Drag a member onto a team on the left to change their organization assignment.',
+        'org.moved': 'Moved {name} to {team}.',
         'org.singlePointHint': 'Skills only one person reaches Lv.3 in; flagged before staffing',
         'org.noRisk': 'No single points of failure',
         'org.matrix': 'Organization skill matrix',
@@ -874,6 +900,18 @@ window.__ModuleLoader__.load({
         'match.backupHint': 'Not selected, but able to close a gap',
         'match.historyScore': '{n} pts',
         'match.formula': 'Score = coverage 55% + depth 13% + availability 12% + balance 12% + synergy 8%',
+        'match.bestTeam': 'Best team',
+        'base.title': 'Base team',
+        'base.hint': 'Configure regular project members first. Matching uses the base team; if they cover the need, no one is added, otherwise only the necessary additions are made.',
+        'base.members': '{n} base members',
+        'base.empty': 'No base members yet',
+        'base.add': 'Add base member',
+        'base.clear': 'Clear',
+        'base.fromCurrent': 'Use current recommendation',
+        'base.remove': 'Remove {name}',
+        'base.updated': 'Base team updated; run matching again.',
+        'base.baseTag': 'Base',
+        'base.newTag': 'Added',
         'match.dirty': 'Requirement changed; run matching again',
         'match.noResult': 'Click Start matching to see team options',
         'match.noResultHint': 'It evaluates team combinations across the whole organization, not just individual scores.',
@@ -1170,7 +1208,7 @@ window.__ModuleLoader__.load({
     }
 
     function defaultState() {
-      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [], requirementPool: seedRequirementPool(), memos: {} }
+      return { employees: seedEmployees(), plan: DEFAULT_PLAN, history: [], training: {}, projects: [], requirementPool: seedRequirementPool(), memos: {}, baseTeamIds: [] }
     }
 
     function normalizeProject(raw) {
@@ -1260,6 +1298,9 @@ window.__ModuleLoader__.load({
             .slice(0, 50)
             .map(([key, value]) => [key, { text: value.text.slice(0, 8000), updatedAt: String(value.updatedAt || '') }]))
           : {}
+        const baseTeamIds = Array.isArray(raw.baseTeamIds)
+          ? raw.baseTeamIds.filter(id => employees.some(employee => employee.id === id)).slice(0, 8)
+          : []
         return {
           employees,
           plan: normalizePlan(raw.plan),
@@ -1268,6 +1309,7 @@ window.__ModuleLoader__.load({
           projects,
           requirementPool,
           memos,
+          baseTeamIds,
         }
       } catch (error) {
         return defaultState()
@@ -1471,6 +1513,38 @@ window.__ModuleLoader__.load({
       '培训交付': {
         zh: ['课程设计与材料', '授课与演练', '效果评估'],
         en: ['Course design and materials', 'Delivery and practice', 'Effectiveness evaluation'],
+      },
+      'backend-dev': {
+        zh: ['API 设计与版本契约', '数据库建模与索引优化', '认证授权与异常处理'],
+        en: ['API design and versioned contracts', 'Data modelling and index tuning', 'Auth and error handling'],
+      },
+      'frontend-dev': {
+        zh: ['组件设计与状态管理', '响应式与可访问性', 'Core Web Vitals 性能优化'],
+        en: ['Component design and state management', 'Responsive layout and accessibility', 'Core Web Vitals performance'],
+      },
+      'fullstack-engineer': {
+        zh: ['前后端契约与类型安全', '端到端链路联调', '数据一致性与迁移'],
+        en: ['Front/back contracts and type safety', 'End-to-end integration', 'Data consistency and migrations'],
+      },
+      'product-manager': {
+        zh: ['需求分析与 RICE 优先级', 'PRD 与验收标准', '用户研究与竞品分析'],
+        en: ['Requirement analysis and RICE', 'PRDs and acceptance criteria', 'User research and competitor analysis'],
+      },
+      'tech-leader': {
+        zh: ['架构决策与 ADR', '代码评审分级', '技术规划与技术债'],
+        en: ['Architecture decisions and ADRs', 'Tiered code review', 'Technical roadmap and tech debt'],
+      },
+      'devops-engineer': {
+        zh: ['CI/CD 流水线与质量卡口', '容器化与 K8s 编排', 'IaC 与可观测性'],
+        en: ['CI/CD pipelines and gates', 'Containers and K8s orchestration', 'IaC and observability'],
+      },
+      'qa-engineer': {
+        zh: ['测试策略与测试金字塔', '用例设计与缺陷管理', '自动化、性能与安全测试'],
+        en: ['Test strategy and the test pyramid', 'Case design and defect management', 'Automation, performance and security testing'],
+      },
+      'QA Engineer': {
+        zh: ['测试策略与测试金字塔', '用例设计与缺陷管理', '自动化、性能与安全测试'],
+        en: ['Test strategy and the test pyramid', 'Case design and defect management', 'Automation, performance and security testing'],
       },
     }
 
@@ -1738,7 +1812,7 @@ window.__ModuleLoader__.load({
       }
     }
 
-    function runMatching(employees, plan) {
+    function runMatching(employees, plan, baseTeamIds = []) {
       const requirements = requirementList(plan)
       if (!requirements.length || !employees.length) return null
       const started = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
@@ -1748,6 +1822,46 @@ window.__ModuleLoader__.load({
         employee.id,
         new Map(employee.skills.map(skill => [skill.name, skill.level])),
       ]))
+      const baseIds = new Set(baseTeamIds || [])
+      const baseTeam = employees.filter(employee => baseIds.has(employee.id)).slice(0, 8)
+      const elapsed = () => {
+        const ended = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
+        return Math.max(1, Math.round(ended - started))
+      }
+
+      if (baseTeam.length) {
+        const baseSet = new Set(baseTeam.map(employee => employee.id))
+        let team = baseTeam.slice()
+        let current = evaluateTeam(team, requirements, team.length, levelMaps)
+        let evaluated = 1
+        while (team.length < size && current.gaps.length) {
+          let bestCandidate = null
+          let bestEvaluation = null
+          for (const employee of employees) {
+            if (baseSet.has(employee.id) || team.some(member => member.id === employee.id)) continue
+            if (team.filter(member => member.team === employee.team).length >= maxPerTeam) continue
+            const next = evaluateTeam([...team, employee], requirements, size, levelMaps)
+            evaluated += 1
+            if (!bestEvaluation || next.coverage > bestEvaluation.coverage || (next.coverage === bestEvaluation.coverage && next.score > bestEvaluation.score)) {
+              bestCandidate = employee
+              bestEvaluation = next
+            }
+          }
+          if (!bestCandidate || !bestEvaluation || bestEvaluation.coverage <= current.coverage) break
+          team = [...team, bestCandidate]
+          current = bestEvaluation
+        }
+        const final = evaluateTeam(team, requirements, team.length, levelMaps)
+        return {
+          results: [{ ...final, baseCount: baseTeam.length, baseTeamSize: baseTeam.length }],
+          evaluated,
+          elapsed: elapsed(),
+          size: team.length,
+          poolSize: employees.length,
+          requirements,
+          signature: JSON.stringify({ size, maxPerTeam, skills: requirements, baseTeam: [...baseIds] }),
+        }
+      }
 
       const ranked = employees
         .map(employee => ({ employee, value: utility(employee, requirements) }))
@@ -1806,32 +1920,16 @@ window.__ModuleLoader__.load({
       if (!results.length) return null
 
       results.sort((a, b) => b.score - a.score || b.coverage - a.coverage || b.availability - a.availability)
-      const picked = []
-      for (const result of results) {
-        if (picked.length >= 3) break
-        const ids = new Set(result.team.map(employee => employee.id))
-        let overlap = false
-        for (const previous of picked) {
-          let shared = 0
-          for (const employee of previous.team) if (ids.has(employee.id)) shared += 1
-          if (shared > size - 2) { overlap = true; break }
-        }
-        if (!overlap) picked.push(result)
-      }
-      for (const result of results) {
-        if (picked.length >= 3) break
-        if (!picked.includes(result)) picked.push(result)
-      }
+      const best = results[0]
 
-      const ended = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
       return {
-        results: picked,
+        results: [best],
         evaluated: results.length,
-        elapsed: Math.max(1, Math.round(ended - started)),
+        elapsed: elapsed(),
         size,
         poolSize: pool.length,
         requirements,
-        signature: JSON.stringify({ size, maxPerTeam, skills: requirements }),
+        signature: JSON.stringify({ size, maxPerTeam, skills: requirements, baseTeam: [...baseIds] }),
       }
     }
 
@@ -2169,6 +2267,7 @@ window.__ModuleLoader__.load({
       grid: [['rect', { x: 4, y: 4, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 13, y: 4, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 4, y: 13, width: 7, height: 7, rx: 1.4 }], ['rect', { x: 13, y: 13, width: 7, height: 7, rx: 1.4 }]],
       pin: [['path', { d: 'M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10z' }], ['circle', { cx: 12, cy: 11, r: 2 }]],
       note: [['path', { d: 'M5 4h14v13l-3 3H5z' }], ['path', { d: 'M16 20v-3h3' }], ['path', { d: 'M8 8h8M8 12h6' }]],
+      edit: [['path', { d: 'M4 20h4L19 9l-4-4L4 16z' }], ['path', { d: 'M13 5l4 4' }]],
     }
 
     function Icon({ name, size }) {
@@ -2433,6 +2532,7 @@ window.__ModuleLoader__.load({
       const [sortBy, setSortBy] = useState('name')
       const [selectedId, setSelectedId] = useState(null)
       const [employeeModalOpen, setEmployeeModalOpen] = useState(false)
+      const [employeeEditId, setEmployeeEditId] = useState('')
       const [newEmployeeName, setNewEmployeeName] = useState('')
       const [newEmployeeRole, setNewEmployeeRole] = useState('')
       const [newEmployeeDept, setNewEmployeeDept] = useState('')
@@ -2456,6 +2556,8 @@ window.__ModuleLoader__.load({
       const [resetAsk, setResetAsk] = useState(false)
       const [note, setNote] = useState(null)
       const [orgTeamName, setOrgTeamName] = useState(null)
+      const [draggingEmployeeId, setDraggingEmployeeId] = useState('')
+      const [dragOverTeam, setDragOverTeam] = useState('')
       const [plan, setPlan] = useState(() => data.plan)
       const [result, setResult] = useState(null)
       const [expanded, setExpanded] = useState(0)
@@ -2510,9 +2612,29 @@ window.__ModuleLoader__.load({
       const skillNames = useMemo(() => allSkillNames(employees).sort((a, b) => a.localeCompare(b, 'zh')), [employees])
       const teams = useMemo(() => org.flatMap(dept => dept.teams), [org])
 
+      const moveEmployeeToTeam = (employeeId, teamName) => {
+        const targetTeam = teams.find(team => team.name === teamName)
+        const employee = employees.find(item => item.id === employeeId)
+        if (!targetTeam || !employee || employee.team === targetTeam.name) {
+          setDragOverTeam('')
+          setDraggingEmployeeId('')
+          return
+        }
+        setData(previous => ({
+          ...previous,
+          employees: previous.employees.map(item => item.id === employeeId
+            ? { ...item, dept: targetTeam.dept, team: targetTeam.name, updated: currentMonth() }
+            : item),
+        }))
+        setOrgTeamName(targetTeam.name)
+        setDragOverTeam('')
+        setDraggingEmployeeId('')
+        setNote(t('org.moved', { name: employee.name, team: targetTeam.name }))
+      }
+
       useEffect(() => {
-        saveStored({ employees, plan, history, training, projects: data.projects || [], requirementPool: data.requirementPool || [], memos: data.memos || {} })
-      }, [employees, plan, history, training, data.projects, data.requirementPool, data.memos])
+        saveStored({ employees, plan, history, training, projects: data.projects || [], requirementPool: data.requirementPool || [], memos: data.memos || {}, baseTeamIds: data.baseTeamIds || [] })
+      }, [employees, plan, history, training, data.projects, data.requirementPool, data.memos, data.baseTeamIds])
 
       useEffect(() => {
         if (!note) return undefined
@@ -2622,6 +2744,9 @@ window.__ModuleLoader__.load({
       const projects = Array.isArray(data.projects) ? data.projects : []
       const requirementPool = Array.isArray(data.requirementPool) ? data.requirementPool : []
       const selectedPoolProject = projects.find(project => project.id === poolProjectId) || projects[0] || null
+      const baseTeam = (data.baseTeamIds || [])
+        .map(id => employees.find(employee => employee.id === id))
+        .filter(Boolean)
       useEffect(() => {
         if (!projects.length || !employees.length) return
         setData(previous => {
@@ -2677,8 +2802,8 @@ window.__ModuleLoader__.load({
       const allDepts = org.map(dept => dept.name)
 
       const planSignature = useMemo(() => JSON.stringify({
-        size: plan.size, maxPerTeam: plan.maxPerTeam, skills: requirementList(plan),
-      }), [plan])
+        size: plan.size, maxPerTeam: plan.maxPerTeam, skills: requirementList(plan), baseTeam: data.baseTeamIds || [],
+      }), [plan, data.baseTeamIds])
       const dirty = result !== null && result.signature !== planSignature
       const remainingSkills = skillNames.filter(name => !plan.skills.some(skill => skill.name === name))
 
@@ -2688,7 +2813,7 @@ window.__ModuleLoader__.load({
           setNote(t('match.reqEmpty'))
           return
         }
-        const computed = runMatching(employees, plan)
+        const computed = runMatching(employees, plan, data.baseTeamIds || [])
         if (!computed) {
           setNote(t('match.noCombo'))
           return
@@ -2772,6 +2897,7 @@ window.__ModuleLoader__.load({
 
       const openCreateEmployee = () => {
         setEmployeeModalOpen(true)
+        setEmployeeEditId('')
         setNewEmployeeName('')
         setNewEmployeeRole('')
         setNewEmployeeDept('')
@@ -2784,18 +2910,35 @@ window.__ModuleLoader__.load({
         setEmployeeModalError(null)
       }
 
+      const openEditEmployee = employee => {
+        if (!employee) return
+        setEmployeeModalOpen(true)
+        setEmployeeEditId(employee.id)
+        setNewEmployeeName(employee.name || '')
+        setNewEmployeeRole(employee.role || '')
+        setNewEmployeeDept(employee.dept || '')
+        setNewEmployeeTeam(employee.team || '')
+        setNewEmployeeLevel(employee.level || 'P5')
+        setNewEmployeeAvailable(String(employee.available ?? 80))
+        setNewEmployeeCity(employee.city || '')
+        setNewEmployeeFocus(employee.focus || '')
+        setNewEmployeeSkills((employee.skills || []).map(skill => skill.name + ':' + skill.level).join('|'))
+        setEmployeeModalError(null)
+      }
+
       const createEmployee = () => {
         const name = newEmployeeName.trim()
         if (!name) {
           setEmployeeModalError(t('employee.nameRequired'))
           return
         }
-        if (employees.some(employee => employee.name.trim().toLowerCase() === name.toLowerCase())) {
+        const existing = employeeEditId ? employees.find(employee => employee.id === employeeEditId) : null
+        if (employees.some(employee => employee.id !== (existing ? existing.id : '') && employee.name.trim().toLowerCase() === name.toLowerCase())) {
           setEmployeeModalError(t('employee.duplicate'))
           return
         }
-        let id = 'e' + Date.now().toString(36)
-        while (employees.some(employee => employee.id === id)) id += 'x'
+        let id = existing ? existing.id : 'e' + Date.now().toString(36)
+        if (!existing) while (employees.some(employee => employee.id === id)) id += 'x'
         const employee = {
           id,
           name,
@@ -2805,16 +2948,21 @@ window.__ModuleLoader__.load({
           level: newEmployeeLevel,
           available: clamp(Number(newEmployeeAvailable) || 0, 0, 100),
           city: newEmployeeCity.trim(),
-          joined: new Date().toISOString().slice(0, 10),
+          joined: existing ? existing.joined : new Date().toISOString().slice(0, 10),
           focus: newEmployeeFocus.trim(),
           updated: currentMonth(),
-          lead: false,
+          lead: existing ? existing.lead : false,
           skills: parseSkillCell(newEmployeeSkills),
         }
-        setData(previous => ({ ...previous, employees: [...previous.employees, employee] }))
+        setData(previous => ({
+          ...previous,
+          employees: existing
+            ? previous.employees.map(item => item.id === existing.id ? employee : item)
+            : [...previous.employees, employee],
+        }))
         setEmployeeModalOpen(false)
         setSelectedId(id)
-        setNote(t('employee.created', { name }))
+        setNote(t(existing ? 'employee.updated' : 'employee.created', { name }))
       }
 
       const deleteEmployee = id => {
@@ -2874,7 +3022,7 @@ window.__ModuleLoader__.load({
       }
 
       const doReset = () => {
-        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [], requirementPool: seedRequirementPool(), memos: {} }))
+        setData(previous => ({ ...previous, employees: seedEmployees(), history: [], training: {}, projects: [], requirementPool: seedRequirementPool(), memos: {}, baseTeamIds: [] }))
         setResetAsk(false)
         setImportNote(null)
         setImportFileName('')
@@ -2886,7 +3034,7 @@ window.__ModuleLoader__.load({
       const loadHistory = entry => {
         const next = normalizePlan(entry.plan)
         setPlan(next)
-        const computed = runMatching(employees, next)
+        const computed = runMatching(employees, next, data.baseTeamIds || [])
         setResult(computed)
         setExpanded(0)
       }
@@ -3790,6 +3938,7 @@ window.__ModuleLoader__.load({
                 setSelectedId(null)
               },
             }, t('employee.viewTeam')),
+            h(Btn, { small: true, icon: 'edit', onClick: () => openEditEmployee(selected) }, t('employee.edit')),
             h('div', { className: 'ot-detail-delete' },
               deleteConfirmId === selected.id
                 ? h('div', { className: 'ot-delete-confirm' },
@@ -4804,8 +4953,21 @@ window.__ModuleLoader__.load({
               key: team.name,
               type: 'button',
               className: 'ot-tree-team',
+              'data-team-name': team.name,
               'data-on': team.name === activeTeam.name ? '' : undefined,
+              'data-drag-over': dragOverTeam === team.name ? '' : undefined,
               onClick: () => setOrgTeamName(team.name),
+              onDragOver: event => {
+                event.preventDefault()
+                event.dataTransfer.dropEffect = 'move'
+                setDragOverTeam(team.name)
+              },
+              onDragLeave: () => setDragOverTeam(previous => previous === team.name ? '' : previous),
+              onDrop: event => {
+                event.preventDefault()
+                const employeeId = event.dataTransfer.getData('text/plain') || draggingEmployeeId
+                moveEmployeeToTeam(employeeId, team.name)
+              },
             },
               h('span', null, team.name),
               h('span', { className: 'ot-tree-count' }, team.members.length))))))
@@ -4823,7 +4985,19 @@ window.__ModuleLoader__.load({
           activeTeam.members.map(member => h('div', {
             key: member.id,
             className: 'ot-roster-row',
+            draggable: true,
+            'data-employee-id': member.id,
+            'data-dragging': draggingEmployeeId === member.id ? '' : undefined,
             style: { '--ot-dept': deptColor(member.dept) },
+            onDragStart: event => {
+              event.dataTransfer.setData('text/plain', member.id)
+              event.dataTransfer.effectAllowed = 'move'
+              setDraggingEmployeeId(member.id)
+            },
+            onDragEnd: () => {
+              setDraggingEmployeeId('')
+              setDragOverTeam('')
+            },
           },
             h(Avatar, { employee: member, size: 30 }),
             h('div', { className: 'ot-roster-id' },
@@ -4889,7 +5063,7 @@ window.__ModuleLoader__.load({
         return h('div', { className: 'ot-pane ot-org' },
           tree,
           h('div', { className: 'ot-org-main' },
-            h('section', { className: 'ot-block' }, head, roster),
+            h('section', { className: 'ot-block' }, head, h('p', { className: 'ot-hint' }, t('org.dragHint')), roster),
             h('div', { className: 'ot-two-col' }, coverageBlock, riskBlock),
             adviceBlock,
             matrixBlock))
@@ -5007,7 +5181,7 @@ window.__ModuleLoader__.load({
                   h('b', null, resultItem.score),
                   h('span', null, t('match.score'))))),
             h('div', { className: 'ot-result-title' },
-              h('div', { className: 'ot-result-name' }, t('match.result', { n: index + 1 })),
+              h('div', { className: 'ot-result-name' }, t('match.bestTeam')),
               h('div', { className: 'ot-avatars' },
                 resultItem.team.map(member => h(Avatar, { key: member.id, employee: member, size: 26 })),
                 h('span', { className: 'ot-result-meta' }, resultItem.team.map(member => member.name).join('、'))),
@@ -5049,9 +5223,13 @@ window.__ModuleLoader__.load({
                   h('th', null, t('match.role')),
                   h('th', null, t('match.team')),
                   h('th', null, t('match.capacity')))),
-                h('tbody', null, members.map(row => h('tr', { key: row.member.id },
+                h('tbody', null, members.map((row, memberIndex) => h('tr', { key: row.member.id },
                   h('td', null, h('span', { className: 'ot-table-person' },
-                    h(Avatar, { employee: row.member, size: 24 }), row.member.name)),
+                    h(Avatar, { employee: row.member, size: 24 }), row.member.name,
+                    resultItem.baseCount ? h('span', {
+                      className: 'ot-member-tag',
+                      'data-kind': memberIndex < resultItem.baseCount ? 'base' : 'new',
+                    }, t(memberIndex < resultItem.baseCount ? 'base.baseTag' : 'base.newTag')) : null)),
                   h('td', null, h('span', { className: 'ot-chip-wrap' },
                     row.covers.length
                       ? row.covers.map(name => h('span', { key: name, className: 'ot-mini-chip' }, name))
@@ -5173,11 +5351,57 @@ window.__ModuleLoader__.load({
         )
       })() : null
 
+      const updateBaseTeam = ids => {
+        setData(previous => ({ ...previous, baseTeamIds: [...new Set(ids)].slice(0, 8) }))
+        setNote(t('base.updated'))
+      }
+
+      const baseTeamPanel = h('section', { className: 'ot-base-team ot-block' },
+        h('div', { className: 'ot-base-head' },
+          h('div', null,
+            h('div', { className: 'ot-h3' }, t('base.title')),
+            h('p', { className: 'ot-hint' }, t('base.hint'))),
+          h('span', { className: 'ot-base-count' }, t('base.members', { n: baseTeam.length }))),
+        baseTeam.length
+          ? h('div', { className: 'ot-base-list' }, baseTeam.map(member => h('div', { key: member.id, className: 'ot-base-member' },
+            h(Avatar, { employee: member, size: 24 }),
+            h('div', { className: 'ot-base-member-id' },
+              h('b', null, member.name),
+              h('small', null, member.role)),
+            h('button', {
+              type: 'button',
+              className: 'ot-icon-btn',
+              'aria-label': t('base.remove', { name: member.name }),
+              onClick: () => updateBaseTeam((data.baseTeamIds || []).filter(id => id !== member.id)),
+            }, h(Icon, { name: 'close', size: 12 })))))
+          : h('p', { className: 'ot-hint ot-base-empty' }, t('base.empty')),
+        h('div', { className: 'ot-base-add' },
+          h('select', {
+            className: 'ot-select',
+            value: '',
+            'aria-label': t('base.add'),
+            onChange: event => {
+              if (!event.target.value) return
+              updateBaseTeam([...(data.baseTeamIds || []), event.target.value])
+              event.target.value = ''
+            },
+          },
+            h('option', { value: '' }, t('base.add')),
+            employees.filter(employee => !baseTeam.some(member => member.id === employee.id))
+              .map(employee => h('option', { key: employee.id, value: employee.id }, employee.name + ' · ' + employee.role))),
+          h(Btn, { small: true, onClick: () => updateBaseTeam([]), disabled: !baseTeam.length }, t('base.clear')),
+          topResult ? h(Btn, {
+            small: true,
+            icon: 'users',
+            onClick: () => updateBaseTeam(topResult.team.map(member => member.id)),
+          }, t('base.fromCurrent')) : null))
+
       const resultsPane = h('div', { className: 'ot-results' },
+        baseTeamPanel,
         result
           ? h('div', { className: 'ot-results-inner' },
             h('div', { className: 'ot-results-head' },
-              h('span', { className: 'ot-h3' }, t('match.resultsHead', { n: result.results.length })),
+              h('span', { className: 'ot-h3' }, t('match.bestTeam')),
               h('span', { className: 'ot-muted' }, t('match.summary', {
                 people: employees.length, pool: result.poolSize, teams: result.evaluated, ms: result.elapsed,
               }))),
@@ -5273,13 +5497,13 @@ window.__ModuleLoader__.load({
         className: 'ot-modal ot-employee-modal',
         role: 'dialog',
         'aria-modal': 'true',
-        'aria-label': t('employee.createTitle'),
+        'aria-label': employeeEditId ? t('employee.editTitle') : t('employee.createTitle'),
         onClick: event => event.stopPropagation(),
       },
         h('div', { className: 'ot-modal-head' },
           h('div', null,
-            h('h3', { className: 'ot-modal-title' }, t('employee.createTitle')),
-            h('p', { className: 'ot-hint' }, t('employee.createHint'))),
+            h('h3', { className: 'ot-modal-title' }, employeeEditId ? t('employee.editTitle') : t('employee.createTitle')),
+            h('p', { className: 'ot-hint' }, employeeEditId ? t('employee.editHint') : t('employee.createHint'))),
           h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setEmployeeModalOpen(false) },
             h(Icon, { name: 'close', size: 13 }))),
         h('div', { className: 'ot-employee-form-grid' },
@@ -5358,7 +5582,7 @@ window.__ModuleLoader__.load({
         employeeModalError ? h('p', { className: 'ot-hint ot-bad', role: 'status' }, employeeModalError) : null,
         h('div', { className: 'ot-modal-actions' },
           h(Btn, { small: true, onClick: () => setEmployeeModalOpen(false) }, t('employee.cancel')),
-          h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: createEmployee }, t('employee.createSave'))))) : null
+          h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: createEmployee }, employeeEditId ? t('employee.updateSave') : t('employee.createSave'))))) : null
 
       return h('div', { className: 'ot-root' },
         h('style', null, CSS),
@@ -5594,6 +5818,9 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-roster{display:flex;flex-direction:column;gap:2px}
 .ot-roster-row{display:flex;align-items:center;gap:12px;padding:9px 8px;border-radius:9px;transition:background .15s}
 .ot-roster-row:hover{background:color-mix(in srgb,var(--ot-dept) 6%,var(--ot-card))}
+.ot-roster-row[draggable]{cursor:grab}
+.ot-roster-row[data-dragging]{opacity:.45}
+.ot-tree-team[data-drag-over]{background:color-mix(in srgb,var(--ot-brand) 12%,var(--ot-card));color:var(--ot-brand);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ot-brand) 30%,transparent)}
 .ot-roster-id{width:124px;flex:none;min-width:0}
 .ot-roster-name{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500}
 .ot-lead{font-size:11px;font-weight:500;padding:0 5px;height:18px;line-height:18px;border-radius:5px;color:color-mix(in srgb,var(--ot-dept) 72%,var(--dsw-alias-label-primary));background:color-mix(in srgb,var(--ot-dept) 12%,var(--ot-card))}
@@ -5703,6 +5930,21 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-history-meta{color:color-mix(in srgb,var(--ot-brand) 78%,var(--dsw-alias-label-primary));font-size:11px;white-space:nowrap}
 .ot-history-time{color:var(--ot-faint);font-size:11px;font-variant-numeric:tabular-nums}
 .ot-results{flex:1;min-width:0;overflow:auto;display:flex;flex-direction:column;gap:14px;padding-right:2px}
+.ot-base-team{display:flex;flex-direction:column;gap:8px;padding:12px 13px;border:1px solid var(--ot-line-2);border-left:3px solid #17a398;border-radius:12px;background:color-mix(in srgb,#17a398 4%,var(--ot-card))}
+.ot-base-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ot-base-count{font-size:11px;color:var(--ot-muted);white-space:nowrap;padding-top:3px}
+.ot-base-list{display:flex;flex-direction:column;gap:3px;max-height:210px;overflow:auto}
+.ot-base-member{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:7px;background:var(--dsw-alias-bg-base);min-width:0}
+.ot-base-member-id{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.ot-base-member-id b{font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-base-member-id small{font-size:11px;color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-base-member .ot-icon-btn{width:24px;height:24px;flex:none}
+.ot-base-empty{padding:3px 0}
+.ot-base-add{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ot-base-add .ot-select{flex:1;min-width:180px;height:30px;font-size:11.5px}
+.ot-member-tag{display:inline-flex;align-items:center;height:18px;padding:0 6px;border-radius:5px;font-size:10.5px;font-weight:500;white-space:nowrap}
+.ot-member-tag[data-kind="base"]{color:#0f7f76;background:color-mix(in srgb,#17a398 12%,transparent)}
+.ot-member-tag[data-kind="new"]{color:#a66a16;background:color-mix(in srgb,#e0932f 13%,transparent)}
 .ot-results-inner{display:flex;flex-direction:column;gap:14px}
 .ot-results-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ot-results-head .ot-muted{font-size:11.5px}

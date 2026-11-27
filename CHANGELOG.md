@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.16.0 — 2026-11-27
+
+- Talent pool employee profiles can now be edited (role, level, department, team, availability, city, focus and skills); changes update the org chart and future matching immediately.
+- Organization chart roster members are draggable onto teams in the left tree to reassign their department/team.
+- Team matching now returns exactly **one best team** instead of three alternatives.
+- Added a **基础团队 / Base team** panel to the matching right sidebar:
+  - configure up to eight regular project members;
+  - matching starts from the base team and only adds people when base coverage is insufficient;
+  - result members are tagged **基础** or **新增**;
+  - the base team persists and can be seeded from the current recommendation.
+
 ## 1.15.2 — 2026-11-26
 
 - Backfills **产品验收 / Product acceptance** for existing projects:

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.17.0 — 2026-11-27
+
+- Added lightweight, dependency-free data charts for summary information:
+  - **项目状态分布** donut on the project guide (not started / active / reviewed);
+  - **项目进度分布** horizontal bars (0%, 1–49%, 50–99%, 100%);
+  - **部门人数分布** horizontal bars on the talent pool.
+- Charts use the same multi-color visual language as the rest of the plugin, include numeric legends, and are responsive on narrow screens.
+- No chart library or external request is added; SVGs and CSS are local.
+
 ## 1.16.0 — 2026-11-27
 
 - Talent pool employee profiles can now be edited (role, level, department, team, availability, city, focus and skills); changes update the org chart and future matching immediately.

@@ -1,7 +1,7 @@
 {
   "name": "dsh-org-talent",
-  "version": "1.16.0",
-  "description": "Organization-wide employee matching in the DSH left sidebar: project progress with embedded outcomes and alerts, product acceptance and duplicate-development guards; editable talent profiles and drag-to-team org chart; one best team match with a persistent base team that adds only necessary members; one-paste feedback parsing; desktop memo; requirement pool; per-project DSH conversations; capability advice and skill research. · 左侧栏的组织人才匹配：项目进度内嵌成果与预警、产品验收与重复开发拦截；人才库可编辑、组织架构支持拖拽调队；匹配只给一组最佳团队，并可配置基础团队，缺能力时才新增；粘贴反馈智能拆分、桌面备忘录、需求池、项目对话与培养建议。",
+  "version": "1.17.0",
+  "description": "Organization-wide employee matching in the DSH left sidebar: project progress with embedded outcomes and alerts, product acceptance and duplicate-development guards; editable talent profiles and drag-to-team org chart; one best team match with a persistent base team; dependency-free charts for project status/progress and department headcount; one-paste feedback, desktop memo, requirement pool, per-project DSH conversations, capability advice and skill research. · 左侧栏的组织人才匹配：项目进度内嵌成果与预警、产品验收与重复开发拦截；人才库可编辑、组织架构支持拖拽调队；只给一组最佳团队并可配置基础团队；项目状态/进度与部门人数使用本地数据图展示；另含粘贴反馈、桌面备忘录、需求池、项目对话与培养建议。",
   "type": "module",
   "main": "index.js",
   "license": "MIT",

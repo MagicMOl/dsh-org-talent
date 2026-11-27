@@ -36,6 +36,7 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
 - Progress and recent projects are stacked as full-width rows rather than squeezed into columns; each carries lists, filters and detail text.
 - **Typography hierarchy**: card/section titles are 14px/600, in-card subheads 12.5px/600, primary body 12px, secondary hints 11.5px, and meta labels 11px, so titles no longer read at the same size as their content.
+- **Data charts**: the project guide adds a **项目状态分布** donut and **项目进度分布** bars; the talent pool adds **部门人数分布** bars. They are dependency-free SVG/CSS charts with numeric legends and responsive stacking.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
 - Each progress row also offers **备忘录** and **记录反馈** directly, so feedback no longer requires returning to the match result.
 - **项目预警** is the single place for **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and saved stage feedback. A project search dropdown filters alerts; click an alert to jump to its project. The old progress “反馈信息” block was removed to avoid duplication.
@@ -76,6 +77,7 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 
 - Every employee in one roster with role, department/team, level, availability, current skills and skill level.
 - Search by name, role, team or skill; filter by department; show only people with at least 50% availability; sort by name, availability or skill count.
+- A **部门人数分布 / Department headcount** bar chart summarises the roster by department.
 - Open a profile for all skills, strengths, growth areas and current focus.
 - **编辑资料**: edit name, role, level, department, team, availability, city, focus and skills; changes update the talent pool, org chart and future matching.
 - Import/export actions sit beside the **人才库 / Talent pool** title, not in the global header.
@@ -180,7 +182,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.16.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.16.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.17.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.17.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

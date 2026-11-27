@@ -188,6 +188,16 @@ window.__ModuleLoader__.load({
         'stat.detail.lowNone': '没有低于 50% 的员工。',
         'stat.detail.teamOpen': '打开团队',
         'stat.detail.skillFilter': '在员工中筛选该技能',
+        'chart.projectStatus': '项目状态分布',
+        'chart.progressDistribution': '项目进度分布',
+        'chart.departmentDistribution': '部门人数分布',
+        'chart.projectCount': '{n} 个项目',
+        'chart.peopleCount': '{n} 名员工',
+        'chart.projects': '项目',
+        'chart.zero': '0%',
+        'chart.low': '1–49%',
+        'chart.mid': '50–99%',
+        'chart.done': '100%',
         'stat.detail.close': '关闭详情',
         'stat.detail.open': '点击查看详情',
         'employee.available': '可投入 {n}%',
@@ -654,6 +664,16 @@ window.__ModuleLoader__.load({
         'stat.detail.lowNone': 'Nobody is below 50%.',
         'stat.detail.teamOpen': 'Open team',
         'stat.detail.skillFilter': 'Filter employees by this skill',
+        'chart.projectStatus': 'Project status',
+        'chart.progressDistribution': 'Progress distribution',
+        'chart.departmentDistribution': 'Department headcount',
+        'chart.projectCount': '{n} projects',
+        'chart.peopleCount': '{n} employees',
+        'chart.projects': 'projects',
+        'chart.zero': '0%',
+        'chart.low': '1–49%',
+        'chart.mid': '50–99%',
+        'chart.done': '100%',
         'stat.detail.close': 'Close details',
         'stat.detail.open': 'Open details',
         'employee.available': '{n}% available',
@@ -2394,6 +2414,52 @@ window.__ModuleLoader__.load({
         result.total = 1
       }
       return result
+    }
+
+    function DonutChart({ segments, total, centerLabel, ariaLabel }) {
+      const sum = segments.reduce((value, segment) => value + Math.max(0, segment.value || 0), 0)
+      let offset = 0
+      const visible = segments.filter(segment => segment.value > 0)
+      return h('div', { className: 'ot-chart-visual' },
+        h('div', { className: 'ot-donut' },
+          h('svg', { viewBox: '0 0 100 100', role: 'img', 'aria-label': ariaLabel },
+            h('circle', { cx: 50, cy: 50, r: 40, fill: 'none', stroke: 'var(--ot-line)', strokeWidth: 12 }),
+            visible.map(segment => {
+              const percent = sum ? segment.value / sum * 100 : 0
+              const circle = h('circle', {
+                key: segment.label,
+                cx: 50,
+                cy: 50,
+                r: 40,
+                fill: 'none',
+                stroke: segment.color,
+                strokeWidth: 12,
+                pathLength: 100,
+                strokeDasharray: percent + ' ' + (100 - percent),
+                strokeDashoffset: -offset,
+                transform: 'rotate(-90 50 50)',
+              })
+              offset += percent
+              return circle
+            })),
+          h('div', { className: 'ot-donut-center' },
+            h('b', null, total || sum),
+            h('span', null, centerLabel || ''))),
+        h('div', { className: 'ot-donut-legend' },
+          segments.map(segment => h('div', { key: segment.label, className: 'ot-legend-item' },
+            h('i', { className: 'ot-legend-dot', style: { background: segment.color } }),
+            h('span', null, segment.label),
+            h('b', null, segment.value)))))
+    }
+
+    function BarChart({ items, ariaLabel }) {
+      const max = Math.max(1, ...items.map(item => item.value || 0))
+      return h('div', { className: 'ot-bar-chart', role: 'img', 'aria-label': ariaLabel },
+        items.map(item => h('div', { key: item.label, className: 'ot-bar-row' },
+          h('span', { className: 'ot-bar-label' }, item.label),
+          h('span', { className: 'ot-bar-track' },
+            h('i', { style: { width: Math.max(0, item.value || 0) / max * 100 + '%', background: item.color || 'var(--ot-brand)' } })),
+          h('b', { className: 'ot-bar-value' }, item.value || 0))))
     }
 
     function ProjectSearchSelect({ projects, value, onChange, placeholder, listId, fallback }) {
@@ -4208,6 +4274,19 @@ window.__ModuleLoader__.load({
             h('b', null, item.value, item.suffix ? h('small', null, item.suffix) : null),
             h('span', null, item.label)))))
 
+      const talentDeptChart = employees.length ? h('section', { className: 'ot-chart-card ot-talent-chart', style: { '--ot-section': '#17a398' } },
+        h('div', { className: 'ot-chart-head' },
+          h('div', { className: 'ot-h3' }, t('chart.departmentDistribution')),
+          h('span', { className: 'ot-chart-meta' }, t('chart.peopleCount', { n: employees.length }))),
+        h(BarChart, {
+          ariaLabel: t('chart.departmentDistribution'),
+          items: org.map(dept => ({
+            label: dept.name,
+            value: dept.teams.reduce((sum, team) => sum + team.members.length, 0),
+            color: deptColor(dept.name),
+          })).sort((a, b) => b.value - a.value),
+        })) : null
+
       const talentView = h('div', { className: 'ot-pane ot-wb' },
         h('div', { className: 'ot-page-head' },
           h('div', null,
@@ -4257,6 +4336,7 @@ window.__ModuleLoader__.load({
                 h('option', { value: 'available' }, t('sort.available')),
                 h('option', { value: 'skills' }, t('sort.skills')))),
           )),
+        talentDeptChart,
         importOpen ? h('section', {
           className: 'ot-import ot-block',
           onDragOver: event => event.preventDefault(),
@@ -4409,6 +4489,36 @@ window.__ModuleLoader__.load({
         { key: 'difficulties', title: t('guide.warnDifficulties'), tone: 'amber', items: filteredWarnings.difficulties },
         { key: 'changes', title: t('guide.warnChanges'), tone: 'blue', items: filteredWarnings.changes },
       ]
+      const projectStatusSegments = [
+        { label: t('project.status.notStarted'), value: projects.filter(project => projectProgressFor(project).status === 'notStarted').length, color: '#94a3b8' },
+        { label: t('project.status.active'), value: projects.filter(project => projectProgressFor(project).status === 'active').length, color: '#17a398' },
+        { label: t('project.status.reviewed'), value: projects.filter(project => projectProgressFor(project).status === 'reviewed').length, color: '#8b5cf6' },
+      ]
+      const progressBuckets = (() => {
+        const values = projects.map(project => projectProgressFor(project).percent)
+        return [
+          { label: t('chart.zero'), value: values.filter(value => value === 0).length, color: '#94a3b8' },
+          { label: t('chart.low'), value: values.filter(value => value > 0 && value < 50).length, color: '#4c7df0' },
+          { label: t('chart.mid'), value: values.filter(value => value >= 50 && value < 100).length, color: '#e0932f' },
+          { label: t('chart.done'), value: values.filter(value => value >= 100).length, color: '#17a398' },
+        ]
+      })()
+      const projectCharts = projects.length ? h('div', { className: 'ot-guide-charts' },
+        h('section', { className: 'ot-chart-card', style: { '--ot-section': '#8b5cf6' } },
+          h('div', { className: 'ot-chart-head' },
+            h('div', { className: 'ot-h3' }, t('chart.projectStatus')),
+            h('span', { className: 'ot-chart-meta' }, t('chart.projectCount', { n: projects.length }))),
+          h(DonutChart, {
+            segments: projectStatusSegments,
+            total: projects.length,
+            centerLabel: t('chart.projects'),
+            ariaLabel: t('chart.projectStatus'),
+          })),
+        h('section', { className: 'ot-chart-card', style: { '--ot-section': '#4c7df0' } },
+          h('div', { className: 'ot-chart-head' },
+            h('div', { className: 'ot-h3' }, t('chart.progressDistribution')),
+            h('span', { className: 'ot-chart-meta' }, t('chart.projectCount', { n: projects.length }))),
+          h(BarChart, { items: progressBuckets, ariaLabel: t('chart.progressDistribution') }))) : null
       const progressProjects = projects
         .filter(project => !progressProjectFilter || project.id === progressProjectFilter)
         .slice()
@@ -4676,6 +4786,7 @@ window.__ModuleLoader__.load({
         dirty ? h('p', { className: 'ot-hint ot-warn ot-guide-dirty' }, t('match.dirty')) : null,
         statTiles,
         statPanel,
+        projectCharts,
         h('section', { className: 'ot-warnings', style: { '--ot-section': '#e0932f' } },
           h('div', { className: 'ot-warnings-head' },
             h('div', null,
@@ -5693,6 +5804,28 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-status-dot{width:7px;height:7px;border-radius:50%;background:var(--dsw-alias-state-success-primary);flex:none}
 .ot-note{color:var(--ot-brand);margin-left:4px}
 .ot-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.ot-guide-charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:-4px 0 16px}
+.ot-chart-card{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border:1px solid var(--ot-line);border-top:3px solid color-mix(in srgb,var(--ot-section,var(--ot-brand)) 65%,transparent);border-radius:14px;background:var(--ot-card);min-width:0}
+.ot-chart-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ot-chart-meta{font-size:11px;color:var(--ot-muted);white-space:nowrap}
+.ot-chart-visual{display:flex;align-items:center;gap:18px;min-width:0}
+.ot-donut{position:relative;width:112px;height:112px;flex:none}
+.ot-donut svg{display:block;width:100%;height:100%}
+.ot-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.ot-donut-center b{font-size:24px;line-height:28px;font-weight:600;color:var(--dsw-alias-label-primary);font-variant-numeric:tabular-nums}
+.ot-donut-center span{font-size:10.5px;color:var(--ot-muted)}
+.ot-donut-legend{display:flex;flex-direction:column;gap:7px;min-width:0;flex:1}
+.ot-legend-item{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ot-muted);min-width:0}
+.ot-legend-dot{width:8px;height:8px;border-radius:2px;flex:none}
+.ot-legend-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ot-legend-item b{margin-left:auto;font-size:12px;font-weight:600;color:var(--dsw-alias-label-primary);font-variant-numeric:tabular-nums}
+.ot-bar-chart{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ot-bar-row{display:grid;grid-template-columns:minmax(74px,1fr) minmax(70px,1.5fr) 30px;align-items:center;gap:8px;min-width:0}
+.ot-bar-label{font-size:11.5px;color:var(--ot-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-bar-track{height:8px;border-radius:999px;background:var(--ot-card-2);overflow:hidden;min-width:0}
+.ot-bar-track i{display:block;height:100%;min-width:0;border-radius:999px;opacity:.82}
+.ot-bar-value{font-size:12px;font-weight:600;text-align:right;color:var(--dsw-alias-label-primary);font-variant-numeric:tabular-nums}
+.ot-talent-chart{margin:0 0 14px}
 .ot-stat{border:1px solid var(--ot-line);background:var(--ot-card);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:34px minmax(0,1fr);grid-template-rows:auto auto;gap:2px 12px;align-items:center}
 .ot-stat-icon{grid-row:1/3;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;color:color-mix(in srgb,var(--ot-accent) 68%,var(--dsw-alias-label-primary));background:color-mix(in srgb,var(--ot-accent) 14%,var(--ot-card));border:1px solid color-mix(in srgb,var(--ot-accent) 26%,transparent)}
 .ot-stat-body{display:flex;flex-direction:column;gap:1px;min-width:0;grid-column:2;grid-row:1/3}
@@ -6323,7 +6456,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-guide-charts{grid-template-columns:1fr;gap:12px}.ot-chart-visual{gap:12px}.ot-donut{width:96px;height:96px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}}
 `
 
     /* ------------------------------------------------------------------ apply */

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Org Talent Match",
-    "description": "Adds a \"Talent match\" entry to the left sidebar. Project progress embeds outcomes, alerts and product acceptance; talent profiles are editable and org-chart members can be dragged between teams; matching returns one best team, optionally seeded from a persistent base team that adds members only when coverage requires it. It also includes one-paste feedback parsing, a desktop memo, requirement pool, per-project DSH conversations, capability advice and skill research. Local data stays in this browser; task details are sent to DSH conversations by explicit user action, and skill-search keywords go to GitHub.",
+    "description": "Adds a \"Talent match\" entry to the left sidebar. Project progress embeds outcomes, alerts and product acceptance; talent profiles are editable and org-chart members can be dragged between teams; matching returns one best team with an optional persistent base team. Local SVG charts summarize project status/progress and department headcount. It also includes one-paste feedback parsing, desktop memo, requirement pool, per-project DSH conversations, capability advice and skill research. Local data stays in this browser; task details are sent to DSH conversations by explicit user action, and skill-search keywords go to GitHub.",
     "detail": "docs/DETAIL.md"
   }
 }

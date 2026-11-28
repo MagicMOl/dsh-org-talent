@@ -106,6 +106,15 @@ window.__ModuleLoader__.load({
         'guide.warnings': '项目预警',
         'guide.warningsHint': '卡点、难点与变更点；点击预警可展开对应项目',
         'guide.warningCount': '{n} 条预警',
+        'guide.warningProject': '项目',
+        'guide.warningUpdated': '最近更新',
+        'guide.warningSummary': '预警摘要',
+        'guide.warningSummaryHint': '每类显示一条代表预警；点击矩阵数字查看全部',
+        'guide.warningDetailHint': '点击条目在项目进度中查看',
+        'guide.warningAll': '全部',
+        'guide.warningBack': '返回摘要',
+        'guide.noWarnings': '当前没有预警',
+        'guide.noWarningsHint': '需求变更、反馈卡点或项目风险会出现在这里。',
         'guide.warnBlockers': '卡点',
         'guide.warnDifficulties': '难点',
         'guide.warnChanges': '变更点',
@@ -617,6 +626,15 @@ window.__ModuleLoader__.load({
         'guide.warnings': 'Project alerts',
         'guide.warningsHint': 'Blockers, difficulties and changes; click an alert to expand the project',
         'guide.warningCount': '{n} alerts',
+        'guide.warningProject': 'Project',
+        'guide.warningUpdated': 'Updated',
+        'guide.warningSummary': 'Alert summary',
+        'guide.warningSummaryHint': 'One representative alert per category; click a matrix count for all',
+        'guide.warningDetailHint': 'Click an item to open the project progress',
+        'guide.warningAll': 'All',
+        'guide.warningBack': 'Back to summary',
+        'guide.noWarnings': 'No alerts right now',
+        'guide.noWarningsHint': 'Requirement changes, feedback blockers or project risks will appear here.',
         'guide.warnBlockers': 'Blockers',
         'guide.warnDifficulties': 'Difficulties',
         'guide.warnChanges': 'Changes',
@@ -2744,6 +2762,7 @@ window.__ModuleLoader__.load({
       const [poolStatus, setPoolStatus] = useState(null)
       const [poolStatusTone, setPoolStatusTone] = useState('good')
       const [alertProjectFilter, setAlertProjectFilter] = useState('')
+      const [alertDetail, setAlertDetail] = useState(null)
       const [progressProjectFilter, setProgressProjectFilter] = useState('')
 
       const employees = data.employees
@@ -4631,6 +4650,126 @@ window.__ModuleLoader__.load({
         { key: 'difficulties', title: t('guide.warnDifficulties'), tone: 'amber', items: filteredWarnings.difficulties },
         { key: 'changes', title: t('guide.warnChanges'), tone: 'blue', items: filteredWarnings.changes },
       ]
+      const alertRows = projects.map(project => {
+        const blockers = filteredWarnings.blockers.filter(item => item.project.id === project.id)
+        const difficulties = filteredWarnings.difficulties.filter(item => item.project.id === project.id)
+        const changes = filteredWarnings.changes.filter(item => item.project.id === project.id)
+        return {
+          project,
+          blockers,
+          difficulties,
+          changes,
+          total: blockers.length + difficulties.length + changes.length,
+        }
+      }).filter(row => row.total > 0)
+        .sort((a, b) => b.total - a.total || String(b.project.updatedAt || '').localeCompare(String(a.project.updatedAt || '')))
+      const alertDetailRow = alertDetail ? alertRows.find(row => row.project.id === alertDetail.projectId) : null
+      const activeAlertCategory = alertDetail ? alertDetail.category : 'all'
+      const activeAlertItems = alertDetailRow
+        ? activeAlertCategory === 'all'
+          ? warningGroups.flatMap(group => alertDetailRow[group.key].map(item => ({ group, item })))
+          : warningGroups
+            .filter(group => group.key === activeAlertCategory)
+            .flatMap(group => alertDetailRow[group.key].map(item => ({ group, item })))
+        : []
+
+      const alertMatrix = h('div', { className: 'ot-alert-matrix' },
+        h('div', { className: 'ot-alert-matrix-head' },
+          h('span', { className: 'ot-alert-project' }, t('guide.warningProject')),
+          warningGroups.map(group => h('span', { key: group.key, className: 'ot-alert-col-label', 'data-tone': group.tone }, group.title)),
+          h('span', { className: 'ot-alert-updated' }, t('guide.warningUpdated'))),
+        h('div', { className: 'ot-alert-rows' },
+          alertRows.map(row => h('div', { key: row.project.id, className: 'ot-alert-row' },
+            h('button', {
+              type: 'button',
+              className: 'ot-alert-project',
+              onClick: () => setAlertDetail({ projectId: row.project.id, category: 'all' }),
+            }, row.project.name || t('project.untitled')),
+            warningGroups.map(group => {
+              const items = row[group.key]
+              return h('button', {
+                key: group.key,
+                type: 'button',
+                className: 'ot-alert-cell',
+                'data-tone': group.tone,
+                'data-on': alertDetailRow && alertDetailRow.project.id === row.project.id && activeAlertCategory === group.key ? '' : undefined,
+                disabled: !items.length,
+                'aria-label': group.title + ' ' + items.length,
+                onClick: () => setAlertDetail({ projectId: row.project.id, category: group.key }),
+              }, items.length || '—')
+            }),
+            h('span', { className: 'ot-alert-updated' }, formatProjectDate(row.project.updatedAt || row.project.createdAt))))))
+
+      const alertSummary = h('div', { className: 'ot-alert-summary' },
+        warningGroups.map(group => {
+          const item = group.items[0]
+          return h('button', {
+            key: group.key,
+            type: 'button',
+            className: 'ot-alert-summary-row',
+            'data-tone': group.tone,
+            disabled: !item,
+            onClick: () => item && setAlertDetail({ projectId: item.project.id, category: group.key }),
+          },
+            h('div', { className: 'ot-alert-summary-top' },
+              h('b', null, group.title),
+              h('span', null, group.items.length)),
+            item
+              ? h('span', { className: 'ot-alert-summary-text', title: item.text }, item.projectName + ' · ' + item.text)
+              : h('span', { className: 'ot-alert-summary-text' }, t('guide.none')))
+        }))
+
+      const alertSide = alertDetailRow
+        ? h('aside', { className: 'ot-alert-side' },
+          h('div', { className: 'ot-alert-side-head' },
+            h('div', null,
+              h('div', { className: 'ot-h3' }, alertDetailRow.project.name || t('project.untitled')),
+              h('p', { className: 'ot-hint' }, t('guide.warningDetailHint'))),
+            h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('guide.warningBack'), onClick: () => setAlertDetail(null) },
+              h(Icon, { name: 'close', size: 12 }))),
+          h('div', { className: 'ot-alert-tabs' },
+            h('button', {
+              type: 'button',
+              className: 'ot-alert-tab',
+              'data-on': activeAlertCategory === 'all' ? '' : undefined,
+              onClick: () => setAlertDetail({ projectId: alertDetailRow.project.id, category: 'all' }),
+            }, t('guide.warningAll')),
+            warningGroups.map(group => h('button', {
+              key: group.key,
+              type: 'button',
+              className: 'ot-alert-tab',
+              'data-tone': group.tone,
+              'data-on': activeAlertCategory === group.key ? '' : undefined,
+              onClick: () => setAlertDetail({ projectId: alertDetailRow.project.id, category: group.key }),
+            }, group.title, h('b', null, alertDetailRow[group.key].length)))),
+          h('div', { className: 'ot-alert-detail-list' },
+            activeAlertItems.length
+              ? activeAlertItems.map((entry, index) => h('button', {
+                key: entry.group.key + '-' + index,
+                type: 'button',
+                className: 'ot-alert-detail-item',
+                'data-tone': entry.group.tone,
+                onClick: () => openProjectProgress(entry.item.project.id),
+              },
+                h('div', { className: 'ot-alert-detail-meta' },
+                  h('span', null, entry.group.title),
+                  h('small', null, entry.item.projectName)),
+                h('p', null, entry.item.text)))
+              : h('p', { className: 'ot-hint' }, t('guide.none'))))
+        : h('aside', { className: 'ot-alert-side' },
+          h('div', { className: 'ot-alert-side-head' },
+            h('div', null,
+              h('div', { className: 'ot-h3' }, t('guide.warningSummary')),
+              h('p', { className: 'ot-hint' }, t('guide.warningSummaryHint')))),
+          alertSummary)
+
+      const alertPanel = alertRows.length
+        ? h('div', { className: 'ot-warning-layout' }, alertMatrix, alertSide)
+        : h('div', { className: 'ot-guide-empty' },
+          h(Icon, { name: 'alert', size: 20 }),
+          h('p', null, t('guide.noWarnings')),
+          h('p', { className: 'ot-hint' }, t('guide.noWarningsHint')))
+
       const projectStatusSegments = [
         { label: t('project.status.notStarted'), value: projects.filter(project => projectProgressFor(project).status === 'notStarted').length, color: '#94a3b8' },
         { label: t('project.status.active'), value: projects.filter(project => projectProgressFor(project).status === 'active').length, color: '#17a398' },
@@ -4963,27 +5102,13 @@ window.__ModuleLoader__.load({
               h(ProjectSearchSelect, {
                 projects: projects,
                 value: alertProjectFilter,
-                onChange: setAlertProjectFilter,
+                onChange: id => { setAlertProjectFilter(id); setAlertDetail(null) },
                 placeholder: t('guide.filterProject'),
                 listId: 'ot-alert-projects',
                 fallback: t('project.untitled'),
               }),
               h('span', { className: 'ot-warning-total' }, t('guide.warningCount', { n: projectWarningCount })))),
-          h('div', { className: 'ot-warning-cols' },
-            warningGroups.map(group => h('div', { key: group.key, className: 'ot-warning-col', 'data-tone': group.tone },
-              h('div', { className: 'ot-warning-col-head' },
-                h('span', null, group.title),
-                h('b', null, group.items.length)),
-              group.items.length
-                ? group.items.slice(0, 3).map((item, index) => h('button', {
-                  key: group.key + '-' + item.project.id + '-' + index,
-                  type: 'button',
-                  className: 'ot-warning-item',
-                  onClick: () => openProjectProgress(item.project.id),
-                },
-                  h('small', null, item.projectName),
-                  h('span', null, item.text)))
-                : h('p', { className: 'ot-hint ot-warning-none' }, t('guide.none')))))),
+          alertPanel),
         h('div', { className: 'ot-guide-stack' },
           h('section', { className: 'ot-guide-card ot-progress-card', style: { '--ot-section': '#4c7df0' } },
             h('div', { className: 'ot-guide-card-head' },
@@ -6525,6 +6650,58 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-guide-req-toggle{margin-left:auto;font-size:11.5px}
 .ot-guide-all-reqs{margin-top:2px}
 .ot-warnings{display:flex;flex-direction:column;gap:10px;margin-top:16px;padding:14px;border:1px solid var(--ot-line);border-top:3px solid color-mix(in srgb,var(--ot-section,var(--ot-brand)) 62%,transparent);border-radius:14px;background:color-mix(in srgb,var(--ot-section,var(--ot-brand)) 3%,var(--ot-card))}
+.ot-warning-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,.68fr);gap:10px;min-width:0}
+.ot-alert-matrix{display:flex;flex-direction:column;min-width:0;border:1px solid var(--ot-line);border-radius:10px;overflow:hidden;background:var(--dsw-alias-bg-base)}
+.ot-alert-matrix-head,.ot-alert-row{display:grid;grid-template-columns:minmax(0,1fr) 48px 48px 48px 72px;align-items:center;gap:5px;padding:8px 9px;min-width:0}
+.ot-alert-matrix-head{font-size:10.5px;color:var(--ot-faint);background:var(--ot-card-2);border-bottom:1px solid var(--ot-line)}
+.ot-alert-matrix-head .ot-alert-project{color:var(--ot-faint);font-weight:500}
+.ot-alert-col-label{text-align:center;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ot-alert-col-label[data-tone="rose"]{color:#c94c70}
+.ot-alert-col-label[data-tone="amber"]{color:#a66a16}
+.ot-alert-col-label[data-tone="blue"]{color:#4c7df0}
+.ot-alert-rows{min-width:0}
+.ot-alert-row + .ot-alert-row{border-top:1px solid var(--ot-line)}
+.ot-alert-row:hover{background:var(--ot-card-2)}
+.ot-alert-project{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-size:11.5px;font-weight:500;color:var(--dsw-alias-label-primary)}
+button.ot-alert-project:hover{color:var(--ot-brand)}
+.ot-alert-cell{justify-self:center;width:30px;height:25px;border-radius:7px;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ot-muted);background:var(--ot-card-2);border:1px solid transparent}
+.ot-alert-cell:not(:disabled):hover{border-color:var(--ot-line-2);background:var(--ot-card)}
+.ot-alert-cell[data-on]{border-color:currentColor}
+.ot-alert-cell[data-tone="rose"]:not(:disabled){color:#c94c70;background:color-mix(in srgb,#e05a7d 10%,transparent)}
+.ot-alert-cell[data-tone="amber"]:not(:disabled){color:#a66a16;background:color-mix(in srgb,#e0932f 11%,transparent)}
+.ot-alert-cell[data-tone="blue"]:not(:disabled){color:#4c7df0;background:color-mix(in srgb,#4c7df0 10%,transparent)}
+.ot-alert-cell:disabled{color:var(--ot-faint);background:transparent;cursor:default}
+.ot-alert-updated{font-size:10px;color:var(--ot-faint);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ot-alert-side{display:flex;flex-direction:column;gap:8px;min-width:0;padding:10px;border:1px solid var(--ot-line);border-radius:10px;background:var(--dsw-alias-bg-base);max-height:330px;overflow:auto}
+.ot-alert-side-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.ot-alert-side-head .ot-hint{margin-top:1px}
+.ot-alert-summary{display:flex;flex-direction:column;gap:5px;min-width:0}
+.ot-alert-summary-row{display:flex;flex-direction:column;gap:3px;width:100%;padding:7px 8px;border:1px solid var(--ot-line);border-radius:8px;background:var(--ot-card);text-align:left;min-width:0}
+.ot-alert-summary-row:not(:disabled):hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
+.ot-alert-summary-row:disabled{opacity:.7;cursor:default}
+.ot-alert-summary-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;font-weight:600}
+.ot-alert-summary-top span{font-size:11px;color:var(--ot-muted);font-weight:500}
+.ot-alert-summary-row[data-tone="rose"] .ot-alert-summary-top{color:#c94c70}
+.ot-alert-summary-row[data-tone="amber"] .ot-alert-summary-top{color:#a66a16}
+.ot-alert-summary-row[data-tone="blue"] .ot-alert-summary-top{color:#4c7df0}
+.ot-alert-summary-text{font-size:11px;line-height:16px;color:var(--ot-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ot-alert-tabs{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.ot-alert-tab{font-size:10.5px;padding:3px 7px;border-radius:999px;border:1px solid var(--ot-line);color:var(--ot-muted);background:var(--ot-card-2);white-space:nowrap}
+.ot-alert-tab b{margin-left:4px;font-size:10.5px}
+.ot-alert-tab[data-on]{border-color:color-mix(in srgb,var(--ot-brand) 45%,var(--ot-line));color:var(--ot-brand);background:color-mix(in srgb,var(--ot-brand) 8%,transparent)}
+.ot-alert-tab[data-tone="rose"][data-on]{color:#c94c70;border-color:color-mix(in srgb,#e05a7d 45%,var(--ot-line));background:color-mix(in srgb,#e05a7d 8%,transparent)}
+.ot-alert-tab[data-tone="amber"][data-on]{color:#a66a16;border-color:color-mix(in srgb,#e0932f 45%,var(--ot-line));background:color-mix(in srgb,#e0932f 8%,transparent)}
+.ot-alert-tab[data-tone="blue"][data-on]{color:#4c7df0;border-color:color-mix(in srgb,#4c7df0 45%,var(--ot-line));background:color-mix(in srgb,#4c7df0 8%,transparent)}
+.ot-alert-detail-list{display:flex;flex-direction:column;gap:5px;min-width:0}
+.ot-alert-detail-item{display:flex;flex-direction:column;gap:4px;width:100%;padding:7px 8px;border:1px solid var(--ot-line);border-radius:8px;background:var(--ot-card);text-align:left;min-width:0}
+.ot-alert-detail-item:hover{border-color:var(--ot-line-2);background:var(--ot-card-2)}
+.ot-alert-detail-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;color:var(--ot-muted)}
+.ot-alert-detail-meta span{font-weight:600}
+.ot-alert-detail-meta small{color:var(--ot-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-alert-detail-item p{font-size:11.5px;line-height:1.5;color:var(--dsw-alias-label-primary);overflow-wrap:anywhere}
+.ot-alert-detail-item[data-tone="rose"] .ot-alert-detail-meta span{color:#c94c70}
+.ot-alert-detail-item[data-tone="amber"] .ot-alert-detail-meta span{color:#a66a16}
+.ot-alert-detail-item[data-tone="blue"] .ot-alert-detail-meta span{color:#4c7df0}
 .ot-warnings-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .ot-warnings-head .ot-hint{margin-top:2px}
 .ot-warning-total{font-size:11.5px;color:var(--ot-section,var(--ot-brand));white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -6685,8 +6862,8 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-parse-row[data-tone="blue"] b{border-color:#4c7df0}
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
-@media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-guide-charts{grid-template-columns:1fr;gap:12px}.ot-chart-visual{gap:12px}.ot-donut{width:96px;height:96px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}.ot-demand-skill-row{grid-template-columns:minmax(0,1fr) 70px 78px 26px}}
+@media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}.ot-warning-layout{grid-template-columns:1fr}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-guide-charts{grid-template-columns:1fr;gap:12px}.ot-chart-visual{gap:12px}.ot-donut{width:96px;height:96px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}.ot-demand-skill-row{grid-template-columns:minmax(0,1fr) 70px 78px 26px}.ot-alert-matrix-head,.ot-alert-row{grid-template-columns:minmax(0,1fr) 34px 34px 34px 58px;gap:3px;padding:7px}.ot-alert-side{max-height:none}}
 `
 
     /* ------------------------------------------------------------------ apply */

@@ -39,7 +39,7 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 - **Data charts**: the project guide adds a **项目状态分布** donut and **项目进度分布** bars; the talent pool adds **部门人数分布** bars. They are dependency-free SVG/CSS charts with numeric legends and responsive stacking.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
 - Each progress row also offers **备忘录** and **记录反馈** directly, so feedback no longer requires returning to the match result.
-- **项目预警** is the single place for **卡点 / 难点 / 变更点**: overdue or unassigned work, skill gaps, low-capacity members, missing team, requirement changes and saved stage feedback. A project search dropdown filters alerts; click an alert to jump to its project. The old progress “反馈信息” block was removed to avoid duplication.
+- **项目预警** is the single place for **卡点 / 难点 / 变更点**, presented as a compact project × type matrix with counts and latest-update dates. A right-side summary shows one representative alert per category; click a count for full details and jump into the project. A project search resets the detail panel.
 
 ### 智能粘贴反馈 · Smart feedback paste
 
@@ -182,7 +182,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.18.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.18.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.19.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.19.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

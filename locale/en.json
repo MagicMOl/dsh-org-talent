@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Org Talent Match",
-    "description": "Adds a \"Talent match\" entry to the left sidebar. Edit the current project requirement and optionally sync all skills into the requirement pool. The right side shows the default team configuration with missing-role prompts and required skill levels. It also includes project progress/outcomes/alerts, product acceptance, editable talent profiles, drag-to-team org chart, one best team with a base team, local SVG summary charts, one-paste feedback, memo, project conversations and capability advice. Local data stays in this browser; task details are sent to DSH conversations by explicit user action, and skill-search keywords go to GitHub.",
+    "description": "Adds a \"Talent match\" entry to the left sidebar. Editable project requirements sync into the requirement pool; the default team configuration calls out missing roles and required skills; project alerts use a compact project × type matrix with count summaries and detailed drill-down. It also includes project progress/outcomes, product acceptance, editable talent profiles, drag-to-team org chart, one best team with a base team, local SVG charts, one-paste feedback, memo, project conversations and capability advice. Local data stays in this browser; task details are sent to DSH conversations by explicit user action, and skill-search keywords go to GitHub.",
     "detail": "docs/DETAIL.md"
   }
 }

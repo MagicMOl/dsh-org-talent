@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.19.0 — 2026-11-28
+
+- Reworked the **项目预警** section into the selected **B+A** design:
+  - compact **project × alert-type matrix** with counts for 卡点 / 难点 / 变更点 and latest-update dates;
+  - a right-side **预警摘要** showing one representative alert per category (single-line);
+  - clicking a count opens full alert details for that project/type, with category tabs and jump-to-project behavior;
+  - project search resets the detail panel.
+- Removed the old three-column long-text alert list.
+
 ## 1.18.0 — 2026-11-28
 
 - **Current project requirement is editable**: update project name, goal, target team size and skill requirements; save only, or **save and sync to the requirement pool**.

@@ -96,7 +96,7 @@ window.__ModuleLoader__.load({
         'talent.count': '{n} 名员工',
         'guide.title': '项目导览',
         'guide.kicker': '项目总览',
-        'guide.hint': '从项目需求出发，查看当前团队、项目进度与近期项目。',
+        'guide.hint': '从项目需求出发，查看当前团队、项目进度与预警。',
         'guide.current': '当前项目需求',
         'guide.requirements': '{n} 项技能需求 · 目标 {size} 人',
         'guide.topRequirement': '最高优先级需求',
@@ -134,7 +134,42 @@ window.__ModuleLoader__.load({
         'guide.warn.lowCapacity': '{name} 可投入仅 {n}%',
         'guide.warn.requirementChanged': '当前需求已变更，项目仍按旧需求执行',
         'guide.warn.feedbackAdjust': '反馈调整：{text}',
+        'role.algorithmEngineer': '算法工程师',
+        'role.frontendEngineer': '前端工程师',
+        'role.backendEngineer': '后端工程师',
+        'role.dataEngineer': '数据工程师',
+        'role.productManager': '产品经理',
+        'role.designer': '设计师',
+        'role.qaEngineer': '测试工程师',
+        'role.devopsEngineer': '运维工程师',
+        'demand.edit': '编辑需求',
+        'demand.title': '编辑当前项目需求',
+        'demand.hint': '修改项目名称、目标和技能要求；可保存并同步到需求池。',
+        'demand.name': '项目名称',
+        'demand.goal': '项目目标',
+        'demand.goalPlaceholder': '可选：说明项目要达成的结果',
+        'demand.size': '目标人数',
+        'demand.skills': '技能要求',
+        'demand.addSkill': '添加技能',
+        'demand.skill': '技能名称',
+        'demand.skillPlaceholder': '输入或选择技能',
+        'demand.min': '最低等级',
+        'demand.weight': '权重',
+        'demand.weightValue': '权重 {n}',
+        'demand.remove': '移除技能',
+        'demand.save': '保存',
+        'demand.saveSync': '保存并同步到需求池',
+        'demand.saved': '当前项目需求已保存。',
+        'demand.synced': '当前项目需求已保存，并同步到需求池。',
+        'demand.empty': '至少保留一项技能需求。',
+        'demand.duplicate': '技能需求不能重复。',
+        'guide.defaultTeam': '默认团队配置',
         'guide.topTeam': '当前推荐团队',
+        'guide.missingRoles': '缺口与角色建议',
+        'guide.missingRole': '欠缺{role}',
+        'guide.gapRequirement': '{skill} ≥Lv.{min} · 当前最高 Lv.{best}',
+        'guide.covered': '团队已覆盖全部需求',
+        'guide.relatedRole': '相关角色',
         'guide.topMeta': '{n} 人 · 覆盖 {coverage}%',
         'guide.noTop': '还没有匹配结果，先到人才匹配生成团队。',
         'guide.openMatch': '查看匹配',
@@ -572,7 +607,7 @@ window.__ModuleLoader__.load({
         'talent.count': '{n} employees',
         'guide.title': 'Project guide',
         'guide.kicker': 'Project overview',
-        'guide.hint': 'Start from the project need and review the current team, project progress and recent projects.',
+        'guide.hint': 'Start from the project need and review the current team, project progress and alerts.',
         'guide.current': 'Current project need',
         'guide.requirements': '{n} skill requirements · target {size} people',
         'guide.topRequirement': 'Highest-priority requirement',
@@ -611,6 +646,41 @@ window.__ModuleLoader__.load({
         'guide.warn.requirementChanged': 'Requirements changed; the project still follows the old plan',
         'guide.warn.feedbackAdjust': 'Feedback adjustment: {text}',
         'guide.topTeam': 'Current recommended team',
+        'guide.defaultTeam': 'Default team configuration',
+        'guide.missingRoles': 'Missing roles',
+        'guide.missingRole': 'Missing {role}',
+        'guide.gapRequirement': '{skill} ≥Lv.{min} · current best Lv.{best}',
+        'guide.covered': 'Team covers all requirements',
+        'guide.relatedRole': 'Relevant role',
+        'role.algorithmEngineer': 'Algorithm engineer',
+        'role.frontendEngineer': 'Frontend engineer',
+        'role.backendEngineer': 'Backend engineer',
+        'role.dataEngineer': 'Data engineer',
+        'role.productManager': 'Product manager',
+        'role.designer': 'Designer',
+        'role.qaEngineer': 'QA engineer',
+        'role.devopsEngineer': 'DevOps engineer',
+        'demand.edit': 'Edit requirement',
+        'demand.title': 'Edit current project requirement',
+        'demand.hint': 'Update the project name, goal and skill requirements; save and optionally sync to the requirement pool.',
+        'demand.name': 'Project name',
+        'demand.goal': 'Project goal',
+        'demand.goalPlaceholder': 'Optional: describe the intended outcome',
+        'demand.size': 'Target team size',
+        'demand.skills': 'Skill requirements',
+        'demand.addSkill': 'Add skill',
+        'demand.skill': 'Skill',
+        'demand.skillPlaceholder': 'Type or choose a skill',
+        'demand.min': 'Minimum level',
+        'demand.weight': 'Weight',
+        'demand.weightValue': 'Weight {n}',
+        'demand.remove': 'Remove skill',
+        'demand.save': 'Save',
+        'demand.saveSync': 'Save and sync to pool',
+        'demand.saved': 'Current project requirement saved.',
+        'demand.synced': 'Current project requirement saved and synced to the pool.',
+        'demand.empty': 'Keep at least one skill requirement.',
+        'demand.duplicate': 'Skill requirements cannot be duplicated.',
         'guide.topMeta': '{n} people · {coverage}% coverage',
         'guide.noTop': 'No match yet. Go to Talent match to generate a team.',
         'guide.openMatch': 'View match',
@@ -2625,6 +2695,12 @@ window.__ModuleLoader__.load({
       const [draggingEmployeeId, setDraggingEmployeeId] = useState('')
       const [dragOverTeam, setDragOverTeam] = useState('')
       const [plan, setPlan] = useState(() => data.plan)
+      const [demandModalOpen, setDemandModalOpen] = useState(false)
+      const [demandName, setDemandName] = useState('')
+      const [demandGoal, setDemandGoal] = useState('')
+      const [demandSize, setDemandSize] = useState('4')
+      const [demandSkills, setDemandSkills] = useState([])
+      const [demandError, setDemandError] = useState(null)
       const [result, setResult] = useState(null)
       const [expanded, setExpanded] = useState(0)
       const [skillCatalog, setSkillCatalog] = useState(null)
@@ -2669,7 +2745,6 @@ window.__ModuleLoader__.load({
       const [poolStatusTone, setPoolStatusTone] = useState('good')
       const [alertProjectFilter, setAlertProjectFilter] = useState('')
       const [progressProjectFilter, setProgressProjectFilter] = useState('')
-      const [recentProjectFilter, setRecentProjectFilter] = useState('')
 
       const employees = data.employees
       const history = data.history
@@ -2901,6 +2976,73 @@ window.__ModuleLoader__.load({
       }
 
       const updatePlan = patch => setPlan(previous => ({ ...previous, ...patch }))
+
+      const openDemandEditor = () => {
+        setDemandModalOpen(true)
+        setDemandName(plan.name || '')
+        setDemandGoal(plan.goal || '')
+        setDemandSize(String(plan.size || 4))
+        setDemandSkills((plan.skills || []).map(skill => ({ name: skill.name, min: skill.min, weight: skill.weight })))
+        setDemandError(null)
+      }
+
+      const updateDemandSkill = (index, patch) => {
+        setDemandSkills(previous => previous.map((skill, position) => position === index ? { ...skill, ...patch } : skill))
+      }
+
+      const addDemandSkill = () => {
+        setDemandSkills(previous => [...previous, { name: '', min: 3, weight: 2 }])
+      }
+
+      const removeDemandSkill = index => {
+        setDemandSkills(previous => previous.filter((skill, position) => position !== index))
+      }
+
+      const saveDemand = sync => {
+        const skills = demandSkills
+          .map(skill => ({ name: String(skill.name || '').trim(), min: clamp(Number(skill.min) || 3, 1, 5), weight: clamp(Number(skill.weight) || 2, 1, 3) }))
+          .filter(skill => skill.name)
+        if (!skills.length) {
+          setDemandError(t('demand.empty'))
+          return
+        }
+        const normalized = skills.map(skill => normalizeFeatureName(skill.name))
+        if (new Set(normalized).size !== normalized.length) {
+          setDemandError(t('demand.duplicate'))
+          return
+        }
+        setPlan(previous => ({
+          ...previous,
+          name: demandName.trim(),
+          goal: demandGoal.trim(),
+          size: clamp(Number(demandSize) || previous.size || 4, 2, 8),
+          skills,
+        }))
+        if (sync) {
+          setData(previous => {
+            const pool = [...(previous.requirementPool || [])]
+            for (const skill of skills) {
+              const key = normalizeFeatureName(skill.name)
+              const index = pool.findIndex(item => normalizeFeatureName(item.name) === key)
+              if (index === -1) {
+                pool.push({
+                  id: 'req-' + Date.now().toString(36) + '-' + pool.length,
+                  name: skill.name,
+                  min: skill.min,
+                  weight: skill.weight,
+                  note: '',
+                  createdAt: new Date().toISOString(),
+                })
+              } else {
+                pool[index] = { ...pool[index], name: skill.name, min: skill.min, weight: skill.weight }
+              }
+            }
+            return { ...previous, requirementPool: pool.slice(0, 100) }
+          })
+        }
+        setDemandModalOpen(false)
+        setNote(t(sync ? 'demand.synced' : 'demand.saved'))
+      }
 
       const updateSkill = (index, patch) => setPlan(previous => ({
         ...previous,
@@ -4523,15 +4665,27 @@ window.__ModuleLoader__.load({
         .filter(project => !progressProjectFilter || project.id === progressProjectFilter)
         .slice()
         .sort((a, b) => String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))
+      const roleForGap = gap => {
+        const holders = employees
+          .filter(employee => employee.skills.some(skill => skill.name === gap.name))
+          .sort((a, b) => employeeLevel(b, gap.name) - employeeLevel(a, gap.name))
+        if (holders[0] && holders[0].role) return holders[0].role
+        const text = String(gap.name || '').toLowerCase()
+        if (/算法|模型|机器学习|深度学习|数据挖掘|ai|ml|pytorch|tensorflow/.test(text)) return t('role.algorithmEngineer')
+        if (/前端|react|vue|typescript|javascript|css|html/.test(text)) return t('role.frontendEngineer')
+        if (/后端|java|go|node|python|spring|sql/.test(text)) return t('role.backendEngineer')
+        if (/数据|数仓|etl|bi|分析/.test(text)) return t('role.dataEngineer')
+        if (/产品|需求|prd|用户研究/.test(text)) return t('role.productManager')
+        if (/设计|figma|交互|视觉|ux|ui/.test(text)) return t('role.designer')
+        if (/测试|qa|质量|自动化/.test(text)) return t('role.qaEngineer')
+        if (/运维|devops|k8s|docker|云|部署/.test(text)) return t('role.devopsEngineer')
+        return t('guide.relatedRole')
+      }
+
       const projectOutcomes = project => (Array.isArray(project.feedback) ? project.feedback : [])
         .filter(entry => entry && entry.outcome)
         .slice()
         .sort((a, b) => String(b.at).localeCompare(String(a.at)))
-      const recentProjects = projects
-        .filter(project => !recentProjectFilter || project.id === recentProjectFilter)
-        .slice()
-        .sort((a, b) => String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))
-        .slice(0, 6)
       const openProjectProgress = id => {
         setProjectProgressId(previous => previous === id ? null : id)
         window.setTimeout(() => {
@@ -4765,13 +4919,14 @@ window.__ModuleLoader__.load({
             h('div', { className: 'ot-guide-actions' },
               h(Btn, { small: true, tone: 'primary', icon: 'target', onClick: () => setTab('match') },
                 guideTop ? t('guide.openMatch') : t('guide.goMatch')),
+              h(Btn, { small: true, icon: 'edit', onClick: openDemandEditor }, t('demand.edit')),
               workspaceProjects.length
                 ? h(Btn, { small: true, icon: 'check', onClick: () => setTab('workspace') }, t('workspace.title'))
                 : null,
               h(Btn, { small: true, icon: 'note', onClick: () => openMemo(projectProgressId || '') }, t('memo.open')))),
           h('div', { className: 'ot-guide-hero-side' },
             guideTop ? h(React.Fragment, null,
-              h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
+              h('span', { className: 'ot-guide-side-label' }, t('guide.defaultTeam')),
               h('div', { className: 'ot-guide-score' },
                 h('b', null, guideTop.score),
                 h('span', null, t('match.score'))),
@@ -4779,9 +4934,21 @@ window.__ModuleLoader__.load({
                 n: guideTop.team.length,
                 coverage: Math.round(guideTop.coverage * 100),
               })),
-              h('div', { className: 'ot-avatars' }, guideTop.team.map(member => h(Avatar, { key: member.id, employee: member, size: 24 }))))
+              h('div', { className: 'ot-guide-team-config' },
+                guideTop.team.map(member => h('div', { key: member.id, className: 'ot-guide-team-member' },
+                  h(Avatar, { employee: member, size: 24 }),
+                  h('div', null,
+                    h('b', null, member.name),
+                    h('small', null, member.role))))),
+              guideTop.gaps && guideTop.gaps.length
+                ? h('div', { className: 'ot-guide-gap-box' },
+                  h('span', { className: 'ot-guide-gap-heading' }, t('guide.missingRoles')),
+                  guideTop.gaps.map(gap => h('div', { key: gap.name, className: 'ot-guide-gap-item' },
+                    h('b', null, t('guide.missingRole', { role: roleForGap(gap) })),
+                    h('span', null, t('guide.gapRequirement', { skill: gap.name, min: gap.min, best: gap.best })))))
+                : h('div', { className: 'ot-guide-covered' }, t('guide.covered')))
               : h(React.Fragment, null,
-                h('span', { className: 'ot-guide-side-label' }, t('guide.topTeam')),
+                h('span', { className: 'ot-guide-side-label' }, t('guide.defaultTeam')),
                 h('p', { className: 'ot-guide-side-empty' }, t('guide.noTop'))))),
         dirty ? h('p', { className: 'ot-hint ot-warn ot-guide-dirty' }, t('match.dirty')) : null,
         statTiles,
@@ -4843,42 +5010,6 @@ window.__ModuleLoader__.load({
                 h(Icon, { name: 'org', size: 20 }),
                 h('p', null, projects.length ? t('guide.noMatchingProjects') : t('guide.noProjects')),
                 h('p', { className: 'ot-hint' }, projects.length ? t('guide.filterHint') : t('guide.noProjectsHint')))),
-          h('section', { className: 'ot-guide-card', style: { '--ot-section': '#17a398' } },
-            h('div', { className: 'ot-guide-card-head' },
-              h('div', null,
-                h('div', { className: 'ot-h3' }, t('guide.recentProjects')),
-                h('p', { className: 'ot-hint' }, t('guide.recentProjectsHint'))),
-              h('div', { className: 'ot-guide-card-tools' },
-                h(ProjectSearchSelect, {
-                  projects: projects,
-                  value: recentProjectFilter,
-                  onChange: setRecentProjectFilter,
-                  placeholder: t('guide.filterProject'),
-                  listId: 'ot-recent-projects',
-                  fallback: t('project.untitled'),
-                }),
-                h('span', { className: 'ot-muted' }, t('guide.projectCount', { n: recentProjects.length })))),
-            recentProjects.length
-              ? h('div', { className: 'ot-recent-list' }, recentProjects.map(project => {
-                const progress = projectProgressFor(project)
-                const outcomes = projectOutcomes(project).length
-                return h('button', {
-                  key: project.id,
-                  type: 'button',
-                  className: 'ot-recent-project',
-                  onClick: () => openProjectProgress(project.id),
-                },
-                  h('span', { className: 'ot-recent-project-main' },
-                    h('b', null, project.name || t('project.untitled')),
-                    h('small', null, t('guide.projectUpdated', { date: formatProjectDate(project.updatedAt || project.createdAt) }))),
-                  h('span', { className: 'ot-recent-project-progress' }, progress.percent + '%'),
-                  h('span', { className: 'ot-recent-project-outcomes' }, t('guide.outcomeCount', { n: outcomes })),
-                  h('span', { className: 'ot-project-status', 'data-status': progress.status }, t('project.status.' + progress.status)))
-              }))
-              : h('div', { className: 'ot-guide-empty' },
-                h(Icon, { name: 'grid', size: 20 }),
-                h('p', null, projects.length ? t('guide.noMatchingProjects') : t('guide.noRecentProjects')),
-                h('p', { className: 'ot-hint' }, t('guide.noRecentProjectsHint')))),
         ),
         h('p', { className: 'ot-footnote' }, t('footer.note')),
       )
@@ -5695,6 +5826,87 @@ window.__ModuleLoader__.load({
           h(Btn, { small: true, onClick: () => setEmployeeModalOpen(false) }, t('employee.cancel')),
           h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: createEmployee }, employeeEditId ? t('employee.updateSave') : t('employee.createSave'))))) : null
 
+      const demandDialog = demandModalOpen ? h('div', {
+        className: 'ot-modal-scrim',
+        onClick: () => setDemandModalOpen(false),
+      }, h('div', {
+        className: 'ot-modal ot-demand-modal',
+        role: 'dialog',
+        'aria-modal': 'true',
+        'aria-label': t('demand.title'),
+        onClick: event => event.stopPropagation(),
+      },
+        h('div', { className: 'ot-modal-head' },
+          h('div', null,
+            h('h3', { className: 'ot-modal-title' }, t('demand.title')),
+            h('p', { className: 'ot-hint' }, t('demand.hint'))),
+          h('button', { type: 'button', className: 'ot-icon-btn', 'aria-label': t('common.close'), onClick: () => setDemandModalOpen(false) },
+            h(Icon, { name: 'close', size: 13 }))),
+        h('div', { className: 'ot-employee-form-grid' },
+          h('label', { className: 'ot-project-field ot-employee-form-wide' },
+            h('span', null, t('demand.name')),
+            h('input', {
+              className: 'ot-input',
+              value: demandName,
+              placeholder: t('match.namePlaceholder'),
+              onChange: event => setDemandName(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field ot-employee-form-wide' },
+            h('span', null, t('demand.goal')),
+            h('input', {
+              className: 'ot-input',
+              value: demandGoal,
+              placeholder: t('demand.goalPlaceholder'),
+              onChange: event => setDemandGoal(event.target.value),
+            })),
+          h('label', { className: 'ot-project-field' },
+            h('span', null, t('demand.size')),
+            h('input', {
+              className: 'ot-input',
+              type: 'number',
+              min: 2,
+              max: 8,
+              value: demandSize,
+              onChange: event => setDemandSize(event.target.value),
+            }))),
+        h('div', { className: 'ot-demand-skills' },
+          h('div', { className: 'ot-demand-skills-head' },
+            h('div', { className: 'ot-h3' }, t('demand.skills')),
+            h(Btn, { small: true, icon: 'plus', onClick: addDemandSkill }, t('demand.addSkill'))),
+          h('datalist', { id: 'ot-demand-skill-options' }, skillNames.map(name => h('option', { key: name, value: name }))),
+          demandSkills.map((skill, index) => h('div', { key: index, className: 'ot-demand-skill-row' },
+            h('input', {
+              className: 'ot-input',
+              list: 'ot-demand-skill-options',
+              value: skill.name,
+              placeholder: t('demand.skillPlaceholder'),
+              'aria-label': t('demand.skill'),
+              onChange: event => updateDemandSkill(index, { name: event.target.value }),
+            }),
+            h('select', {
+              className: 'ot-select',
+              value: String(skill.min),
+              'aria-label': t('demand.min'),
+              onChange: event => updateDemandSkill(index, { min: Number(event.target.value) }),
+            }, [1, 2, 3, 4, 5].map(value => h('option', { key: value, value }, 'Lv.' + value))),
+            h('select', {
+              className: 'ot-select',
+              value: String(skill.weight),
+              'aria-label': t('demand.weight'),
+              onChange: event => updateDemandSkill(index, { weight: Number(event.target.value) }),
+            }, [1, 2, 3].map(value => h('option', { key: value, value }, t('demand.weightValue', { n: value })))),
+            h('button', {
+              type: 'button',
+              className: 'ot-icon-btn',
+              'aria-label': t('demand.remove'),
+              onClick: () => removeDemandSkill(index),
+            }, h(Icon, { name: 'close', size: 12 }))))),
+        demandError ? h('p', { className: 'ot-hint ot-bad', role: 'status' }, demandError) : null,
+        h('div', { className: 'ot-modal-actions' },
+          h(Btn, { small: true, onClick: () => setDemandModalOpen(false) }, t('project.cancel')),
+          h(Btn, { small: true, onClick: () => saveDemand(false) }, t('demand.save')),
+          h(Btn, { small: true, tone: 'primary', icon: 'check', onClick: () => saveDemand(true) }, t('demand.saveSync'))))) : null
+
       return h('div', { className: 'ot-root' },
         h('style', null, CSS),
         h('header', { className: 'ot-head' },
@@ -5740,6 +5952,7 @@ window.__ModuleLoader__.load({
         memoPanel,
         feedbackDialog,
         employeeDialog,
+        demandDialog,
       )
     }
 
@@ -5918,6 +6131,12 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-delete-confirm span{font-size:11.5px;line-height:17px;color:var(--ot-muted)}
 .ot-delete-confirm .ot-btn{width:100%}
 .ot-employee-modal{width:min(600px,100%)}
+.ot-demand-modal{width:min(700px,100%)}
+.ot-demand-skills{display:flex;flex-direction:column;gap:8px;margin-top:4px;padding-top:10px;border-top:1px solid var(--ot-line)}
+.ot-demand-skills-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ot-demand-skill-row{display:grid;grid-template-columns:minmax(0,1fr) 76px 84px 28px;gap:7px;align-items:center;min-width:0}
+.ot-demand-skill-row .ot-input,.ot-demand-skill-row .ot-select{height:32px;font-size:12px;min-width:0}
+.ot-demand-skill-row .ot-icon-btn{width:26px;height:26px;flex:none}
 .ot-employee-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ot-employee-form-wide{grid-column:1 / -1}
 .ot-employee-form-grid .ot-input,.ot-employee-form-grid .ot-select{height:32px;font-size:12px}
@@ -6231,6 +6450,17 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 .ot-guide-score b{font-size:32px;line-height:36px;font-weight:600;color:var(--ot-brand);font-variant-numeric:tabular-nums}
 .ot-guide-score span{font-size:11px;color:var(--ot-muted)}
 .ot-guide-side-meta{font-size:11.5px;color:var(--ot-muted)}
+.ot-guide-team-config{display:flex;flex-direction:column;gap:3px;max-height:150px;overflow:auto;min-width:0}
+.ot-guide-team-member{display:flex;align-items:center;gap:7px;padding:3px 0;min-width:0}
+.ot-guide-team-member>div{display:flex;flex-direction:column;gap:0;min-width:0}
+.ot-guide-team-member b{font-size:11.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-team-member small{font-size:10.5px;color:var(--ot-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ot-guide-gap-box{display:flex;flex-direction:column;gap:5px;margin-top:5px;padding:8px;border:1px solid color-mix(in srgb,#e0932f 28%,var(--ot-line));border-radius:8px;background:color-mix(in srgb,#e0932f 5%,var(--ot-card))}
+.ot-guide-gap-heading{font-size:10.5px;font-weight:600;color:#a66a16}
+.ot-guide-gap-item{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ot-guide-gap-item b{font-size:11.5px;font-weight:600;color:var(--dsw-alias-label-primary)}
+.ot-guide-gap-item span{font-size:10.5px;line-height:15px;color:var(--ot-muted)}
+.ot-guide-covered{margin-top:4px;padding:5px 7px;border-radius:7px;font-size:10.5px;color:#0f7f76;background:color-mix(in srgb,#17a398 8%,transparent)}
 .ot-guide-side-empty{font-size:12px;line-height:18px;color:var(--ot-muted);min-height:38px}
 .ot-guide-hero-side .ot-avatars .ot-avatar{box-shadow:0 0 0 2px var(--ot-card)}
 .ot-guide-dirty{margin-top:8px}
@@ -6456,7 +6686,7 @@ html[data-platform='darwin'] .ot-head{padding-top:calc(18px + var(--dsh-frame-to
 @media (min-width: 1280px){.ot-detail{position:relative;inset:auto;width:392px;flex:none;margin-left:16px;box-shadow:none}.ot-scrim{display:none}}
 @media (max-width: 1279px){.ot-scrim{display:block}}
 @media (max-width: 1100px){.ot-match{flex-direction:column;overflow:auto}.ot-plan{width:auto;overflow:visible}.ot-results{overflow:visible}.ot-two-col{grid-template-columns:1fr}.ot-team-head{flex-direction:column}.ot-guide-hero,.ot-guide-grid{grid-template-columns:1fr}}
-@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-guide-charts{grid-template-columns:1fr;gap:12px}.ot-chart-visual{gap:12px}.ot-donut{width:96px;height:96px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}}
+@media (max-width: 820px){.ot-head{padding-left:16px;padding-right:16px}.ot-tabs{margin-left:16px}.ot-pane{padding-left:16px;padding-right:16px}.ot-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ot-stat{padding:12px}.ot-guide-charts{grid-template-columns:1fr;gap:12px}.ot-chart-visual{gap:12px}.ot-donut{width:96px;height:96px}.ot-org{flex-direction:column}.ot-tree{width:auto;max-height:190px;display:flex;flex-wrap:wrap;gap:4px}.ot-tree-dept{margin:0}.ot-tree-dept-name{padding:4px 6px}.ot-detail{width:100%}.ot-detail-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.ot-toolbar-right{width:100%;margin-left:0}.ot-search{max-width:none}.ot-breakdown{grid-template-columns:1fr}.ot-project-meta{grid-template-columns:1fr}.ot-project-head{flex-direction:column}.ot-project-member-id{max-width:120px}.ot-skill-search{max-height:88vh;padding:14px}.ot-search-form{grid-template-columns:1fr}.ot-search-submit .ot-btn{width:100%}.ot-skill-search-target{flex-wrap:wrap}.ot-skill-search-target-meta{width:100%;margin-left:0;padding-left:39px;text-align:left}.ot-search-result-head b{max-width:100%}.ot-page-head{align-items:flex-start;flex-direction:column}.ot-page-actions{width:100%}.ot-page-actions .ot-btn{flex:1}.ot-guide-title{white-space:normal}.ot-guide-actions .ot-btn{flex:1}.ot-warning-cols{grid-template-columns:1fr}.ot-warning-col{padding:8px}.ot-progress-summary{gap:14px}.ot-progress-head{flex-wrap:wrap}.ot-progress-actions{width:100%;justify-content:flex-start}.ot-progress-outcome-row{flex-wrap:wrap}.ot-progress-outcome-more{margin-left:0}.ot-progress-toggle{width:100%}.ot-progress-detail-grid{grid-template-columns:1fr}.ot-progress-stages{grid-template-columns:1fr}.ot-workspace-head{flex-direction:column}.ot-workspace-progress{width:100%}.ot-workspace-project{padding:14px}.ot-task{gap:7px}.ot-task-status{justify-self:end}.ot-task-assignee{max-width:100%}.ot-pool-add-grid{grid-template-columns:1fr 1fr}.ot-pool-name,.ot-pool-note{grid-column:1 / -1}.ot-pool-add-action{grid-column:1 / -1}.ot-pool-add-action .ot-btn{width:100%}.ot-pool-item{flex-direction:column}.ot-pool-item-actions{width:100%;justify-content:flex-end}.ot-guide-card-tools{width:100%}.ot-pselect{flex:1;max-width:none}.ot-recent-project{flex-wrap:wrap}.ot-outcome-head b{max-width:100%}.ot-memo{left:12px;right:12px;bottom:12px;width:auto;max-height:74vh}.ot-modal-scrim{padding:12px}.ot-modal{max-height:90vh}.ot-parse-row{grid-template-columns:1fr}.ot-parse-row b{padding-bottom:1px}.ot-employee-form-grid{grid-template-columns:1fr}.ot-demand-skill-row{grid-template-columns:minmax(0,1fr) 70px 78px 26px}}
 `
 
     /* ------------------------------------------------------------------ apply */

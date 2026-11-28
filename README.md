@@ -1,6 +1,6 @@
 ﻿# Org Talent Match · 组织人才匹配
 
-A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide with searchable progress, outcomes, alerts and recent projects, a reusable requirement pool, a lightweight desktop memo that feeds project feedback, a workspace with assigned project tasks connected to DSH conversations, a searchable talent pool, an org chart, and team recommendations scored from organization-wide candidates.
+A DeepSeek Harness plugin that puts organization-wide employee matching in the left sidebar: a project guide with editable project requirements, searchable progress, outcomes and alerts; a reusable requirement pool; a lightweight desktop memo that feeds project feedback; a workspace with assigned project tasks connected to DSH conversations; a searchable talent pool; an org chart; and team recommendations scored from organization-wide candidates.
 
 左侧栏的 DSH 组织人才匹配插件：以项目导览组织需求、进度、成果与反馈，用需求池复用需求，用桌面备忘录随手记录并带入反馈，在工作区把项目拆成成员任务并连接 DSH 对话，以组织架构为整体为项目组队。
 
@@ -28,13 +28,13 @@ Reload the page after installing. The entry **人才匹配 (Talent match)** appe
 
 - Current project need: requirement name, target team size and required skills.
 - The requirement area defaults to the **highest-priority requirement**; **展开全部** reveals the full list without changing the underlying requirements.
-- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress with violet outcome bands, amber project alerts and teal recent projects.
+- Multi-color layers separate the page: violet project hero, four-color summary tiles, blue project progress with violet outcome bands and amber project alerts.
+- **编辑当前需求**: edit project name, goal, target team size and skill requirements, then save or **保存并同步到需求池**.
+- The hero's right side is the **默认团队配置 / Default team configuration**: it lists members plus a gap prompt such as **欠缺算法工程师**, with each missing skill's required level and current best level.
 - **项目进度**: total projects, active projects, average progress, and a row per project with completion, cycle, start date and planned end date. A searchable project dropdown filters rows and their outcomes together.
 - Click a progress row to expand **项目成果**, **阶段成果预览** and **成员完成情况**. Outcomes appear once here, not duplicated in the row.
 - Each project gets a **产品验收 / Product acceptance** reviewer, selected automatically from the organization (preferring product/quality roles and excluding project members). Their workspace task is **产品验收：需求与成果校核**.
 - Requirements are normalized before task generation; duplicate requirements and pool references pointing at an existing requirement or development task are blocked to avoid rebuilding the same feature.
-- **近期项目**: projects sorted by latest update, with progress, outcome count and status; a searchable project dropdown filters them. It replaces the old recent-match card.
-- Progress and recent projects are stacked as full-width rows rather than squeezed into columns; each carries lists, filters and detail text.
 - **Typography hierarchy**: card/section titles are 14px/600, in-card subheads 12.5px/600, primary body 12px, secondary hints 11.5px, and meta labels 11px, so titles no longer read at the same size as their content.
 - **Data charts**: the project guide adds a **项目状态分布** donut and **项目进度分布** bars; the talent pool adds **部门人数分布** bars. They are dependency-free SVG/CSS charts with numeric legends and responsive stacking.
 - Created project teams show **开始工作** / **进入工作区**; the project's planned end date is stored when work starts.
@@ -182,7 +182,7 @@ Weeks/duration is not part of the model; staffing is scored on skills, availabil
 
 ## Publish to a market · 发布
 
-The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.17.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.17.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
+The package is npm-ready and also ships a GitHub Release tarball. The public repository is <https://github.com/MagicMOl/dsh-org-talent>; install from [v1.18.0](https://github.com/MagicMOl/dsh-org-talent/releases/tag/v1.18.0), and see [`PUBLISHING.md`](PUBLISHING.md) for the community-market catalog entry.
 
 ## License
 

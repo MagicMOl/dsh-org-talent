@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.18.0 — 2026-11-28
+
+- **Current project requirement is editable**: update project name, goal, target team size and skill requirements; save only, or **save and sync to the requirement pool**.
+- The hero's right side is now the **默认团队配置 / Default team configuration**:
+  - lists configured members explicitly;
+  - when coverage is incomplete, shows missing-role prompts (e.g. 欠缺算法工程师) with required skill levels and current best levels;
+  - shows a covered message when all requirements are met.
+- Removed the **近期项目 / Recent projects** section from the project guide.
+- Existing charts, base-team matching, product acceptance and duplicate-development guards remain.
+
 ## 1.17.0 — 2026-11-27
 
 - Added lightweight, dependency-free data charts for summary information:
